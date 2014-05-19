@@ -1,0 +1,181 @@
+FORMAT: 1A
+HOST: https://api.iucto.cz/1.0/
+
+# iÚčto
+iÚčto API je založena na REST principu.
+API umožnuje práci s různými typy dokladů pomocí HTTP požadavků zasílaných ve formátu popsaném níže.
+
+`Ke každému HTTP požadavku je nutné přidat HTTP hlavičku X-Auth-key`
+
+Vešekerá komunikace probíhá pomocí protokolu HTTPS.
+
+
+#Povolené HTTP požadavky:
+- `GET` - Získání záznamu, nebo seznamu
+- `POST` - Vytvoření nového záznamu
+- `PUT` - Editace záznamu
+- `DELETE` - Smazání záznamu
+
+#Popis obvyklých odpovědí serveru
+
+- 200 `OK` - požadavek proběhl v pořádku (některé akce mohou vrátit 201).
+- 201 `Created` - požadavek proběhl v pořádku a záznam byl vytvořen.
+- 204 `No Content` - the request was successful but there is no representation to return (i.e. the response is empty).
+- 400 `Bad Request` - neznámý formát požadavku, je možné že chybý nějaké parametry.
+- 401 `Unauthorized` - špatný API klíč v požadavku.
+- 403 `Forbidden` - přístup odepřen, uživatel nemá potřebná opravnění pro danou akci.
+- 404 `Not Found` - záznam nenalezen.
+- 405 `Method Not Allowed` - požadovaná metoda není podporována.
+
+
+# Authentizace
+K authentizace každého HTTP požadavku slouží HTTP hlavička **X-Auth-Key**.
+    
+Vzor HTTP hlavičky pro přihlášení:
+
+    X-Auth-Key: 9f3ba84380c1a86b90f52bd46f0b6799
+    
+Parametrem této hlavička je přístupoví klíč, který si vygeneruje v profilu uživatele.
+
+**todo: odkaz na profil uživatele**
+Ke každé firmě, ke které máte přístup se generuje samostatný klíč.
+
+**todo: OBRÁZEK**
+
+Uživatel musí mít v nastavené správcem firmy opraváněné pro přístup přes API (výchozí stav je povolen).
+Při komunikaci prostřednictvím API má uživatel stejná oprávnění jako u webového rozhraní.
+
+**todo: odkaz na ACL**
+
+
+# Group Faktury vydané
+Doklad má naspedujicí parametry:
+
+- `id` *int (11)* - **ID dokladu**
+- `sequence_code` *string (45)* - **Číslo dokladu**
+- `variable_symbol` *string (42)* - **Variabilní symbol**
+- `customer_id` *int(11)* - **Id zákazníka**
+- `customer_bank_account` *string (45)* - **Bankovní účet zákazníka**
+- `date` *timestamp* - **Datum vystavení**
+- `maturity_date` *timestamp* - **Datum splatnosti**
+- `payment_type` *int (1)* - **Forma úhrady**
+- `bank_account_id` *int (11)* - **ID bankovního účet pro příjem platby**
+- `currency` *string (3)* - **Měna dokladu**
+- `date_vat` *timestamp* - **Datum zdanitelného plnění**
+- `date_vat_prev` *timestamp* - **Datum předchozí sazby DPH**
+- `description` *string* - **Poznámka**
+- `rounding_type` *int(1)* - **Způsob zaokrouhlení**
+- `items` *array* - **Položky dokladu**
+    - `id` *int(11)* - **ID položky**
+    - `amount` *decimal(12,2)* - **Počet**
+    - `unit` *string(10)* - **Jednotka**
+    - `price` *decimal(12,2)* - **Cena za jednotku**
+    - `text` *string(255)* - **Popis**
+    - `vat` *decimal(5,2)* - **DPH**
+    - `accountentrytype_id` *int(11)* - **Typ účetní položky**
+    - `vattype_id` *int(11)* - **Typ DPH**
+
+Hodnota *id* je přiřazena službou v momentu vytvoření nového záznamu.
+
+## Seznam dokladů [/invoice-issued]
+### Vypsání všech dostupných dokladů [GET]
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+
+        [ "TODO" ]
+
+## Práce s dokladem [/invoice-issued/{id}]
+### Vytvoření nového dokladu [POST]
+Vytvoří nový doklad, odpověd obsahuje detail dokladu.
+ID parametry dokladu a položek se ignorují.
+
+Povinné parametry dokladu:
+
+    - `sequence_code`, `variable_symbol`, `customer_id`, `date`, `maturity_date`, `payment_type`, `date_vat`, 'items'
+
+Povinné parametry položek:
+
+    - `amount`, `price`, `text`, `vat`, `accountentrytype_id`, `vattype_id`
+
++ Request  (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+    
+    + Body
+    
+            {"sequence_code":"FV20140001","variable_symbol":"20140001","customer_id":5,"customer_bank_account":"12-987654321/0100","date":1397260800,"maturity_date":1397260800,"payment_type":"transfer","bank_account_id":35,"currency":"CZK","date-vat":1397260800,"date-vat_prev":1397260800,"description":"Poskytnutí služby","rounding_type":"none","items":[{"amount":2.35,"unit":"hod.","price":30.00,"text":"Výkopové práce","vat":20,"accountentrytype_id":120,"vattype_id":352,"chart_account_id":63,"vat_chart_id":64}]}
+        
++ Response 201 (application/json)
+
+        {"id":1,"sequence_code":"FV20140001","variable_symbol":"20140001","customer":{"id":3229,"name":"Kovář","name_display":null,"address":{"id":7028,"street":"bnb","number":null,"city":"Praha","postalcode":"25601","country":{"id":80,"code":"CZ","name_en":"Czech Republic","name_cz":"Česká republika"}},"comid":null,"vatid":null,"vat_payer":false,"bank_accounts":[],"usual_maturity":30,"preferred_payment_method":"transfer","email":null,"phone":null,"cellphone":null,"www":null,"note":null,"invoice_language":"cs"},"customer_bank_account":"12-987654321/0100","date":1397260800,"maturity_date":1397260800,"payment_type":"transfer","bank_account_id":35,"currency":"CZK","date-vat":1397260800,"date-vat_prev":1397260800,"description":"Poskytnutí služby","rounding_type":"none","items":[{"id":27638,"amount":2.35,"unit":"hod.","price":30.00,"text":"Výkopové práce","vat":20,"accountentrytype_id":120,"vattype_id":352,"chart_account_id":63,"vat_chart_id":64}]}
+ 
+### Detail dokladu [GET]
+Vrátí kompletní kolekci dat vybraného dokladu.
++ Parameters
+    + id (int) ... ID dokladu
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+
+        {"id":1,"sequence_code":"FV20140001","variable_symbol":"20140001","customer":{"id":3229,"name":"Kovář","name_display":null,"address":{"id":7028,"street":"bnb","number":null,"city":"Praha","postalcode":"25601","country":{"id":80,"code":"CZ","name_en":"Czech Republic","name_cz":"Česká republika"}},"comid":null,"vatid":null,"vat_payer":false,"bank_accounts":[],"usual_maturity":30,"preferred_payment_method":"transfer","email":null,"phone":null,"cellphone":null,"www":null,"note":null,"invoice_language":"cs"},"customer_bank_account":"12-987654321/0100","date":1397260800,"maturity_date":1397260800,"payment_type":"transfer","bank_account_id":35,"currency":"CZK","date-vat":1397260800,"date-vat_prev":1397260800,"description":"Poskytnutí služby","rounding_type":"none","items":[{"id":27638,"amount":2.35,"unit":"hod.","price":30.00,"text":"Výkopové práce","vat":20,"accountentrytype_id":120,"vattype_id":352,"chart_account_id":63,"vat_chart_id":64}]}
+
+
+### Editace dokladu [PUT]
+Aktulizuje předané parametry vybraného dokladu.
+Povinné jsou pouze paramtetry **ID dokladu** a případně **ID položky**, ostatní parametry jsou volitelné.
+
++ Parameters
+    + id (int) ... ID dokladu
+    
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+    + Body
+    
+            { "items": {"id": 27638, "price": 658 }
+    
++ Response 201 (application/json)
+
+        {"id":1,"sequence_code":"FV20140001","variable_symbol":"20140001","customer":{"id":3229,"name":"Kovář","name_display":null,"address":{"id":7028,"street":"bnb","number":null,"city":"Praha","postalcode":"25601","country":{"id":80,"code":"CZ","name_en":"Czech Republic","name_cz":"Česká republika"}},"comid":null,"vatid":null,"vat_payer":false,"bank_accounts":[],"usual_maturity":30,"preferred_payment_method":"transfer","email":null,"phone":null,"cellphone":null,"www":null,"note":null,"invoice_language":"cs"},"customer_bank_account":"12-987654321/0100","date":1397260800,"maturity_date":1397260800,"payment_type":"transfer","bank_account_id":35,"currency":"CZK","date-vat":1397260800,"date-vat_prev":1397260800,"description":"Poskytnutí služby","rounding_type":"none","items":[{"id":27638,"amount":2.35,"unit":"hod.","price":30.00,"text":"Výkopové práce","vat":20,"accountentrytype_id":120,"vattype_id":352,"chart_account_id":63,"vat_chart_id":64}]}
+
+### Smazání dokladu [DELETE]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
++ Parameters
+    + id (int) ... ID dokladu
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            
++ Response 204
+
+# Group Zákazníci
+
+# Group Dodavatelé
+
+# Group Adresy
+
+# Group Měny
+
+# Group Typ platby
+
+# Group Způsob zaokrouhlení
+
+# Group Typy účetních položek
+
+# Group Typy DPH
+
+# Group Účty účetní osnovy
+
+# Group Účety DPH
