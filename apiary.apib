@@ -9,6 +9,8 @@ API umožnuje práci s různými typy dokladů pomocí HTTP požadavků zasílan
 
 Vešekerá komunikace probíhá pomocí protokolu HTTPS.
 
+Odpovědi serveru jsou ve formátu [HAL+JSON](http://stateless.co/hal_specification.html).
+
 
 #Povolené HTTP požadavky:
 - `GET` - Získání záznamu, nebo seznamu
@@ -26,6 +28,8 @@ Vešekerá komunikace probíhá pomocí protokolu HTTPS.
 - 403 `Forbidden` - přístup odepřen, uživatel nemá potřebná opravnění pro danou akci.
 - 404 `Not Found` - záznam nenalezen.
 - 405 `Method Not Allowed` - požadovaná metoda není podporována.
+
+Kompletní seznam s detailním popisem naleznete na [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md)
 
 
 # Authentizace
@@ -89,6 +93,12 @@ Hodnota *id* je přiřazena službou v momentu vytvoření nového záznamu.
         [ "TODO" ]
 
 ## Práce s dokladem [/invoice-issued/{id}]
++ Model (application/hal+json)
+    + Body
+    
+            {"id":1,"sequence_code":"FV20140001","variable_symbol":"20140001","customer":{"id":3229,"name":"Kovář","name_display":null,"address":{"id":7028,"street":"bnb","number":null,"city":"Praha","postalcode":"25601","country":{"id":80,"code":"CZ","name_en":"Czech Republic","name_cz":"Česká republika"}},"comid":null,"vatid":null,"vat_payer":false,"bank_accounts":[],"usual_maturity":30,"preferred_payment_method":"transfer","email":null,"phone":null,"cellphone":null,"www":null,"note":null,"invoice_language":"cs"},"customer_bank_account":"12-987654321/0100","date":1397260800,"maturity_date":1397260800,"payment_type":"transfer","bank_account_id":35,"currency":"CZK","date-vat":1397260800,"date-vat_prev":1397260800,"description":"Poskytnutí služby","rounding_type":"none","items":[{"id":27638,"amount":2.35,"unit":"hod.","price":30.00,"text":"Výkopové práce","vat":20,"accountentrytype_id":120,"vattype_id":352,"chart_account_id":63,"vat_chart_id":64}]}
+
+
 ### Vytvoření nového dokladu [POST]
 Vytvoří nový doklad, odpověd obsahuje detail dokladu.
 ID parametry dokladu a položek se ignorují.
@@ -110,10 +120,9 @@ Povinné parametry položek:
     
             {"sequence_code":"FV20140001","variable_symbol":"20140001","customer_id":5,"customer_bank_account":"12-987654321/0100","date":1397260800,"maturity_date":1397260800,"payment_type":"transfer","bank_account_id":35,"currency":"CZK","date-vat":1397260800,"date-vat_prev":1397260800,"description":"Poskytnutí služby","rounding_type":"none","items":[{"amount":2.35,"unit":"hod.","price":30.00,"text":"Výkopové práce","vat":20,"accountentrytype_id":120,"vattype_id":352,"chart_account_id":63,"vat_chart_id":64}]}
         
-+ Response 201 (application/json)
-
-        {"id":1,"sequence_code":"FV20140001","variable_symbol":"20140001","customer":{"id":3229,"name":"Kovář","name_display":null,"address":{"id":7028,"street":"bnb","number":null,"city":"Praha","postalcode":"25601","country":{"id":80,"code":"CZ","name_en":"Czech Republic","name_cz":"Česká republika"}},"comid":null,"vatid":null,"vat_payer":false,"bank_accounts":[],"usual_maturity":30,"preferred_payment_method":"transfer","email":null,"phone":null,"cellphone":null,"www":null,"note":null,"invoice_language":"cs"},"customer_bank_account":"12-987654321/0100","date":1397260800,"maturity_date":1397260800,"payment_type":"transfer","bank_account_id":35,"currency":"CZK","date-vat":1397260800,"date-vat_prev":1397260800,"description":"Poskytnutí služby","rounding_type":"none","items":[{"id":27638,"amount":2.35,"unit":"hod.","price":30.00,"text":"Výkopové práce","vat":20,"accountentrytype_id":120,"vattype_id":352,"chart_account_id":63,"vat_chart_id":64}]}
- 
++ Response 201
+        [Práce s dokladem][]
+    
 ### Detail dokladu [GET]
 Vrátí kompletní kolekci dat vybraného dokladu.
 + Parameters
