@@ -91,6 +91,8 @@ Hodnota *id* je přiřazena službou v momentu vytvoření nového záznamu.
 
 ## Seznam dokladů [/invoice-issued]
 ### Vypsání všech dostupných dokladů [GET]
+Zjednodušený výpis všech dostupných dokladů.
+
 + Request
     + Headers
 
@@ -111,11 +113,20 @@ Vytvoří nový doklad, odpověd obsahuje detail dokladu.
 
 Povinné parametry dokladu:
 
-    - `sequence_code`, `variable_symbol`, `customer_id`, `date`, `maturity_date`, `payment_type`, `date_vat`, 'items'
-
-Povinné parametry položek:
-
-    - `amount`, `price`, `text`, `vat`, `accountentrytype_id`, `vattype_id`
+    variable_symbol
+    customer_id
+    date
+    date_vat
+    maturity_date
+    currency
+    customer_id
+    bank_account
+    items:
+        text
+        amount
+        price
+        accountentrytype_id
+        vattype_id
 
 + Request (application/json)
     + Headers
@@ -144,7 +155,7 @@ Vrátí kompletní kolekci dat vybraného dokladu.
 
 ### Editace dokladu [PUT]
 Aktulizuje předané parametry vybraného dokladu.
-Povinné jsou pouze paramtetry **ID dokladu** a případně **ID položky**, ostatní parametry jsou volitelné.
+Poviné ple jsou stejná jako při vkládání nového záznamu.
 
 + Parameters
     + id (int) ... ID dokladu
