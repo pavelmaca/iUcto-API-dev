@@ -30,6 +30,8 @@ Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 - 404 `Not Found` - záznam nenalezen.
 - 405 `Method Not Allowed` - požadovaná metoda není podporována.
 
+Odpověd může obsahovat popis chyby. Například při vkládání nového záznamu se špatnými daty se vypíší chybové zprávy validace.
+
 # Authentizace
 K authentizace každého HTTP požadavku slouží HTTP hlavička **X-Auth-Key**.
     
@@ -49,7 +51,7 @@ Při komunikaci prostřednictvím API má uživatel stejná oprávnění jako u 
   
 
 **[Správa ACL](https://online.iucto.cz/users)**  
-  
+
   
 # Group Faktury vydané
 Popis parametrů:
