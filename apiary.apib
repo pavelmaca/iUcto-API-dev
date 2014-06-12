@@ -96,9 +96,9 @@ Hodnota *id* je přiřazena službou v momentu vytvoření nového záznamu.
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
 
-        [ "TODO" ]
+        {"_links":{"self":{"href":"\/1.0\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.0\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":1402560760,"date_vat":1402560760,"maturity_date":1402560760,"currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","ico":null,"dic":null,"vat_payer":false,"email":null},"accounted":false,"deleted":false}]}}
 
 ## Práce s dokladem [/invoice-issued/{id}]
 + Model (application/hal+json)
