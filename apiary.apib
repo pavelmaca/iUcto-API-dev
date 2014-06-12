@@ -216,8 +216,11 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 # Group Bankovní účty
 <a name="bankovni_ucty"/>
 
-# Group Měny
+# Group Hodnoty k obecným dokladům
+        
+## Měny [/currency]
 <a name="meny"/>
+### Seznam dostupných měn [GET]
 Seznam dostupných měn pro použití v dokladech.
 
 Dostupnost se může měnit v závislosti na aktivaci rozšíření **Účtování v cizích měnách**
@@ -225,9 +228,6 @@ Dostupnost se může měnit v závislosti na aktivaci rozšíření **Účtován
 Příklad:
 
     ["CZK", "EUR", "USD"]
-        
-## Vypis dostupných měn [/currency]
-### Seznam [GET]
 + Request
     + Headers
 
@@ -237,7 +237,8 @@ Příklad:
     
         ["AUD","BGN","BRL","CAD","CHF","CNY","CZK","DKK","EUR","GBP","HKD","HRK","HUF","IDR","ILS","INR","JPY","KRW","LTL","LVL","MXN","MYR","NOK","NZD","PHP","PLN","RON","RUB","SEK","SGD","THB","TRY","USD","XDR","ZAR"]
 
-# Group Způsoby zaokrouhlení
+## Způsoby zaokrouhlení [/rounding_type]
+### Seznam dostupných typů zaokrouhlení [GET]
 <a name="zaokrouhleni"/>
 Seznam dostupných metod pro zaokrouhlování částek v dokladech.
   
@@ -249,9 +250,6 @@ Příklad:
         up: "zaokrouhlit nahoru"
         down: "zaokrouhlit dolů"
     }
-        
-## Vypis typů zaokrouhlení [/rounding_type]
-### Seznam [GET]
 + Request
     + Headers
 
