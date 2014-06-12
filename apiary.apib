@@ -210,12 +210,30 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 
 # Group Měny
 <a name="meny"/>
+Seznam dostupných měn pro použití v dokladech.
+
+Dostupnost se může měnit v závislosti na aktivaci rozšíření **Účtování v cizích měnách**
+
+Příklad:
+
+    ["CZK", "EUR", "USD"]
+        
+## Vypis dostupných měn [/currency]
+### Seznam [GET]
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+    
+        ["AUD","BGN","BRL","CAD","CHF","CNY","CZK","DKK","EUR","GBP","HKD","HRK","HUF","IDR","ILS","INR","JPY","KRW","LTL","LVL","MXN","MYR","NOK","NZD","PHP","PLN","RON","RUB","SEK","SGD","THB","TRY","USD","XDR","ZAR"]
 
 # Group Metody plateb
 <a name="metody_plateb"/>
 Seznam dostupných metod pro provedení platby používaných v dokladech.
   
-Pro aktuální seznam zavolejte tuto část API.
+Příklad:
 
     {
         transfer: "Bankovním převodem"
@@ -237,10 +255,9 @@ Pro aktuální seznam zavolejte tuto část API.
 
 # Group Způsoby zaokrouhlení
 <a name="zaokrouhleni"/>
-<a name="metody_plateb"/>
 Seznam dostupných metod pro zaokrouhlování částek v dokladech.
   
-Pro aktuální seznam zavolejte tuto část API.
+Příklad:
 
     {
         none: "žádné"
@@ -249,7 +266,7 @@ Pro aktuální seznam zavolejte tuto část API.
         down: "zaokrouhlit dolů"
     }
         
-## Vypis dostupných metod [/rounding_type]
+## Vypis typů zaokrouhlení [/rounding_type]
 ### Seznam [GET]
 + Request
     + Headers
