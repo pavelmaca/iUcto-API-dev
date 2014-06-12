@@ -10,6 +10,7 @@ API umožnuje práci s různými typy dokladů pomocí HTTP požadavků zasílan
 Vešekerá komunikace probíhá pomocí protokolu HTTPS.
 
 Odpovědi serveru jsou ve formátu [HAL+JSON](http://stateless.co/hal_specification.html).
+Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 
 
 #Povolené HTTP požadavky:
@@ -29,9 +30,6 @@ Odpovědi serveru jsou ve formátu [HAL+JSON](http://stateless.co/hal_specificat
 - 404 `Not Found` - záznam nenalezen.
 - 405 `Method Not Allowed` - požadovaná metoda není podporována.
 
-Kompletní seznam s detailním popisem naleznete na [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md)
-
-
 # Authentizace
 K authentizace každého HTTP požadavku slouží HTTP hlavička **X-Auth-Key**.
     
@@ -39,7 +37,8 @@ Vzor HTTP hlavičky pro přihlášení:
 
     X-Auth-Key: 9f3ba84380c1a86b90f52bd46f0b6799
     
-Parametrem této hlavička je přístupoví klíč, který si vygeneruje v profilu uživatele.
+Parametrem této hlavička je přístupoví klíč.
+Klíč lze vygenerovat v profilu uživatele.
 
 **todo: odkaz na profil uživatele**
 Ke každé firmě, ke které máte přístup se generuje samostatný klíč.
