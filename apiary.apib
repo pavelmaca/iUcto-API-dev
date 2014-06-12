@@ -288,6 +288,26 @@ Příklad:
 # Group Typy účetních položek
 <a name="typy_uc_polozek"/>
 
+## Typy účetních položek [/accountentry_type?doctype={doctype}]
+### Seznam účetních položek pro určitý typ dokladu [GET]
+Odpověd obsahuje pole dostupných účetních položek v závislosti na parametru `doctype`.  
+
+Formát odpovědi:
+`{"id": "popis"}`
+
++ Parameters
+    + doctype (string) ... Typ dokladu. Pro seznam dostupných hodnot si přejděte na [Typy dokladů](#typy_dokladu)
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+    
+        {"141":"Bonusy od banky","163":"Da\u0148ov\u00fd bonus","167":"Da\u0148ov\u00fd doklad","62":"Dopravn\u00e9\/ p\u0159epravn\u00e9","149":"Dotace organiza\u010dn\u00ed slo\u017eky","166":"Kurzov\u00e9 zisky","176":"Kurzov\u00fd rozd\u00edl zisk","99":"Myln\u00e1 p\u0159\u00edchoz\u00ed platba","159":"Pen\u00edze na cest\u011b - p\u0159\u00edjem","136":"P\u0159evod mezi bankovn\u00edmi \u00fa\u010dty","126":"P\u0159ijat\u00e9 z\u00e1lohy ","10":"Prodej majetku","30":"Prodej materi\u00e1lu","7":"Prodej slu\u017eby","130":"Prodej slu\u017eby - extern\u00ed servis","171":"Prodej slu\u017eby - lokalizace","172":"Prodej slu\u017eby - marketing","142":"Prodej slu\u017eby - n\u00e1jem","170":"Prodej slu\u017eby - p\u0159eklady","144":"Prodej slu\u017eby - pron\u00e1jem zemn\u00edho stroje","131":"Prodej slu\u017eby - servis za\u0159\u00edzen\u00ed","173":"Prodej slu\u017eby - v\u00fduka","8":"Prodej v\u00fdrobky","3":"Prodej zbo\u017e\u00ed","168":"Smluvn\u00ed pokuty a \u00faroky z prodlen\u00ed","12":"\u00dahrada faktury vydan\u00e9","153":"\u00dahrada pohled\u00e1vky za spole\u010dn\u00edkem","187":"\u00dahrada z\u00e1lohov\u00e9 faktury vydan\u00e9","31":"\u00darok","1":"\u00darok z bankovn\u00edho \u00fa\u010dtu","162":"Vklad fyzick\u00e9 osoby do podnik\u00e1n\u00ed","134":"Vklad spole\u010dn\u00edka spole\u010dnosti","140":"Vr\u00e1cen\u00ed DPH finan\u010dn\u00edm \u00fa\u0159adem","146":"V\u00fdb\u011br z banky na pokladnu","132":"Vy\u00fa\u010dtov\u00e1n\u00ed odvodu hotovosti z pokladny","38":"Zaokrouhlen\u00ed ","139":"Zv\u00fd\u0161en\u00ed z\u00e1kladn\u00edho kapit\u00e1lu"}
+
+
 # Group Typy DPH
 <a name="typy_dph"/>
 
