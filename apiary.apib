@@ -100,7 +100,7 @@ Popis parametrů:
 
 Hodnota *id* je přiřazena službou v momentu vytvoření nového záznamu.
 
-## Seznam dokladů [/invoice-issued]
+## Seznam dokladů [/invoice_issued]
 ### Vypsání všech dostupných dokladů [GET]
 Zjednodušený výpis všech dostupných dokladů.
 
@@ -113,7 +113,7 @@ Zjednodušený výpis všech dostupných dokladů.
 
         {"_links":{"self":{"href":"\/1.0\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.0\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":1402560760,"date_vat":1402560760,"maturity_date":1402560760,"currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","ico":null,"dic":null,"vat_payer":false,"email":null},"accounted":false,"deleted":false}]}}
 
-## Práce s dokladem [/invoice-issued/{id}]
+## Práce s dokladem [/invoice_issued/{id}]
 + Model (application/hal+json)
     + Body
     
@@ -243,7 +243,7 @@ Příklad:
         reciprocity: "Reciproce"
     }
         
-## Vypis dostupných metod [/payment-type]
+## Vypis dostupných metod [/payment_type]
 ### Seznam [GET]
 + Request
     + Headers
@@ -267,7 +267,7 @@ Příklad:
         down: "zaokrouhlit dolů"
     }
         
-## Vypis typů zaokrouhlení [/rounding-type]
+## Vypis typů zaokrouhlení [/rounding_type]
 ### Seznam [GET]
 + Request
     + Headers
@@ -284,7 +284,7 @@ Příklad:
 # Group Typy DPH
 <a name="typy_dph"/>
 
-## Typy DPH [/vat-type?doctype={doctype}]
+## Typy DPH [/vat_type?doctype={doctype}]
 ### Seznam typů DPH pro určitý typ dokladu [GET]
 Odpověd obsahuje pole dostupných typů DPH v závislosti na parametru `doctype`.  
 Tento parametr musí být předán v požadavku a jeho hodnotou je zdroj dokladů, pro který chceme typ DPH použít.
@@ -308,7 +308,7 @@ Formát odpovědi:
 # Group Účty účetní osnovy
 <a name="ucty_uc_osnovy"/>
 
-## Účty účetní osnovy [/chart-account]
+## Účty účetní osnovy [/chart_account]
 ### Seznam dostupných účtů [GET]
 Odpověd obsahuje pole dostupných účtů úč. osnovy pro použití v dokladech.
 
