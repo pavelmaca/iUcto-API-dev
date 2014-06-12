@@ -2,6 +2,7 @@ FORMAT: 1A
 HOST: https://api.iucto.cz/1.0/
 
 # iÚčto
+<a name="top"/>
 iÚčto API je založena na REST principu.
 API umožnuje práci s různými typy dokladů pomocí HTTP požadavků zasílaných ve formátu popsaném níže.
 
@@ -14,12 +15,14 @@ Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 
 
 #Povolené HTTP požadavky:
+<a name="http_pozadavky"/>
 - `GET` - Získání záznamu, nebo seznamu
 - `POST` - Vytvoření nového záznamu
 - `PUT` - Editace záznamu
 - `DELETE` - Smazání záznamu
 
 #Popis obvyklých odpovědí serveru
+<a name="odpovedy_serveru"/>
 
 - 200 `OK` - požadavek proběhl v pořádku (některé akce mohou vrátit 201).
 - 201 `Created` - požadavek proběhl v pořádku a záznam byl vytvořen.
@@ -33,6 +36,7 @@ Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 Odpověd může obsahovat popis chyby. Například při vkládání nového záznamu se špatnými daty se vypíší chybové zprávy validace.
 
 # Authentizace
+<a name="authentizace"/>
 K authentizace každého HTTP požadavku slouží HTTP hlavička **X-Auth-Key**.
     
 Vzor HTTP hlavičky pro přihlášení:
@@ -54,6 +58,7 @@ Při komunikaci prostřednictvím API má uživatel stejná oprávnění jako u 
 
   
 # Group Faktury vydané
+<a name="faktury_vydane"/>
 Popis parametrů:
 
 - `id` *int (11)* - **ID dokladu**
@@ -187,24 +192,36 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
             X-Auth-Key: api-key
             
 + Response 204
+         
+
 
 # Group Zákazníci
+<a name="zakaznici"/>
 
 # Group Dodavatelé
+<a name="dodavatele"/>
 
 # Group Adresy
+<a name="adresy"/>
 
-<a name="meny"/>
 # Group Měny
+<a name="meny"/>
 
-# Group Typ platby
+# Group Metoda platby
+<a name="meotda_platby"/>
 
 # Group Způsob zaokrouhlení
+<a name="zaokrouhleni"/>
 
 # Group Typy účetních položek
+<a name="typ_uc_polozek"/>
 
 # Group Typy DPH
+<a name="typ_dph"/>
 
 # Group Účty účetní osnovy
+<a name="ucty_uc_osnovy"/>
 
-# Group Účety DPH
+# Group Účty DPH
+<a name="ucty_dph"/>
+
