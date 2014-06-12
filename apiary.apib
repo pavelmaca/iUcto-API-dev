@@ -17,6 +17,7 @@ Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 
 #Povolené HTTP požadavky:
 <a name="http_pozadavky"/>
+
 - `GET` - Získání záznamu, nebo seznamu
 - `POST` - Vytvoření nového záznamu
 - `PUT` - Editace záznamu
@@ -57,7 +58,7 @@ Při komunikaci prostřednictvím API má uživatel stejná oprávnění jako u 
 
 **[Správa ACL](https://online.iucto.cz/users)**  
 
-  
+
 # Group Faktury vydané
 <a name="faktury_vydane"/>
 Popis parametrů:
@@ -242,7 +243,7 @@ Příklad:
         reciprocity: "Reciproce"
     }
         
-## Vypis dostupných metod [/payment_type]
+## Vypis dostupných metod [/payment-type]
 ### Seznam [GET]
 + Request
     + Headers
@@ -266,7 +267,7 @@ Příklad:
         down: "zaokrouhlit dolů"
     }
         
-## Vypis typů zaokrouhlení [/rounding_type]
+## Vypis typů zaokrouhlení [/rounding-type]
 ### Seznam [GET]
 + Request
     + Headers
@@ -283,10 +284,31 @@ Příklad:
 # Group Typy DPH
 <a name="typy_dph"/>
 
+## Typy DPH [/vat-type?doctype={doctype}]
+### Seznam typů DPH pro určitý typ dokladu [GET]
+Odpověd obsahuje pole dostupných typů DPH v závislosti na parametru `doctype`.  
+Tento parametr musí být předán v požadavku a jeho hodnotou je zdroj dokladů, pro který chceme typ DPH použít.
+  
+Formát odpovědi:
+`{"id": "popis"}`
+
++ Parameters
+    + doctype (string) ... Typ dokladu. Hodnota odpovídá názvu zdroje dat. *Například pro Faktury vydané je hodnota `invoice-issued`.*
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+    
+        {"281":"98006000 - P\u0159\u00edjem DPH (vratka)","302":"96009000 - Platba DPH"}
+
+
 # Group Účty účetní osnovy
 <a name="ucty_uc_osnovy"/>
 
-## Účty účetní osnovy [/chart_account]
+## Účty účetní osnovy [/chart-account]
 ### Seznam dostupných účtů [GET]
 Odpověd obsahuje pole dostupných účtů úč. osnovy pro použití v dokladech.
 
