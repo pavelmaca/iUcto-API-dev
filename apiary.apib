@@ -1,6 +1,7 @@
 FORMAT: 1A
 HOST: https://api.iucto.cz/1.0/
 
+
 # iÚčto
 <a name="top"/>
 iÚčto API je založena na REST principu.
@@ -64,12 +65,12 @@ Popis parametrů:
 - `id` *int (11)* - **ID dokladu**
 - `sequence_code` *string (45)* - **Číslo dokladu**
 - `variable_symbol` *string (42)* - **Variabilní symbol**
-- `customer_id` *int(11)* - **Id zákazníka**
+- `customer_id` *int(11)* - [**Id zákazníka**](#zakaznici)
 - `customer_bank_account` *string (45)* - **Bankovní účet zákazníka**
 - `date` *timestamp* - **Datum vystavení**
 - `maturity_date` *timestamp* - **Datum splatnosti**
-- `payment_type` *int (1)* - **Forma úhrady**
-- `bank_account_id` *int (11)* - **ID bankovního účet pro příjem platby**
+- `payment_type` *int (1)* - [**Forma úhrady**](#metody_plateb)
+- `bank_account_id` *int (11)* - [**ID bankovního účet pro příjem platby**](#bankovni_ucty)
 - `currency` *string (3)* - [**Měna dokladu**](#meny)
 - `price` *int (11)* - **Celková částka bez DPH**
 - `price_czk` *int (11)* - **Celková částka v CZK bez DPH**
@@ -79,7 +80,7 @@ Popis parametrů:
 - `date_vat` *timestamp* - **Datum zdanitelného plnění**
 - `date_vat_prev` *timestamp* - **Datum předchozí sazby DPH**
 - `description` *string* - **Poznámka**
-- `rounding_type` *string* - **Způsob zaokrouhlení**
+- `rounding_type` *string* -  [**Způsob zaokrouhlení**](#zpusoby_zaokrouhleni)
 - `items` *array* - **Položky dokladu**
     - `id` *int(11)* - **ID položky**
     - `amount` *decimal(12,2)* - **Počet**
@@ -87,12 +88,12 @@ Popis parametrů:
     - `price` *decimal(12,2)* - **Cena za jednotku**
     - `text` *string(255)* - **Popis**
     - `vat` *decimal(5,2)* - **DPH**
-    - `accountentrytype_id` *int(11)* - **Typ účetní položky**
-    - `vattype_id` *int(11)* - **Typ DPH**
-    - `chart_account_id` *int(11)* - **Účet účetní osnovy**
-    - `vat_chart_id` *int(11)* - **Účet DPH**
-    - `department_id` *int(11)* - **Středisko**
-    - `contract_id` *int(11)* - **Zakázka**
+    - `accountentrytype_id` *int(11)* - [**Typ účetní položky**](#typy_uc_polozek)
+    - `vattype_id` *int(11)* - [**Typ DPH**](#typy_dph)
+    - `chart_account_id` *int(11)* - [**Účet účetní osnovy**](#ucty_uc_osnovy)
+    - `vat_chart_id` *int(11)* - [**Účet DPH**](#ucty_dph)
+    - `department_id` *int(11)* - [**Středisko**](#strediska)
+    - `contract_id` *int(11)* - [**Zakázka**](#zakazky)
 - `accounted` *bool* - **Doklad je zaúčtován**
 - `deleted` *bool* - **Doklad je smazaný**
 
@@ -204,24 +205,33 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 # Group Adresy
 <a name="adresy"/>
 
+# Group Bankovní účty
+<a name="bankovni_ucty"/>
+
 # Group Měny
 <a name="meny"/>
 
-# Group Metoda platby
-<a name="meotda_platby"/>
+# Group Metody plateb
+<a name="metody_plateb"/>
 
-# Group Způsob zaokrouhlení
+# Group Způsoby zaokrouhlení
 <a name="zaokrouhleni"/>
 
 # Group Typy účetních položek
-<a name="typ_uc_polozek"/>
+<a name="typy_uc_polozek"/>
 
 # Group Typy DPH
-<a name="typ_dph"/>
+<a name="typy_dph"/>
 
 # Group Účty účetní osnovy
 <a name="ucty_uc_osnovy"/>
 
 # Group Účty DPH
 <a name="ucty_dph"/>
+
+# Group Střediska
+<a name="strediska"/>
+
+# Group Zakázky
+<a name="zakazky"/>
 
