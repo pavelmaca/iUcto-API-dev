@@ -58,6 +58,13 @@ Při komunikaci prostřednictvím API má uživatel stejná oprávnění jako u 
 
 **[Správa ACL](https://online.iucto.cz/users)**  
 
+# Typy dokladů
+Seznam dostupných dokladů přes API a jejich interní identifikátory pro získání např. [Typů DPH](#typy_dph).
+
+    {
+        "FV": "Faktury vydané"
+    }
+
 
 # Group Faktury vydané
 <a name="faktury_vydane"/>
@@ -293,7 +300,7 @@ Formát odpovědi:
 `{"id": "popis"}`
 
 + Parameters
-    + doctype (string) ... Typ dokladu. Hodnota odpovídá názvu zdroje dat. *Například pro Faktury vydané je hodnota `invoice_issued`.*
+    + doctype (string) ... Typ dokladu. Pro seznam dostupných hodnot si přejděte na [Typy dokladů](#typy_dokladu)
     
 + Request
     + Headers
