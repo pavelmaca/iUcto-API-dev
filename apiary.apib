@@ -211,8 +211,17 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 # Group Měny
 <a name="meny"/>
 
-# Group Metody plateb
+# Metody plateb [/payment_type]
 <a name="metody_plateb"/>
+### Vypis dostupných metod [GET]
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    
+        {transfer:"Bankovním převodem"cash:"Hotově"cashondelivery:"Dobírka"reciprocity:"Reciproce"}
 
 # Group Způsoby zaokrouhlení
 <a name="zaokrouhleni"/>
