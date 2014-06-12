@@ -65,10 +65,13 @@ Doklad má naspedujicí parametry:
 - `payment_type` *int (1)* - **Forma úhrady**
 - `bank_account_id` *int (11)* - **ID bankovního účet pro příjem platby**
 - `currency` *string (3)* - **Měna dokladu**
+- `price_inc_vat` *int (11)* - **Celková částka na dokladu**
+- `price_inc_vat_czk` *int (11)* - **Celková částka na dokladu v CZK**
+- `to_be_paid` *int* - **Zbývajicí částka k úhradě (v měně dokladu)**
 - `date_vat` *timestamp* - **Datum zdanitelného plnění**
 - `date_vat_prev` *timestamp* - **Datum předchozí sazby DPH**
 - `description` *string* - **Poznámka**
-- `rounding_type` *int(1)* - **Způsob zaokrouhlení**
+- `rounding_type` *string* - **Způsob zaokrouhlení**
 - `items` *array* - **Položky dokladu**
     - `id` *int(11)* - **ID položky**
     - `amount` *decimal(12,2)* - **Počet**
@@ -78,6 +81,12 @@ Doklad má naspedujicí parametry:
     - `vat` *decimal(5,2)* - **DPH**
     - `accountentrytype_id` *int(11)* - **Typ účetní položky**
     - `vattype_id` *int(11)* - **Typ DPH**
+    - `chart_account_id` *int(11)* - **Účet účetní osnovy**
+    - `vat_chart_id` *int(11)* - **Účet DPH**
+    - `department_id` *int(11)* - **Středisko**
+    - `contract_id` *int(11)* - **Zakázka**
+- `accounted` *bool* - **Doklad je zaúčtován**
+- `deleted` *bool* - **Doklad je smazaný**
 
 Hodnota *id* je přiřazena službou v momentu vytvoření nového záznamu.
 
