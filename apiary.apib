@@ -231,12 +231,34 @@ Pro aktuální seznam zavolejte tuto část API.
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/hal+json)
++ Response 200 (application/json)
     
         {transfer:"Bankovním převodem"cash:"Hotově"cashondelivery:"Dobírka"reciprocity:"Reciproce"}
 
 # Group Způsoby zaokrouhlení
 <a name="zaokrouhleni"/>
+<a name="metody_plateb"/>
+Seznam dostupných metod pro zaokrouhlování částek v dokladech.
+  
+Pro aktuální seznam zavolejte tuto část API.
+
+    {
+        none: "žádné"
+        round: "zaokrouhlit"
+        up: "zaokrouhlit nahoru"
+        down: "zaokrouhlit dolů"
+    }
+        
+## Vypis dostupných metod [/rounding_type]
+### Seznam [GET]
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+    
+        {none:"žádné"round:"zaokrouhlit"up:"zaokrouhlit nahoru"down:"zaokrouhlit dolů"}
 
 # Group Typy účetních položek
 <a name="typy_uc_polozek"/>
