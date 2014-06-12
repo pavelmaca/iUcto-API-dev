@@ -237,30 +237,6 @@ Příklad:
     
         ["AUD","BGN","BRL","CAD","CHF","CNY","CZK","DKK","EUR","GBP","HKD","HRK","HUF","IDR","ILS","INR","JPY","KRW","LTL","LVL","MXN","MYR","NOK","NZD","PHP","PLN","RON","RUB","SEK","SGD","THB","TRY","USD","XDR","ZAR"]
 
-# Group Metody plateb
-<a name="metody_plateb"/>
-Seznam dostupných metod pro provedení platby používaných v dokladech.
-  
-Příklad:
-
-    {
-        transfer: "Bankovním převodem"
-        cash: "Hotově"
-        cashondelivery: "Dobírka"
-        reciprocity: "Reciproce"
-    }
-        
-## Vypis dostupných metod [/payment_type]
-### Seznam [GET]
-+ Request
-    + Headers
-
-            X-Auth-Key: api-key
-
-+ Response 200 (application/json)
-    
-        {"transfer":"Bankovn\u00edm p\u0159evodem","cash":"Hotov\u011b","cashondelivery":"Dob\u00edrka","reciprocity":"Reciproce"}
-
 # Group Způsoby zaokrouhlení
 <a name="zaokrouhleni"/>
 Seznam dostupných metod pro zaokrouhlování částek v dokladech.
@@ -286,6 +262,28 @@ Příklad:
         {"none":"\u017e\u00e1dn\u00e9","round":"zaokrouhlit","up":"zaokrouhlit nahoru","down":"zaokrouhlit dol\u016f"}
 
 # Group Hodnoty k účetním dokladům
+
+## Metody plateb [/payment_type]
+<a name="metody_plateb"/>
+### Seznam dostupných metod [GET]
+Seznam dostupných metod pro provedení platby používaných v dokladech.
+  
+Příklad:
+
+    {
+        transfer: "Bankovním převodem",
+        cash: "Hotově",
+        cashondelivery: "Dobírka",
+        reciprocity: "Reciproce"
+    }
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+    
+        {"transfer":"Bankovn\u00edm p\u0159evodem","cash":"Hotov\u011b","cashondelivery":"Dob\u00edrka","reciprocity":"Reciproce"}
 
 ## Typy účetních položek [/accountentry_type?doctype={doctype}]
 <a name="typy_uc_polozek"/>
