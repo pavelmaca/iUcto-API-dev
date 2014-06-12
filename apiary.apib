@@ -1,5 +1,6 @@
 FORMAT: 1A
 HOST: https://api.iucto.cz/1.0/
+img_key_generation: https://raw.githubusercontent.com/PavelMaca/iUcto-API/master/images/key_generation.PNG  "Vygenerování klíče"
 
 # iÚčto
 iÚčto API je založena na REST principu.
@@ -37,20 +38,20 @@ Vzor HTTP hlavičky pro přihlášení:
 
     X-Auth-Key: 9f3ba84380c1a86b90f52bd46f0b6799
     
-Parametrem této hlavička je přístupoví klíč.
-Klíč lze vygenerovat v profilu uživatele.
-
-**todo: odkaz na profil uživatele**
+Parametrem této hlavička je přístupoví klíč.  
+**Klíč lze vygenerovat v profilu uživatele.**  
+  
 Ke každé firmě, ke které máte přístup se generuje samostatný klíč.
 
-**todo: OBRÁZEK**
+![Vygenerování klíče](https://raw.githubusercontent.com/PavelMaca/iUcto-API/master/images/key_generation.PNG)
 
 Uživatel musí mít v nastavené správcem firmy opraváněné pro přístup přes API (výchozí stav je povolen).
 Při komunikaci prostřednictvím API má uživatel stejná oprávnění jako u webového rozhraní.
+  
 
-**todo: odkaz na ACL**
-
-
+**[Správa ACL](https://online.iucto.cz/users)**  
+  
+  
 # Group Faktury vydané
 Doklad má naspedujicí parametry:
 
