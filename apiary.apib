@@ -371,7 +371,7 @@ Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
 
 + Response 200 (application/json)
     
-        {"_links":{"self":{"href":"\/1.0\/department"}},"_embedded":{"department":[{"_links":{"self":{"href":"\/1.0\/department\/85"}},"id":85,"code":"PR","description":null},{"_links":{"self":{"href":"\/1.0\/department\/86"}},"id":86,"code":"BR","description":"Sklad"}]}}
+        {"_links":{"self":{"href":"\/1.0\/department"}},"_embedded":{"department":[{"_links":{"self":{"href":"\/1.0\/department\/85"}},"id":85,"code":"PR","name":"Praha","description":null},{"_links":{"self":{"href":"\/1.0\/department\/86"}},"id":86,"code":"BR","name":"Brno","description":"Sklad"}]}}
 
 # Group Zakázky
 <a name="zakazky"/>
@@ -386,5 +386,5 @@ Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
 
 + Response 200 (application/json)
     
-        {}
+        {"_links":{"self":{"href":"\/1.0\/contract"}},"_embedded":{"contract":[{"_links":{"self":{"href":"\/1.0\/contract\/68"}},"id":68,"code":"2014Z1","name":"V\u00fdstavba koridoru Z1","description":null}]}}
 
