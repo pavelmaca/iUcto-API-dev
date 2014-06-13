@@ -207,11 +207,17 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 # Group Zákazníci
 <a name="zakaznici"/>
 
-# Group Dodavatelé
-<a name="dodavatele"/>
+## Zákazníci [/customer]
+### Seznam zákazníků [GET]
++ Request
+    + Headers
 
-# Group Adresy
-<a name="adresy"/>
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+
+        {"_links":{"self":{"href":"\/1.0\/customer"}},"_embedded":{"customer":[{"_links":{"self":{"href":"\/1.0\/customer\/5573"}},"id":5573,"name":"Jan Nov\u00e1k","ico":null,"dic":null,"vat_payer":false,"email":"novak.jan@iucto.cz"}]}}
+
 
 # Group Bankovní účty
 <a name="bankovni_ucty"/>
