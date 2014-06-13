@@ -107,8 +107,8 @@ Popis parametrů:
 
 Hodnota *id* je přiřazena službou v momentu vytvoření nového záznamu.
 
-## Seznam dokladů [/invoice_issued]
-### Vypsání všech dostupných dokladů [GET]
+## Seznam faktur vydaných [/invoice_issued]
+### Vypis všech dostupných dokladů [GET]
 Zjednodušený výpis všech dostupných dokladů.
 
 + Request
@@ -120,7 +120,7 @@ Zjednodušený výpis všech dostupných dokladů.
 
         {"_links":{"self":{"href":"\/1.0\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.0\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":1402560760,"date_vat":1402560760,"maturity_date":1402560760,"currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","ico":null,"dic":null,"vat_payer":false,"email":null},"accounted":false,"deleted":false}]}}
 
-## Práce s dokladem [/invoice_issued/{id}]
+## Správa faktur vydaných [/invoice_issued/{id}]
 + Model (application/hal+json)
     + Body
     
@@ -156,7 +156,7 @@ Povinné parametry dokladu:
             {"variable_symbol":"20140001","date":1402557951,"date_vat":1402557951,"maturity_date":1402557951,"currency":"CZK","customer_id":5779,"customer_bank_account":null,"payment_type":"transfer","bank_account":825,"date_vat_prev":null,"description":null,"rounding_type":null,"items":[{"text":"b\u00edl\u00e9 tri\u010dko","amount":5,"price":400,"unit":"ks","vat":21,"accountentrytype_id":16,"vattype_id":1,"department_id":0,"contract_id":0,"chart_account_id":309,"vat_chart_id":302},{"text":"doprava","amount":1,"price":85,"unit":null,"vat":21,"accountentrytype_id":63,"vattype_id":23,"department_id":0,"contract_id":0,"chart_account_id":272,"vat_chart_id":302}]}
 
 + Response 201
-        [Práce s dokladem][]
+        [Správa faktur vydaných][]
     
 ### Detail dokladu [GET]
 Vrátí kompletní kolekci dat vybraného dokladu.
@@ -169,7 +169,7 @@ Vrátí kompletní kolekci dat vybraného dokladu.
             X-Auth-Key: api-key
 
 + Response 200
-        [Práce s dokladem][]
+        [Správa faktur vydaných][]
 
 ### Editace dokladu [PUT]
 Aktulizuje předané parametry vybraného dokladu.
@@ -188,7 +188,7 @@ Poviné ple jsou stejná jako při vkládání nového záznamu.
             {"variable_symbol":"20140001","date":1402557951,"date_vat":1402557951,"maturity_date":1402557951,"currency":"CZK","customer_id":5779,"customer_bank_account":null,"payment_type":"transfer","bank_account":825,"date_vat_prev":null,"description":null,"rounding_type":null,"items":[{"text":"b\u00edl\u00e9 tri\u010dko","amount":5,"price":400,"unit":"ks","vat":21,"accountentrytype_id":16,"vattype_id":1,"department_id":0,"contract_id":0,"chart_account_id":309,"vat_chart_id":302},{"text":"doprava","amount":1,"price":85,"unit":null,"vat":21,"accountentrytype_id":63,"vattype_id":23,"department_id":0,"contract_id":0,"chart_account_id":272,"vat_chart_id":302}]}
 
 + Response 200
-        [Práce s dokladem][]
+        [Správa faktur vydaných][]
         
 ### Smazání dokladu [DELETE]
 Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
@@ -207,8 +207,9 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 # Group Zákazníci
 <a name="zakaznici"/>
 
-## Zákazníci [/customer]
+## Seznam zákazníků [/customer]
 ### Seznam zákazníků [GET]
+Zjednodušený výpis všech dostupných zákazníků.
 + Request
     + Headers
 
@@ -219,11 +220,29 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
         {"_links":{"self":{"href":"\/1.0\/customer"}},"_embedded":{"customer":[{"_links":{"self":{"href":"\/1.0\/customer\/5573"}},"id":5573,"name":"Jan Nov\u00e1k","ico":null,"dic":null,"vat_payer":false,"email":"novak.jan@iucto.cz"}]}}
 
 
+## Správa zákazníků [/customer/{id}]
++ Model (application/hal+json)
+    + Body
+    
+            {"_links":{"self":{"href":"\/1.0\/customer\/5573"}},"id":5573,"name":"Jan Nov\u00e1k","ico":null,"dic":null,"vat_payer":false,"email":"novak.jan@iucto.cz","street":"Stodoln\u00ed 123","city":"Ostrava","postalcode":"385 02","country":"CZ"}
+
+
+### Detail [GET]
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200
+    [Správa zákazníků][]
+
+       
+
 # Group Bankovní účty
 <a name="bankovni_ucty"/>
 
-## Bankovní účty [/bank_account]
-### Seznam dostupných účů [GET]
+## Seznam bankovních účů [/bank_account]
+### Vypis všech dostupných účů [GET]
 Seznam dostupných bankovních účtů.
 + Request
     + Headers
@@ -262,7 +281,7 @@ Příklad:
 ## Způsoby zaokrouhlení [/rounding_type]
 ### Seznam dostupných typů zaokrouhlení [GET]
 <a name="zaokrouhleni"/>
-Seznam dostupných metod pro zaokrouhlování částek v dokladech.
+Seznam metod pro zaokrouhlování částek v dokladech.
   
 Příklad:
 
