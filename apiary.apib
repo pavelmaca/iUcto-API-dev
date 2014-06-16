@@ -101,7 +101,7 @@ Popis parametrů:
     - `unit` *string(10)* - **Jednotka**
     - `price` *decimal(12,2)* - **Cena za jednotku**
     - `text` *string(255)* - **Popis**
-    - `vat` *decimal(5,2)* - **DPH**
+    - `vat` *decimal(5,2)* - [**DPH**](#kurz_dph)
     - `accountentrytype_id` *int(11)* - [**Typ účetní položky**](#typy_uc_polozek)
     - `vattype_id` *int(11)* - [**Typ DPH**](#typy_dph)
     - `chart_account_id` *int(11)* - [**Účet účetní osnovy**](#ucty_uc_osnovy)
@@ -332,6 +332,22 @@ Příklad:
 + Response 200 (application/json)
     
         {"transfer":"Bankovn\u00edm p\u0159evodem","cash":"Hotov\u011b","cashondelivery":"Dob\u00edrka","reciprocity":"Reciproce"}
+
+## Kurzy DPH [/vat_rates?date{date}]
+<a name="kurz_dph"/>
+### Seznam kurzů DPH k danému datu [GET]
++ Parameters
+    + date (int) ... Datum DPH, pro které nás zajímají sazby
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+    
+        [21,15,0]
+
 
 ## Typy účetních položek [/accountentry_type?doctype={doctype}]
 <a name="typy_uc_polozek"/>
