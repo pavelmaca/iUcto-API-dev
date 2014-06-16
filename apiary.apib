@@ -29,8 +29,8 @@ Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 - `PUT` - Editace záznamu
 - `DELETE` - Smazání záznamu
 
-#<a name="odpovedy_serveru"/>Popis obvyklých odpovědí serveru
-
+#Popis obvyklých odpovědí serveru
+<a name="odpovedy_serveru"/>
 
 - 200 `OK` - požadavek proběhl v pořádku (některé akce mohou vrátit 201).
 - 201 `Created` - požadavek proběhl v pořádku a záznam byl vytvořen.
@@ -107,7 +107,7 @@ Popis parametrů:
     - `chart_account_id` *int(11)* - [**Účet účetní osnovy**](#ucty_uc_osnovy)
     - `vat_chart_id` *int(11)* - [**Účet DPH**](#ucty_dph)
     - `department_id` *int(11)* - [**Středisko**](#strediska)
-    - `contract_id` *int(11)* - [**Zakázka**](#seznam-zakazek)
+    - `contract_id` *int(11)* - [**Zakázka**](#zakazky)
 - `accounted` *bool* - **Doklad je zaúčtován**
 - `deleted` *bool* - **Doklad je smazaný**
 
@@ -422,7 +422,7 @@ Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
         {"_links":{"self":{"href":"\/1.0\/department"}},"_embedded":{"department":[{"_links":{"self":{"href":"\/1.0\/department\/85"}},"id":85,"code":"PR","name":"Praha","description":null},{"_links":{"self":{"href":"\/1.0\/department\/86"}},"id":86,"code":"BR","name":"Brno","description":"Sklad"}]}}
 
 # Group Zakázky
-
+<a name="zakazky"/>
 
 
 ## Seznam zakázek [/contract]
