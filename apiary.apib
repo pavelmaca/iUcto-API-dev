@@ -554,3 +554,16 @@ Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
 + Response 200 (application/json)
     
         {"transfer":"Bankovn\u00edm p\u0159evodem","cash":"V hotovosti","proforma":"Proforma","check":"\u0160ekem","creditcard":"Platebn\u00ed kartou"}
+
+## Seznam podporavaných států [/country]
+<a name="country"/>
+Zde uvedený výpis není kompletní, jedná se pouze o vzor.
+### Seznam dostupných států  [GET]
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+    
+        {"AD":"Andorra","AE":"Spojen\u00e9 arabsk\u00e9 emir\u00e1ty","AF":"Afgh\u00e1nist\u00e1n","AG":"Antigua a Barbuda"}
