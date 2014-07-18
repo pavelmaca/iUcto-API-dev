@@ -540,3 +540,17 @@ Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
     
         {"_links":{"self":{"href":"\/1.0\/contract"}},"_embedded":{"contract":[{"_links":{"self":{"href":"\/1.0\/contract\/68"}},"id":68,"code":"2014Z1","name":"V\u00fdstavba koridoru Z1","description":null}]}}
 
+# Group Hodnota k adresáři
+
+
+## Preferovaná metoda platby [/preferred_payment_method]
+<a name="preferred_payment_method"/>
+### Seznam dostupných metod  [GET]
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+    
+        {"transfer":"Bankovn\u00edm p\u0159evodem","cash":"V hotovosti","proforma":"Proforma","check":"\u0160ekem","creditcard":"Platebn\u00ed kartou"}
