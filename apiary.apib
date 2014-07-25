@@ -335,6 +335,13 @@ Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný zázn
 # Group Bankovní účty
 <a name="bankovni_ucty"/>
 
+- `id` *int* - **Id bankovního účtu**
+- `name` *string* - **Název**
+- `number` *string* - **Číslo účtu**
+- `currency` *string* -  [**Měna**](#meny)
+- `isdefault` *bool* - **Příznak, zda je účet nastaven jako výchozí**
+
+
 ## Seznam bankovních účů [/bank_account]
 ### Vypis všech dostupných účů [GET]
 Seznam dostupných bankovních účtů.
