@@ -43,6 +43,21 @@ Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 
 Odpověd může obsahovat popis chyby. Například při vkládání nového záznamu se špatnými daty se vypíší chybové zprávy validace.
 
+## Výpis chybových hlášek
+
+| Kód | Chyba                                         |
+|:---:|-----------------------------------------------|
+| 400 | Komunikace musí probíhat přes protokol HTTPS. |
+| 400 | Neplatná verze API, nebo zdroj.               |
+| 400 | Tělo požadavku je prázdné.                    |
+| 400 | Neplatný JSON formát.                         |
+| 400 | Parametr 'doctype' je povinný.                |
+| 400 | Parametr 'doctype' není platný.               |
+| 400 | Parametr 'date' je povinný.                   |
+| 400 | Parametr 'date' není platný.                  |
+| 403 | Nelze smazat záznam.                          |
+| 403 | Účetní období, nebo období DPH je uzavřeno.   |
+
 # Authentizace
 <a name="authentizace"/>
 K authentizace každého HTTP požadavku slouží HTTP hlavička **X-Auth-Key**.
