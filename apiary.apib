@@ -34,7 +34,7 @@ Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 
 - 200 `OK` - požadavek proběhl v pořádku (některé akce mohou vrátit 201).
 - 201 `Created` - požadavek proběhl v pořádku a záznam byl vytvořen.
-- 204 `No Content` - the request was successful but there is no representation to return (i.e. the response is empty).
+- 204 `No Content` - požadavek proběhl v pořádku, ale není nic co by se dalo vrátit (tělo odpovědi je prázdné).
 - 400 `Bad Request` - neznámý formát požadavku, je možné že chybý nějaké parametry.
 - 401 `Unauthorized` - špatný API klíč v požadavku.
 - 403 `Forbidden` - přístup odepřen, uživatel nemá potřebná opravnění pro danou akci.
