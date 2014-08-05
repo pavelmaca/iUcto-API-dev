@@ -91,47 +91,47 @@ Seznam dostupných dokladů přes API a jejich interní identifikátory pro zís
 <a name="faktury_vydane"/>
 
 ## Parametry dokladu
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| id                        | int         | 11    | ID dokladu                                                 | x      | -             |
-| sequence_code             | string      | 45    | Číslo dokladu                                              | x      | -             |
-| variable_symbol           | string      | 42    | Variabilní symbol                                          | x      | x             |
-| customer                  | array       | -     | [**Zákazník**](#zakaznici)                                 | x      | -             |
-| customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                             | -      | x             |
-| customer_bank_account     | string      | 45    | Bankovní účet zákazníka                                    | -      | x             |
-| date                      | timestamp   | -     | Datum vystavení                                            | x      | x             |
-| maturity_date             | timestamp   | -     | Datum splatnosti                                           | x      | x             |
-| payment_type              | int         | 1     | [**Forma úhrady**](#metody_plateb)                         | -      | x             |
-| bank_account              | int         | 11    | [**ID bankovního účet pro příjem platby**](#bankovni_ucty) | -      | x             |
-| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                  | x      | x             |
-| price                     | int         | 11    | Celková částka bez DPH                                     | -      | -             |
-| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                               | -      | -             |
-| price_inc_vat             | int         | 11    | Celková částka s DPH                                       | x      | -             |
-| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                 | -      | -             |
-| to_be_paid                | int         | -     | Zbývajicí částka k úhradě (v měně dokladu)                 | x      | -             |
-| date_vat                  | timestamp   | -     | Datum zdanitelného plnění                                  | x      | x             |
-| date_vat_prev             | timestamp   | -     | Datum předchozí sazby DPH                                  | -      | x             |
-| description               | string      | -     | Poznámka                                                   | -      | x             |
-| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                   | -      | x             |
-| accounted                 | bool        | -     | Doklad je zaúčtován                                        | x      | -             |
-| deleted                   | bool        | -     | Doklad je smazaný                                          | x      | -             |
+| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné | Povinné |
+|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|:-------:|
+| id                        | int         | 11    | ID dokladu                                                 | x      | -             | -       |
+| sequence_code             | string      | 45    | Číslo dokladu                                              | x      | -             | -       |
+| variable_symbol           | string      | 42    | Variabilní symbol                                          | x      | x             | x       |
+| customer                  | array       | -     | [**Zákazník**](#zakaznici)                                 | x      | -             | -       |
+| customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                             | -      | x             | -       |
+| customer_bank_account     | string      | 45    | Bankovní účet zákazníka                                    | -      | x             | -       |
+| date                      | timestamp   | -     | Datum vystavení                                            | x      | x             | x       |
+| maturity_date             | timestamp   | -     | Datum splatnosti                                           | x      | x             | x       |
+| payment_type              | int         | 1     | [**Forma úhrady**](#metody_plateb)                         | -      | x             | -       |
+| bank_account              | int         | 11    | [**ID bankovního účet pro příjem platby**](#bankovni_ucty) | -      | x             | x       |
+| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                  | x      | x             | x       |
+| price                     | int         | 11    | Celková částka bez DPH                                     | -      | -             | -       |
+| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                               | -      | -             | -       |
+| price_inc_vat             | int         | 11    | Celková částka s DPH                                       | x      | -             | -       |
+| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                 | -      | -             | -       |
+| to_be_paid                | int         | -     | Zbývajicí částka k úhradě (v měně dokladu)                 | x      | -             | -       |
+| date_vat                  | timestamp   | -     | Datum zdanitelného plnění                                  | x      | x             | x       |
+| date_vat_prev             | timestamp   | -     | Datum předchozí sazby DPH                                  | -      | x             | -       |
+| description               | string      | -     | Poznámka                                                   | -      | x             | -       |
+| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                   | -      | x             | -       |
+| accounted                 | bool        | -     | Doklad je zaúčtován                                        | x      | -             | -       |
+| deleted                   | bool        | -     | Doklad je smazaný                                          | x      | -             | -       |
 
 ## Položky dokladu
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             |
-| items:id                  | int         | 11    | ID položky                                                 | -      | -             |
-| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             |
-| items:unit                | string      | 10    | Jednotka                                                   | -      | x             |
-| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             |
-| items:text                | string      | 255   | Popis                                                      | -      | x             |
-| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             |
-| items:accountentrytype_id | int         | 11    | [**Typ účetní položky**](#typy_uc_polozek)                 | -      | x             |
-| items:vattype_id          | int         | 11    | [**Typ DPH**](#typy_dph)                                   | -      | x             |
-| items:chart_account_id    | int         | 11    | [**Účet účetní osnovy**](#ucty_uc_osnovy)                  | -      | x             |
-| items:vat_chart_id        | int         | 11    | [**Účet DPH**](#ucty_dph)                                  | -      | x             |
-| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             |
-| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             |
+| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné | Povinné |
+|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|:-------:|
+| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             | x       |
+| items:id                  | int         | 11    | ID položky                                                 | -      | -             | -       |
+| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             | x       |
+| items:unit                | string      | 10    | Jednotka                                                   | -      | x             | -       |
+| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             | x       |
+| items:text                | string      | 255   | Popis                                                      | -      | x             | x       |
+| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             | -       |
+| items:accountentrytype_id | int         | 11    | [**Typ účetní položky**](#typy_uc_polozek)                 | -      | x             | x       |
+| items:vattype_id          | int         | 11    | [**Typ DPH**](#typy_dph)                                   | -      | x             | x       |
+| items:chart_account_id    | int         | 11    | [**Účet účetní osnovy**](#ucty_uc_osnovy)                  | -      | x             | -       |
+| items:vat_chart_id        | int         | 11    | [**Účet DPH**](#ucty_dph)                                  | -      | x             | -       |
+| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             | -       |
+| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             | -       |
 
 *Hodnoty `id` a `items:id` jsou přiřazeny službou v momentu vytvoření nového záznamu.*
 
