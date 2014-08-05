@@ -232,32 +232,37 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 
 # Group Zákazníci
 <a name="zakaznici"/>
-Popis parametrů:
 
-- `id` *int(11)* - **Id zákazníka**
-- `name` *string(100)* - **Jméno zákazníka**
-- `name_display` *string(100)* - **Zobrazované jméno**
-- `comid` *string(20)* - **IČ**
-- `vatid` *string(20)* - **DIČ**
-- `vat_payer` *bool* - **Plátce DPHP (ano/ne)**
-- `email` *string(40)* - **Email**
-- `phone` *string(20)* - **Telefon**
-- `cellphone` *string(100)* - **Mobil**
-- `www` *string(100)* - **WWW**
-- `usual_maturity` *string(100)* - **Obvyklá splatnost [dny]**
-- `preferred_payment_method` *string(100)* - [**Preferovaná metoda platby**](#preferred_payment_method)
-- `invoice_language` *string(2)* - **Jazyk faktury** [cs, sk, en]
-- `address` *array* - **Pole s adresou**
-    - `street` *string(100)* - **Ulice a č.p.**
-    - `city` *string(50)* - **Město**
-    - `postalcode` *string(20)* - **PSČ**
-    - `country` *string(2)* - [**Kód země**](#country)
-- `note` *string(1000)* - **Poznámka**
-- `account_number1` *string(45)* - **Číslo účtu 1**
-- `account_number2` *string(45)* - **Číslo účtu 2**
-- `account_number3` *string(45)* - **Číslo účtu 3**
-- `account_number4` *string(45)* - **Číslo účtu 4**
+## Parametry zákazníka
+| Parametr                 |   Typ  | Délka | Popis                                                      | Výpis | Zapisovatelné |
+|--------------------------|:------:|:-----:|------------------------------------------------------------|-------|---------------|
+| id                       |   int  |   11  | Id zákazníka                                               | x     | -             |
+| name                     | string |  100  | Jméno zákazníka                                            | x     | x             |
+| name_display             | string |  100  | Zobrazované jméno                                          | -     | x             |
+| comid                    | string |   20  | IČ                                                         | x     | x             |
+| vatid                    | string |   20  | DIČ                                                        | x     | x             |
+| vat_payer                |  bool  |   -   | Plátce DPHP (ano/ne)                                       | x     | x             |
+| email                    | string |   40  | Email                                                      | x     | x             |
+| phone                    | string |   20  | Telefon                                                    | -     | x             |
+| cellphone                | string |  100  | Mobil                                                      | -     | x             |
+| www                      | string |  100  | WWW                                                        | -     | x             |
+| usual_maturity           | string |  100  | Obvyklá splatnost [dny]                                    | -     | x             |
+| preferred_payment_method | string |  100  | [**Preferovaná metoda platby**](#preferred_payment_method) | -     | x             |
+| invoice_language         | string |   2   | Jazyk faktury [cs, sk, en]                                 | -     | x             |
+| note                     | string |  1000 | Poznámka                                                   | -     | x             |
+| account_number1          | string |   45  | Číslo účtu 1                                               | -     | x             |
+| account_number2          | string |   45  | Číslo účtu 2                                               | -     | x             |
+| account_number3          | string |   45  | Číslo účtu 3                                               | -     | x             |
+| account_number4          | string |   45  | Číslo účtu 4                                               | -     | x             |
 
+## Parametry adresy
+| Parametr                 |   Typ  | Délka | Popis                                                      | Výpis | Zapisovatelné |
+|--------------------------|:------:|:-----:|------------------------------------------------------------|-------|---------------|
+| address                  |  array |   -   | Pole s adresou                                             | -     | x             |
+| address:street           | string |  100  | Ulice a č.p.                                               | -     | x             |
+| address:city             | string |   50  | Město                                                      | -     | x             |
+| address:postalcode       | string |   20  | PSČ                                                        | -     | x             |
+| address:country          | string |   2   | [**Kód země**](#country)                                   | -     | x             |
 
 ## Seznam zákazníků [/customer]
 ### Seznam zákazníků [GET]
