@@ -1,0 +1,9 @@
+[0.1]
+6.8.2014:
+    - Změna formátu data z timestamp na yyyy-mm-dd
+        Týká se sloupců:
+            fv:date
+            fv:date_vat
+            fv:date_vat_prev
+            fv:maturity_date
+    - U zdroje "Kurzy DPH" je nyní paramter "date" ve formátu "yyy-mm-dd"
