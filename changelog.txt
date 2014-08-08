@@ -1,3 +1,7 @@
+[1.0]
+8.8.2014:
+    - První veřejná verze
+
 [0.1]
 6.8.2014:
     - Změna formátu data z timestamp na yyyy-mm-dd
