@@ -1,4 +1,7 @@
 [1.0]
+13.8.2014:
+ 	- API přesunuta pod URL: online.iucto.cz/api
+ 	- bugfix: validace datového typu 'date' nyní příjmá hodnotu 'null'
 8.8.2014:
     - První veřejná verze
 
