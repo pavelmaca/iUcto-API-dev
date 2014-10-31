@@ -4,6 +4,8 @@
  	- bugfix: validace datového typu 'date' nyní příjmá hodnotu 'null'
 8.8.2014:
     - První veřejná verze
+31.10.2014:
+	- Faktura vydaná: hodnota 'items:vat' je povinná
 
 [0.1]
 6.8.2014:
