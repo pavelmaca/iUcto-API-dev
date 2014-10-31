@@ -378,6 +378,28 @@ Seznam dostupných bankovních účtů.
 
         {"_links":{"self":{"href":"\/1.0\/bank_account"}},"_embedded":{"bank_account":[{"_links":{"self":{"href":"\/1.0\/bank_account\/819"}},"id":819,"name":"Komer\u010dn\u00ed Banka","number":"123456789\/0100","currency":"CZK","isdefault":true},{"_links":{"self":{"href":"\/1.0\/bank_account\/822"}},"id":822,"name":"\u010cesk\u00e1 Spo\u0159itelna","number":"123456\/0800","currency":"CZK","isdefault":false}]}}
 
+# Group Pokladny
+<a name="pokladny"/>
+
+- `id` *int* - **Id pokladny**
+- `name` *string* - **Název**
+- `currency` *string* -  [**Měna**](#meny)
+- `isdefault` *bool* - **Příznak, zda je účet nastaven jako výchozí**
+- `initial_state` *float* - **Výchozí stav**
+
+
+## Seznam pokladen [/cash_register]
+### Vypis všech dostupných pokladen [GET]
+Seznam dostupných pokladen.
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+
+        {"_links":{"self":{"href":"\/1.0\/cash_register"}},"_embedded":{"cash_register":[{"_links":{"self":{"href":"\/1.0\/cash_register\/735"}},"id":735,"name":"Pokladna","currency":"CZK","isdefault":true,"initial_state":0,"visible":true}]}}
+
 
 # Group Hodnoty k obecným dokladům
 Obecné hodnoty pro sloupce použité téměř ve všech typech dokladů.
