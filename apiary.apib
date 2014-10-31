@@ -356,6 +356,128 @@ Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný zázn
 + Response 204
        
 
+# Group Dodavatelé
+<a name="dodavatele"/>
+
+## Parametry dodavatele
+| Parametr                 |   Typ  | Délka | Popis                                                      | Výpis | Zapisovatelné |
+|--------------------------|:------:|:-----:|------------------------------------------------------------|-------|---------------|
+| id                       |   int  |   11  | Id dodavatele                                              | x     | -             |
+| name                     | string |  100  | Jméno dodavatele                                           | x     | x             |
+| name_display             | string |  100  | Zobrazované jméno                                          | -     | x             |
+| comid                    | string |   20  | IČ                                                         | x     | x             |
+| vatid                    | string |   20  | DIČ                                                        | x     | x             |
+| vat_payer                |  bool  |   -   | Plátce DPHP (ano/ne)                                       | x     | x             |
+| email                    | string |   40  | Email                                                      | x     | x             |
+| phone                    | string |   20  | Telefon                                                    | -     | x             |
+| cellphone                | string |  100  | Mobil                                                      | -     | x             |
+| www                      | string |  100  | WWW                                                        | -     | x             |
+| note                     | string |  1000 | Poznámka                                                   | -     | x             |
+| account_number1          | string |   45  | Číslo účtu 1                                               | -     | x             |
+| account_number2          | string |   45  | Číslo účtu 2                                               | -     | x             |
+| account_number3          | string |   45  | Číslo účtu 3                                               | -     | x             |
+| account_number4          | string |   45  | Číslo účtu 4                                               | -     | x             |
+
+### Parametry adresy
+| Parametr                 |   Typ  | Délka | Popis                                                      | Výpis | Zapisovatelné |
+|--------------------------|:------:|:-----:|------------------------------------------------------------|-------|---------------|
+| address                  |  array |   -   | Pole s adresou                                             | -     | x             |
+| address:street           | string |  100  | Ulice a č.p.                                               | -     | x             |
+| address:city             | string |   50  | Město                                                      | -     | x             |
+| address:postalcode       | string |   20  | PSČ                                                        | -     | x             |
+| address:country          | string |   2   | [**Kód země**](#country)                                   | -     | x             |
+
+## Seznam dodavatelů [/supplier]
+### Seznam dodavatelů [GET]
+Zjednodušený výpis všech dostupných dodavatelů.
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+
+        {"_links":{"self":{"href":"\/1.0\/supplier"}},"_embedded":{"supplier":[{"_links":{"self":{"href":"\/1.0\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"}]}}
+
+
+## Správa dodavatelů [/supplier/{id}]
++ Model (application/hal+json)
+    + Body
+    
+            {"_links":{"self":{"href":"\/1.0\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null}
+
+### Vytvoření dodavatele [POST]
+Vytvoří nový záznam, odpověd obsahuje detail vytvořeného dodavatele.
+
+Povinné parametry:
+
+    name
+    email
+    address
+    address:street
+    address:city
+    address:postalcode
+    address:country
+    vatid (pokud je pltáce DPHP)
+    vat_payer
+        
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+    + Body
+    
+            {"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovní 685","city":"Plzeň","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123/0999","account_number2":null,"account_number3":null,"account_number4":null}
+
++ Response 201
+    [Správa dodavatelů][]
+
+### Detail [GET]
+Vrátí veškerá data k dodavateli.
+
++ Parameters
+    + id (int) ... ID dodavatele
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200
+    [Správa dodavatelů][]
+
+### Editace dodavatele [PUT]
+Aktulizuje předané parametry vybraného dodavatele.
+Poviné ple jsou stejná jako při vkládání nového dodavatele.
+
++ Parameters
+    + id (int) ... ID dodavatele
+    
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+            
+    + Body
+    
+            {"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":null,"vat_payer":false,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovní 685","city":"Plzeň","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123/0999","account_number2":null,"account_number3":null,"account_number4":null}
+
++ Response 200
+        [Správa dodavatelů][]
+        
+### Smazání dodavatele [DELETE]
+Pokusí se smazat vybraného dodavatele. Pokud je ovšem vázán na jiný záznam (faktury, platba, apod.), vrátí chybu a dodavatel se nasmaže.
++ Parameters
+    + id (int) ... ID dodavatele
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            
++ Response 204
+
+
 # Group Bankovní účty
 <a name="bankovni_ucty"/>
 

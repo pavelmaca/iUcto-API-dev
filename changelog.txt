@@ -6,6 +6,8 @@
     - První veřejná verze
 31.10.2014:
 	- Faktura vydaná: hodnota 'items:vat' je povinná
+	- Nové zdroje: Pokladny, Dodavatelé
+	- bugfix: adresa u zákazníka je vždy povinná
 
 [0.1]
 6.8.2014:
