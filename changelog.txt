@@ -4,9 +4,9 @@
  	- bugfix: validace datového typu 'date' nyní příjmá hodnotu 'null'
 8.8.2014:
     - První veřejná verze
-31.10.2014:
+3.11.2014:
 	- Faktura vydaná: hodnota 'items:vat' je povinná
-	- Nové zdroje: Faktury přijaté, Platby vydané, Dodavatelé, Pokladny 
+	- Nové zdroje: Faktury přijaté, Platby vydané, Platby přijaté, Dodavatelé, Pokladny 
 	- bugfix: adresa u zákazníka je vždy povinná
 
 [0.1]
