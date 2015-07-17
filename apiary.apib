@@ -79,14 +79,14 @@ Při komunikaci prostřednictvím API má uživatel stejná oprávnění jako u 
 # Typy dokladů
 Seznam dostupných dokladů přes API a jejich interní identifikátory pro získání např. [Typů DPH](#typy_dph).
 
-| Typ | Název                               |
-|:---:|-------------------------------------|
-| FV  | [Faktury vydané](#faktury_vydane)   |
-| FP  | [Faktury přijaté](#faktury_prijate) |
-| PV  | [Platby vydané](#platby-vydane)     |
-| PP  | [Platby přijaté](#platby-prijate)   |
-| OP  | [Objednávky přijaté](#objednavky-prijate)   |
-| OV  | [Objednávky vydané](#objednávky-vydané)   |
+| Typ | Název                                         |
+|:---:|-----------------------------------------------|
+| FV  | [Faktury vydané](#faktury_vydane)             |
+| FP  | [Faktury přijaté](#faktury_prijate)           |
+| PV  | [Platby vydané](#platby-vydane)               |
+| PP  | [Platby přijaté](#platby-prijate)             |
+| OP  | [Objednávky přijaté](#objednavky-prijate)     |
+| OV  | [Objednávky vydané](#objednavky-vydane)       |
 
 
 # Group Faktury vydané
@@ -100,6 +100,7 @@ Seznam dostupných dokladů přes API a jejich interní identifikátory pro zís
 | variable_symbol           | string      | 42    | Variabilní symbol                                          | x      | x             |
 | customer                  | array       | -     | [**Zákazník**](#zakaznici)                                 | x      | -             |
 | customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                             | -      | x             |
+| order_id                  | int         | 11    | [**Id objednávky**](#objednavky-prijate)                   | X      | -             |
 | customer_bank_account     | string      | 45    | Bankovní účet zákazníka                                    | -      | x             |
 | date                      | date        | -     | Datum vystavení                                            | x      | x             |
 | maturity_date             | date        | -     | Datum splatnosti                                           | x      | x             |
@@ -243,6 +244,7 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 | variable_symbol           | string      | 42    | Variabilní symbol                                             | x      | x             |
 | supplier                  | array       | -     | [**Dodavatel**](#dodavatele)                                  | x      | -             |
 | supplier_id               | int         | 11    | [**Id dodavatele**](#dodavatele)                              | -      | x             |
+| order_id                  | int         | 11    | [**Id objednávky**](#objednavky-vydane)                       | x      | -             |
 | date                      | date        | -     | Datum vystavení                                               | x      | x             |
 | maturity_date             | date        | -     | Datum splatnosti                                              | x      | x             |
 | payment_type              | int         | 1     | [**Forma úhrady**](#metody_plateb)                            | -      | x             |
@@ -682,6 +684,7 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 | sequence_code             | string      | 45    | Číslo dokladu                                              | x      | -             |
 | customer                  | array       | -     | [**Zákazník**](#zakaznici)                                 | x      | -             |
 | customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                             | -      | x             |
+| invoice_id                | int         | 11    | [**ID Faktury vydané**](#faktury_vydane)                   | x      | -             |
 | date                      | date        | -     | Datum vystavení                                            | x      | x             |
 | currency                  | string      | 3     | [**Měna dokladu**](#meny)                                  | x      | x             |
 | price                     | int         | 11    | Celková částka bez DPH                                     | -      | -             |
@@ -805,6 +808,7 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 | sequence_code             | string      | 45    | Číslo dokladu                                              | x      | -             |
 | supplier                  | array       | -     | [**Dodavatel**](#dodavatele)                               | x      | -             |
 | supplier_id               | int         | 11    | [**Id dodavatele**](#dodavatele)                           | -      | x             |
+| invoice_id                | int         | 11    | [**ID Faktury přijaté**](#faktury_prijate)                 | x      | -             |
 | date                      | date        | -     | Datum vystavení                                            | x      | x             |
 | currency                  | string      | 3     | [**Měna dokladu**](#meny)                                  | x      | x             |
 | price                     | int         | 11    | Celková částka bez DPH                                     | -      | -             |
