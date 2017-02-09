@@ -1204,6 +1204,8 @@ Seznam dostupných bankovních účtů.
 - `currency` *string* -  [**Měna**](#meny)
 - `isdefault` *bool* - **Příznak, zda je účet nastaven jako výchozí**
 - `initial_state` *float* - **Výchozí stav**
+- `iseet` *bool* - **EET je povoleno**
+- `business_premises` *object* - **[**Provozovna**](#provozovny)**
 
 
 ## Seznam pokladen [/cash_register]
@@ -1216,7 +1218,7 @@ Seznam dostupných pokladen.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/cash_register"}},"_embedded":{"cash_register":[{"_links":{"self":{"href":"\/1.0\/cash_register\/735"}},"id":735,"name":"Pokladna","currency":"CZK","isdefault":true,"initial_state":0,"visible":true}]}}
+        {"_links":{"self":{"href":"\/1.0\/cash_register"}},"_embedded":{"cash_register":[{"_links":{"self":{"href":"\/1.0\/cash_register\/735"}},"id":735,"name":"Pokladna","currency":"CZK","isdefault":true,"initial_state":0,"visible":true,"iseet":true,"business_premises":{"_links":{"self":{"href":"\/1.0\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}}]}}
 
 
 # Group Hodnoty k obecným dokladům
@@ -1440,3 +1442,19 @@ Zde uvedený výpis není kompletní, jedná se pouze o vzor.
 + Response 200 (application/json)
     
         {"AD":"Andorra","AE":"Spojen\u00e9 arabsk\u00e9 emir\u00e1ty","AF":"Afgh\u00e1nist\u00e1n","AG":"Antigua a Barbuda"}
+
+
+# Group Provozovny
+<a name="provozovny"/>
+
+## Seznam provozoven [/business_premises]
+### Výpis dostupných provozoven  [GET]
+Seznam dostupných provozoven.
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+
+        {"_links":{"self":{"href":"\/1.0\/business_premises"}},"_embedded":{"business_premises":[{"_links":{"self":{"href":"\/1.0\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},{"_links":{"self":{"href":"\/1.0\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}]}}
