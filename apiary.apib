@@ -1281,8 +1281,10 @@ Příklad:
         transfer: "Bankovním převodem",
         cash: "Hotově",
         cashondelivery: "Dobírka",
-        reciprocity: "Reciproce"
+        reciprocity: "Reciproce",
+        creditcard: "Platební karta"
     }
+
 + Request
     + Headers
 
@@ -1290,8 +1292,8 @@ Příklad:
 
 + Response 200 (application/json)
     
-        {"transfer":"Bankovn\u00edm p\u0159evodem","cash":"Hotov\u011b","cashondelivery":"Dob\u00edrka","reciprocity":"Reciproce"}
-
+        {"transfer":"Bankovním převodem","cash":"Hotově","cashondelivery":"Dobírka","reciprocity":"Reciproce","creditcard":"Platební kartou"}
+        
 ## Kurzy DPH [/vat_rates?date={date}]
 <a name="kurz_dph"/>
 ### Seznam kurzů DPH k danému datu [GET]
