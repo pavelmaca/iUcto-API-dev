@@ -119,7 +119,6 @@ Seznam dostupných dokladů přes API a jejich interní identifikátory pro zís
 | accounted                 | bool        | -     | Doklad je zaúčtován                                        | x      | -             |
 | eet                       | bool        | -     | Vygenerovat EET                                            | x      | x             |
 | business_premises_id      | int         | -     | [**Id provozovny**](#provozovny)                           | -      | x             |
-| business_premises         | bool        | -     | [**Provozovna**](#provozovny)                              | x      | -             |
 | deleted                   | bool        | -     | Doklad je smazaný                                          | x      | -             |
 
 
@@ -153,8 +152,8 @@ Zjednodušený výpis všech dostupných dokladů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.0\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"deleted":false}]}}
-
+        {"_links":{"self":{"href":"\/1.0\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.0\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"deleted":false}]}}
+        
 ## Správa faktur vydaných [/invoice_issued/{id}]
 + Model (application/hal+json)
     + Body
