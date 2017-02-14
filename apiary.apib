@@ -196,7 +196,7 @@ Povinné parametry dokladu:
     
 ### Detail dokladu [GET]
 Vrátí kompletní kolekci dat vybraného dokladu.  
-Pokud má doklad EET, vrátí se status EET.
+Pokud má doklad nastaveno EET, vrátí se jeho status.
 
 + Parameters
     + id (int) ... ID dokladu
@@ -567,6 +567,9 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 | invoice_id                | int         | 11    | [**ID Faktury vydané**](#faktury_vydane)                   | -      | x             |
 | reference_mark            | string      | 45    | Referenční značka                                          | -      | x             |
 | full_paid                 | bool        | -     | Příznak, zda je faktura uhrazena v plné výši               | -      | x             |
+| eet                       | bool        | -     | Vygenerovat EET (pouze pro payment_type = 'cash')          | x      | x             |
+| eet_status                | object      | -     | Stav EET                                                   | x      | -             |
+ 
 
 ### Položky dokladu
 | Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
@@ -607,25 +610,26 @@ Zjednodušený výpis všech dostupných dokladů.
             {"_links":{"self":{"href":"\/1.0\/payment_received\/29461"}},"id":29461,"sequence_code":"PD20140008","customer":{"_links":{"self":{"href":"\/1.0\/customer\/8663"}},"id":8663,"name":"Jan Nov\u00e1k","name_display":null,"comid":"1234568006","vatid":null,"vat_payer":false,"email":"novak.jan@iucto.cz","phone":null,"cellphone":null,"www":null,"usual_maturity":30,"preferred_payment_method":"transfer","invoice_language":"cs","address":{"street":"Stodoln\u00ed 123","city":"Ostrava","postalcode":"385 02","country":"CZ"},"note":null,"account_number1":"1230123\/0100","account_number2":null,"account_number3":null,"account_number4":null},"invoice":null,"variable_symbol":null,"date":"2014-10-27","date_vat":"2014-10-27","currency":"CZK","price":600,"price_czk":600,"price_inc_vat":726,"price_inc_vat_czk":726,"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.0\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"date_vat_prev":null,"description":null,"rounding_type":"none","reference_mark":null,"full_paid":false,"items":[{"id":34882,"text":"test","amount":6,"price":100,"unit":null,"vat":21,"accountentrytype_id":0,"vattype_id":3,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":0}],"deleted":false}
 
 ### Vytvoření nového dokladu [POST]
-Vytvoří nový doklad, odpověd obsahuje detail dokladu.
+Vytvoří nový doklad, odpověd obsahuje detail dokladu.  
 
 Povinné parametry dokladu:
+ - date
+ - date_vat
+ - currency
+ - customer_id
+ - payment_type
+ - bank_account (pokud je `payment_type` = 'transfer')
+ - cash_register_id (pokud je `payment_type` = 'cash')
+ - items
+ - items:text
+ - items:amount
+ - items:price
+ - items:vat
+ - items:accountentrytype_id
 
-    date
-    date_vat
-    currency
-    customer_id
-    payment_type
-    bank_account (pokud je `payment_type` = 'transfer')
-    cash_register_id (pokud je `payment_type` = 'cash')
-    items
-    items:text
-    items:amount
-    items:price
-    items:vat
-    items:accountentrytype_id
+**Podle hodnoty 'payment_type' je nutné nstavit buď pokladnu, nebo bankovní účet.**  
 
-**Podle hodnoty 'payment_type' je nutné nstavit buď pokladnu, nebo bankovní účet.**
+Pokud je v nastavení klienta řádně nastavené EET a `payment_type` = 'cash', je možné použít parametr `eet`, který odešle platbu do EET.
 
         
 + Request (application/json)
@@ -655,7 +659,8 @@ Vrátí kompletní kolekci dat vybraného dokladu.
 
 ### Editace dokladu [PUT]
 Aktulizuje předané parametry vybraného dokladu.
-Poviné ple jsou stejná jako při vkládání nového záznamu.
+Poviné ple jsou stejná jako při vkládání nového záznamu.  
+Platby s EET nelze editovat. 
 
 + Parameters
     + id (int) ... ID dokladu
@@ -674,6 +679,7 @@ Poviné ple jsou stejná jako při vkládání nového záznamu.
         
 ### Smazání dokladu [DELETE]
 Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
+Platby s EET nelze mazat.  
 + Parameters
     + id (int) ... ID dokladu
     
