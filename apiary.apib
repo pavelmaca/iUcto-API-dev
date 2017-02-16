@@ -212,7 +212,7 @@ Pokud má doklad nastaveno EET, vrátí se jeho status.
 ### Editace dokladu [PUT]
 Aktulizuje předané parametry vybraného dokladu.
 Poviné pole jsou stejná jako při vkládání nového záznamu.  
-Nelze  editovat doklady s EET.
+Nelze  editovat doklady s EET, použijte Opravný daňový doklad.
 
 + Parameters
     + id (int) ... ID dokladu
@@ -231,7 +231,7 @@ Nelze  editovat doklady s EET.
         
 ### Smazání dokladu [DELETE]
 Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.  
-Nelza mazat oklady s EET.
+Nelze  smazat doklady s EET, použijte Opravný daňový doklad.
 + Parameters
     + id (int) ... ID dokladu
     
@@ -629,7 +629,7 @@ Povinné parametry dokladu:
 
 **Podle hodnoty 'payment_type' je nutné nstavit buď pokladnu, nebo bankovní účet.**  
 
-Pokud je v nastavení klienta řádně nastavené EET a `payment_type` = 'cash', je možné použít parametr `eet`, který odešle platbu do EET.
+Pokud je v nastavení klienta řádně nastavené EET, `payment_type` = 'cash' a pokladna je povolena pro EET, je možné použít parametr `eet` = 'true', který odešle platbu do EET.
 
         
 + Request (application/json)
@@ -660,7 +660,7 @@ Vrátí kompletní kolekci dat vybraného dokladu.
 ### Editace dokladu [PUT]
 Aktulizuje předané parametry vybraného dokladu.
 Poviné ple jsou stejná jako při vkládání nového záznamu.  
-Platby s EET nelze editovat. 
+Platby s EET nelze editovat, použijte Vrácení přijaté platby.EET:
 
 + Parameters
     + id (int) ... ID dokladu
@@ -678,8 +678,8 @@ Platby s EET nelze editovat.
         [Správa plateb přijatých][]
         
 ### Smazání dokladu [DELETE]
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
-Platby s EET nelze mazat.  
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.  
+Platby s EET nelze editovat, použijte Vrácení přijaté platby.  
 + Parameters
     + id (int) ... ID dokladu
     
