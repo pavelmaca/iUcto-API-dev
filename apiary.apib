@@ -242,6 +242,160 @@ Nelze  smazat doklady s EET, použijte Opravný daňový doklad.
             
 + Response 204
          
+# Group Opravné daňové doklady
+<a name="dobropisy"/>
+
+## Parametry dokladu
+| Parametr                  | Typ         | Délka | Popis                                                           | Výpis  | Zapisovatelné |
+|---------------------------|:-----------:|:-----:|-----------------------------------------------------------------|:------:|:-------------:|
+| id                        | int         | 11    | ID dokladu                                                      | x      | -             |
+| invoice_issued_id         | int         | 11    | [**ID Faktury vydané**](#faktury_vydane)                        | x      | x             |
+| sequence_code             | string      | 45    | Číslo dokladu                                                   | x      | -             |
+| variable_symbol           | string      | 42    | Variabilní symbol                                               | x      | x             |
+| customer                  | array       | -     | [**Zákazník**](#zakaznici)                                      | x      | -             |
+| customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                                  | -      | x             |
+| customer_bank_account     | string      | 45    | Bankovní účet zákazníka                                         | -      | x             |
+| date                      | date        | -     | Datum vystavení                                                 | x      | x             |
+| maturity_date             | date        | -     | Datum splatnosti                                                | x      | x             |
+| payment_type              | int         | 1     | [**Forma úhrady**](#metody_plateb)                              | -      | x             |
+| bank_account              | int         | 11    | [**ID bankovního účet pro příjem platby**](#bankovni_ucty)      | -      | x             |
+| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                       | x      | x             |
+| price                     | int         | 11    | Celková částka bez DPH                                          | -      | -             |
+| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                                    | -      | -             |
+| price_inc_vat             | int         | 11    | Celková částka s DPH                                            | x      | -             |
+| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                      | -      | -             |
+| to_be_paid                | int         | -     | Zbývajicí částka k úhradě (v měně dokladu)                      | x      | -             |
+| date_vat                  | date        | -     | Datum zdanitelného plnění                                       | x      | x             |
+| date_vat_prev             | date        | -     | Datum předchozí sazby DPH                                       | -      | x             |
+| description               | string      | -     | Poznámka (důvod opravy)                                         | -      | x             |
+| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                        | -      | x             |
+| accounted                 | bool        | -     | Doklad je zaúčtován                                             | x      | -             |
+| eet                       | bool        | -     | Vygenerovat EET                                                 | x      | x             |
+| business_premises_id      | int         | 12    | [**Id provozovny**](#provozovny) - povinný pokud `eet` = 'true' | -      | x             |
+| deleted                   | bool        | -     | Doklad je smazaný                                               | x      | -             |
+
+
+### Položky dokladu
+| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
+|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
+| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             |
+| items:id                  | int         | 11    | ID položky                                                 | -      | -             |
+| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             |
+| items:unit                | string      | 10    | Jednotka                                                   | -      | x             |
+| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             |
+| items:text                | string      | 255   | Popis                                                      | -      | x             |
+| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             |
+| items:accountentrytype_id | int         | 11    | [**Typ účetní položky**](#typy_uc_polozek)                 | -      | x             |
+| items:vattype_id          | int         | 11    | [**Typ DPH**](#typy_dph)                                   | -      | x             |
+| items:chart_account_id    | int         | 11    | [**Účet účetní osnovy**](#ucty_uc_osnovy)                  | -      | x             |
+| items:vat_chart_id        | int         | 11    | [**Účet DPH**](#ucty_dph)                                  | -      | x             |
+| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             |
+| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             |
+
+*Hodnoty `id` a `items:id` jsou přiřazeny službou v momentu vytvoření nového záznamu.*
+
+## Seznam opravných daňových dokladů [/idcreditnote_issued]
+### Vypis všech dostupných dokladů [GET]
+Zjednodušený výpis všech dostupných dokladů.
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+
+        {"_links":{"self":{"href":"\/1.0\/idcreditnote_issued"}},"_embedded":{"idcreditnote_issued":[{"_links":{"self":{"href":"\/1.0\/idcreditnote_issued\/13290"}},"id":13290,"invoice_issued_id":5666,"sequence_code":"ODV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"deleted":false}]}}
+ 
+## Správa opravných daňových dokladů [/idcreditnote_issued/{id}]
++ Model (application/hal+json)
+    + Body
+    
+            {"_links":{"self":{"href":"\/1.0\/creditnote_issued"}},"_embedded":{"creditnote_issued":[{"_links":{"self":{"href":"\/1.0\/creditnote_issued\/13290"}},"id":13290,"sequence_code":"ODV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"business_premises":{"_links":{"self":{"href":"\/1.0\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},"eet_status":{"status":"ok","FIK":"4321a339-d567-48d0-b0a1-b3d158ba4901-ff","BKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ==","PKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ=="},"deleted":false}]}}
+
+### Vytvoření nového dokladu [POST]
+Vytvoří nový doklad, odpověd obsahuje detail dokladu.
+
+Povinné parametry dokladu:
+ - variable_symbol
+ - date
+ - date_vat
+ - maturity_date
+ - currency
+ - customer_id
+ - bank_account
+ - description
+ - items
+ - items:text
+ - items:amount
+ - items:price
+ - items:vat
+ - items:accountentrytype_id
+ 
+ Pokud je v nastavení klienta řádně nastavené EET je možné použít paramter `eet` = 'true', což zaeviduje doklad do EET.  
+ Poud je nastaven paramter `eet` = 'true', pramater `business_premises_id` je povinný.
+ 
+        
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+            
+    + Body
+    
+            {"invoice_issued_id":458,"variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-07-12","currency":"CZK","customer_id":5779,"customer_bank_account":null,"payment_type":"creditcard","bank_account":825,"date_vat_prev":null,"description":"Opravný doklad","rounding_type":null,"eet":true,"business_premises_id":458,"items":[{"text":"b\u00edl\u00e9 tri\u010dko","amount":5,"price":400,"unit":"ks","vat":21,"accountentrytype_id":16,"vattype_id":1,"department_id":0,"contract_id":0,"chart_account_id":309,"vat_chart_id":302},{"text":"doprava","amount":1,"price":85,"unit":null,"vat":21,"accountentrytype_id":63,"vattype_id":23,"department_id":0,"contract_id":0,"chart_account_id":272,"vat_chart_id":302}]}
+
++ Response 201
+        [Správa faktur vydaných][]
+    
+### Detail dokladu [GET]
+Vrátí kompletní kolekci dat vybraného dokladu.  
+Pokud má doklad nastaveno EET, vrátí se jeho status.
+
++ Parameters
+    + id (int) ... ID dokladu
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200
+        [Správa faktur vydaných][]
+
+### Editace dokladu [PUT]
+Aktulizuje předané parametry vybraného dokladu.
+Poviné pole jsou stejná jako při vkládání nového záznamu.  
+Nelze  editovat doklady s EET, použijte nový [**Opravný daňový doklad**](#dobropisy).
+
++ Parameters
+    + id (int) ... ID dokladu
+    
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+            
+    + Body
+    
+            {"invoice_issued_id":985,"variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","customer_id":5779,"customer_bank_account":null,"payment_type":"transfer","bank_account":825,"date_vat_prev":null,"description":"Opravný doklad","rounding_type":null,"items":[{"text":"b\u00edl\u00e9 tri\u010dko","amount":5,"price":400,"unit":"ks","vat":21,"accountentrytype_id":16,"vattype_id":1,"department_id":0,"contract_id":0,"chart_account_id":309,"vat_chart_id":302},{"text":"doprava","amount":1,"price":85,"unit":null,"vat":21,"accountentrytype_id":63,"vattype_id":23,"department_id":0,"contract_id":0,"chart_account_id":272,"vat_chart_id":302}]}
+ 
++ Response 200
+        [Správa faktur vydaných][]
+        
+### Smazání dokladu [DELETE]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.  
+Nelze smazat doklady s EET, použijte nový [**Opravný daňový doklad**](#dobropisy).  
++ Parameters
+    + id (int) ... ID dokladu
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            
++ Response 204
+        
 
 # Group Faktury přijaté
 <a name="faktury_prijate"/>
