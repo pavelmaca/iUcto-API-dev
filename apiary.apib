@@ -118,6 +118,7 @@ Seznam dostupných dokladů přes API a jejich interní identifikátory pro zís
 | rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                        | -      | x             |
 | accounted                 | bool        | -     | Doklad je zaúčtován                                             | x      | -             |
 | eet                       | bool        | -     | Vygenerovat EET (pouze pokud `payment_type` = 'creditcard')     | x      | x             |
+| eet_status                | object      | -     | Stav EET a detail zprávy                                        | -      | x             |
 | business_premises_id      | int         | 12    | [**Id provozovny**](#provozovny) - povinný pokud `eet` = 'true' | -      | x             |
 | deleted                   | bool        | -     | Doklad je smazaný                                               | x      | -             |
 
@@ -180,6 +181,9 @@ Povinné parametry dokladu:
  
  Pokud je v nastavení klienta řádně nastavené EET a `payment_type` = 'creditcard', je možné použít paramter `eet` = 'true', což zaeviduje doklad do EET.  
  Poud je nastaven paramter `eet` = 'true', pramater `business_premises_id` je povinný.
+ 
+ Pro přidání dokladu s již odeslanou [**EET zprávou**](#eet_list), nejprve vytvořte samostatně EET záznam, jehož ID nastavíte jako parametr `eet_status`.  
+ Záznamy se automaticky propojí.
  
         
 + Request (application/json)
@@ -722,7 +726,7 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 | reference_mark            | string      | 45    | Referenční značka                                          | -      | x             |
 | full_paid                 | bool        | -     | Příznak, zda je faktura uhrazena v plné výši               | -      | x             |
 | eet                       | bool        | -     | Vygenerovat EET (pouze pro payment_type = 'cash')          | x      | x             |
-| eet_status                | object      | -     | Stav EET                                                   | x      | -             |
+| eet_status                | object      | -     | Stav EET a detail zprávy                                   | x      | x             |
  
 
 ### Položky dokladu
@@ -785,6 +789,10 @@ Povinné parametry dokladu:
 
 Pokud je v nastavení klienta řádně nastavené EET, `payment_type` = 'cash' a pokladna je povolena pro EET, je možné použít parametr `eet` = 'true', který odešle platbu do EET.
 
+ 
+Pro přidání dokladu s již odeslanou [**EET zprávou**](#eet_list), nejprve vytvořte samostatně EET záznam, jehož ID nastavíte jako parametr `eet_status`.  
+Záznamy se automaticky propojí.
+ 
         
 + Request (application/json)
     + Headers
@@ -1628,3 +1636,73 @@ Seznam dostupných provozoven.
 + Response 200 (application/json)
 
         {"_links":{"self":{"href":"\/1.0\/business_premises"}},"_embedded":{"business_premises":[{"_links":{"self":{"href":"\/1.0\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},{"_links":{"self":{"href":"\/1.0\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}]}}
+        
+
+# Group EET záznamy
+<a name="eet_list"/>
+
+## Seznam záznamů [/eet_status]
+### Výpis dostupných záznamů  [GET]
+Seznam dostupných provozoven.
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/json)
+
+        {"_links":{"self":{"href":"\/1.0\/business_premises"}},"_embedded":{"business_premises":[{"_links":{"self":{"href":"\/1.0\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},{"_links":{"self":{"href":"\/1.0\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}]}}        
+
+## Správa EET záznamů [/eet_status/{id}]
++ Model (application/hal+json)
+    + Body
+    
+            {"_links":{"self":{"href":"/1.1/eet_status"}},"_embedded":{"eet_status":[{"_links":{"self":{"href":"/1.1/eet_status/43"}},"id":43,"uuid_zpravy":"11aa54d6-059c-4bf3-b408-befb42e83a5e","pkp":"f657rfgVovxZRo319lc/fShOO9JNG123flYVFFOplo3SFtU6JuF+URlTMiXYG2/u9DiVwDfuPLpDdowvhqxDo3iy5dxsnsKfi9DtPCd/YKX0T+L788yuM+WHbZixNnYgrbxzjZ3wnFecQ3gEdqDNLCPko+Ad88/07NYXgIzegXsNNGHE99kIbGSh9IWhRckVmwjQJ5N4zfehlPDIXhA1RpC/bflFsBFCYGRsIbknx3FzMkgCXvYFNJL4+LmSY5+BYJXzW29402Hm0+bKpDVbCblfjyHBeRdy7bokOL99wtjbwZB+ziInoQv+HSNbt4PVCbkRNTO9vdATcr4c8gmu4g==","bkp":"53a49bb8-b8759335-a102d550-00472350-e95437f9","fik":"03c94aea-e774-4aad-be24-f3964c6d6447-ff","status":null,"external":true},{"_links":{"self":{"href":"/1.1/eet_status/58"}},"id":58,"uuid_zpravy":"90c454d6-059c-4bf3-b408-beab42e8bb5e","pkp":"awOqOqCmawUNvyDpjFIQGC2YSc/IvbEctZ12FBU6SQ53UshDQacacx62wUgeMyJ63bpyJ+a9Sl2fa+4deEQfIBmah3AB3FwIU+Uxa8A1prlRYmVY1UmcDHAf+62pyLbUmMBgmtj7GArv54aCgaaYJzwV9ZTjuTDel9YUXfB1OWwOsK6z8tblfoWcisTEMbS0QvPubHJFAbe9kHZQH+oU/8V2S8Nxpmen1YY9/ivYDf+97H05qaihLOdzmoqhlNWkfMYHHKI26aCqHuHW9qbffvdbuzwy39zoEXEZbeujVadkbPfptdfY5BnB8VcHSrw3aDsWEooTdPWVRZrXs8AFw==","bkp":"a983e13d-c6c7ce4a-03198fec-8cc1292c-32134ae9","fik":"f26e5172-077e-4aba-9f5c-d0181362a16b-ff","status":"ok","external":false}]}}
+            
+
+### Vytvoření záznamu [POST]
+Vytvoří nový EET záznam, který byl již zpracován aplikací třetí strany.
+
+Seznam příjmaných parametrů je shodný s těmi, které je možné odesílat do EET, včetně návratových atributů.
+
+
+Povinné parametry:
+
+ - uuid_zpravy (musí být unikátní)
+ - dat_odesl
+ - prvni_zaslani
+ - id_provoz
+ - id_pokl
+ - porad_cis
+ - dat_trzby
+ - celk_trzba
+ - rezim
+ - bkp
+ - pkb
+ - dat_prij
+ - fik
+        
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+    + Body
+    
+            {"uuid_zpravy":"288e17e-e636-450f-1457-5571c5fd917r","pkp":"f657rfgVovx15Gu9lc/fShOO9JNGRl3flYVFFOplo3SFtU6JuF+URlTMiXYG2/u9DiVwDfuPLpDdowvhqxDo3iy5dxsnsKfi9DtPCd/YKX0T+L788yuM+WHbZixNnYgrbxzjZ3wnFecQ3gEdqDNLCPko+Ad88/07NYXgIzegXsNNGHE99kIbGSh9IWhRckVmwjQJ5N4zfehlPDIXhA1RpC/bflFsBFCYGRsIbknx3FzMkgCXvYFNJL4+LmSY5+BYJXzW29402Hm0+bKpDVbCblfjyHBeRdy7bokOL99wtjbwZB+ziInoQv+HSNbt4PVCbkRNTO9vdATcr4c8gmu4g==","bkp":"5a5f9bb8-b8759335-a102d170-00472350-e95437f9","fik":"03d20aea-e234-4aad-be24-f3964c6d6447-ff","prvni_zaslani":true,"id_provoz":11,"id_pokl":"pok1","porad_cis":"0002","dat_trzby":1487935621,"celk_trzba":52446,"rezim":0,"dat_odesl":1487935621}
+            
++ Response 201
+    [Správa EET záznamů][]
+    
+### Detail [GET]
+Vrátí veškerá data k záznamu.
+
++ Parameters
+    + id (int) ... ID záznamu
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200
+    [Správa EET záznamů][]
