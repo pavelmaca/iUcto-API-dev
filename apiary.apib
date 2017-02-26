@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: https://online.iucto.cz/api/1.0/
+HOST: https://online.iucto.cz/api/1.1/
 
 # iÚčto
 <a name="top"/>
@@ -153,13 +153,13 @@ Zjednodušený výpis všech dostupných dokladů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.0\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"deleted":false}]}}
+        {"_links":{"self":{"href":"\/1.1\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.1\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"deleted":false}]}}
         
 ## Správa faktur vydaných [/invoice_issued/{id}]
 + Model (application/hal+json)
     + Body
     
-            {"_links":{"self":{"href":"\/1.0\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.0\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"business_premises":{"_links":{"self":{"href":"\/1.0\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},"eet_status":{"status":"ok","FIK":"4321a339-d567-48d0-b0a1-b3d158ba4901-ff","BKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ==","PKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ=="},"deleted":false}]}}
+            {"_links":{"self":{"href":"\/1.1\/invoice_issued"}},"_embedded":{"invoice_issued":[{"_links":{"self":{"href":"\/1.1\/invoice_issued\/13290"}},"id":13290,"sequence_code":"FV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"business_premises":{"_links":{"self":{"href":"\/1.1\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},"eet_status":{"status":"ok","FIK":"4321a339-d567-48d0-b0a1-b3d158ba4901-ff","BKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ==","PKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ=="},"deleted":false}]}}
             
 ### Vytvoření nového dokladu [POST]
 Vytvoří nový doklad, odpověd obsahuje detail dokladu.
@@ -309,13 +309,13 @@ Zjednodušený výpis všech dostupných dokladů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/idcreditnote_issued"}},"_embedded":{"idcreditnote_issued":[{"_links":{"self":{"href":"\/1.0\/idcreditnote_issued\/13290"}},"id":13290,"invoice_issued_id":5666,"sequence_code":"ODV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"deleted":false}]}}
+        {"_links":{"self":{"href":"\/1.1\/idcreditnote_issued"}},"_embedded":{"idcreditnote_issued":[{"_links":{"self":{"href":"\/1.1\/idcreditnote_issued\/13290"}},"id":13290,"invoice_issued_id":5666,"sequence_code":"ODV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"deleted":false}]}}
  
 ## Správa opravných daňových dokladů [/idcreditnote_issued/{id}]
 + Model (application/hal+json)
     + Body
     
-            {"_links":{"self":{"href":"\/1.0\/creditnote_issued"}},"_embedded":{"creditnote_issued":[{"_links":{"self":{"href":"\/1.0\/creditnote_issued\/13290"}},"id":13290,"sequence_code":"ODV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"business_premises":{"_links":{"self":{"href":"\/1.0\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},"eet_status":{"status":"ok","FIK":"4321a339-d567-48d0-b0a1-b3d158ba4901-ff","BKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ==","PKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ=="},"deleted":false}]}}
+            {"_links":{"self":{"href":"\/1.1\/creditnote_issued"}},"_embedded":{"creditnote_issued":[{"_links":{"self":{"href":"\/1.1\/creditnote_issued\/13290"}},"id":13290,"sequence_code":"ODV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"business_premises":{"_links":{"self":{"href":"\/1.1\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},"eet_status":{"status":"ok","FIK":"4321a339-d567-48d0-b0a1-b3d158ba4901-ff","BKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ==","PKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ=="},"deleted":false}]}}
 
 ### Vytvoření nového dokladu [POST]
 Vytvoří nový doklad, odpověd obsahuje detail dokladu.
@@ -460,13 +460,13 @@ Zjednodušený výpis všech dostupných dokladů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/invoice_received"}},"_embedded":{"invoice_received":[{"_links":{"self":{"href":"\/1.0\/invoice_received\/30861"}},"id":30861,"sequence_code":"FP20140005","variable_symbol":"20140005","date":"2014-10-01","date_vat":"2014-10-01","maturity_date":"2014-11-01","currency":"CZK","price_inc_vat":130,"to_be_paid":130,"supplier":{"_links":{"self":{"href":"\/1.0\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"},"accounted":false,"deleted":false}]}}
+        {"_links":{"self":{"href":"\/1.1\/invoice_received"}},"_embedded":{"invoice_received":[{"_links":{"self":{"href":"\/1.1\/invoice_received\/30861"}},"id":30861,"sequence_code":"FP20140005","variable_symbol":"20140005","date":"2014-10-01","date_vat":"2014-10-01","maturity_date":"2014-11-01","currency":"CZK","price_inc_vat":130,"to_be_paid":130,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"},"accounted":false,"deleted":false}]}}
 
 ## Správa faktur přijatých [/invoice_received/{id}]
 + Model (application/hal+json)
     + Body
     
-            {"_links":{"self":{"href":"\/1.0\/invoice_received\/30861"}},"id":30861,"sequence_code":"FP20140005","variable_symbol":"20140005","date":"2014-10-01","date_vat":"2014-10-01","maturity_date":"2014-11-01","currency":"CZK","price":130,"price_czk":130,"price_inc_vat":130,"price_inc_vat_czk":130,"to_be_paid":130,"supplier":{"_links":{"self":{"href":"\/1.0\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null},"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.0\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"date_vat_prev":null,"description":null,"rounding_type":"up","items":[{"id":47983,"text":"test","amount":1,"price":130,"unit":null,"vat":0,"accountentrytype_id":22,"vattype_id":16,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":64}],"accounted":false,"deleted":false}
+            {"_links":{"self":{"href":"\/1.1\/invoice_received\/30861"}},"id":30861,"sequence_code":"FP20140005","variable_symbol":"20140005","date":"2014-10-01","date_vat":"2014-10-01","maturity_date":"2014-11-01","currency":"CZK","price":130,"price_czk":130,"price_inc_vat":130,"price_inc_vat_czk":130,"to_be_paid":130,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null},"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"date_vat_prev":null,"description":null,"rounding_type":"up","items":[{"id":47983,"text":"test","amount":1,"price":130,"unit":null,"vat":0,"accountentrytype_id":22,"vattype_id":16,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":64}],"accounted":false,"deleted":false}
 
 ### Vytvoření nového dokladu [POST]
 Vytvoří nový doklad, odpověd obsahuje detail dokladu.
@@ -608,13 +608,13 @@ Zjednodušený výpis všech dostupných dokladů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/payment_issued"}},"_embedded":{"payment_issued":[{"_links":{"self":{"href":"\/1.0\/payment_issued\/54412"}},"id":54412,"sequence_code":"VD20140008","customer":null,"supplier":{"_links":{"self":{"href":"\/1.0\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"},"invoice":null,"variable_symbol":null,"date":"2014-10-31","date_vat":"2014-10-31","currency":"CZK","price_inc_vat":726,"bank_account":{"_links":{"self":{"href":"\/1.0\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"deleted":false}]}}
+        {"_links":{"self":{"href":"\/1.1\/payment_issued"}},"_embedded":{"payment_issued":[{"_links":{"self":{"href":"\/1.1\/payment_issued\/54412"}},"id":54412,"sequence_code":"VD20140008","customer":null,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"},"invoice":null,"variable_symbol":null,"date":"2014-10-31","date_vat":"2014-10-31","currency":"CZK","price_inc_vat":726,"bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"deleted":false}]}}
 
 ## Správa plateb vydaných [/payment_issued/{id}]
 + Model (application/hal+json)
     + Body
     
-            {"_links":{"self":{"href":"\/1.0\/payment_issued\/54412"}},"id":54412,"sequence_code":"VD20140008","customer":null,"supplier":{"_links":{"self":{"href":"\/1.0\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null},"invoice":null,"variable_symbol":null,"date":"2014-10-31","date_vat":"2014-10-31","currency":"CZK","price":600,"price_czk":600,"price_inc_vat":726,"price_inc_vat_czk":726,"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.0\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"date_vat_prev":null,"description":null,"rounding_type":"none","reference_mark":null,"full_paid":false,"items":[{"id":60949,"text":"test","amount":6,"price":100,"unit":null,"vat":21,"accountentrytype_id":0,"vattype_id":16,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":0}],"deleted":false}
+            {"_links":{"self":{"href":"\/1.1\/payment_issued\/54412"}},"id":54412,"sequence_code":"VD20140008","customer":null,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null},"invoice":null,"variable_symbol":null,"date":"2014-10-31","date_vat":"2014-10-31","currency":"CZK","price":600,"price_czk":600,"price_inc_vat":726,"price_inc_vat_czk":726,"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"date_vat_prev":null,"description":null,"rounding_type":"none","reference_mark":null,"full_paid":false,"items":[{"id":60949,"text":"test","amount":6,"price":100,"unit":null,"vat":21,"accountentrytype_id":0,"vattype_id":16,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":0}],"deleted":false}
 
 ### Vytvoření nového dokladu [POST]
 Vytvoří nový doklad, odpověd obsahuje detail dokladu.
@@ -759,13 +759,13 @@ Zjednodušený výpis všech dostupných dokladů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/payment_received"}},"_embedded":{"payment_received":[{"_links":{"self":{"href":"\/1.0\/payment_received\/29461"}},"id":29461,"sequence_code":"PD20140008","customer":{"_links":{"self":{"href":"\/1.0\/customer\/8663"}},"id":8663,"name":"Jan Nov\u00e1k","comid":"1234568006","vatid":null,"vat_payer":false,"email":"novak.jan@iucto.cz"},"invoice":null,"variable_symbol":null,"date":"2014-10-27","date_vat":"2014-10-27","currency":"CZK","price_inc_vat":726,"bank_account":{"_links":{"self":{"href":"\/1.0\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"deleted":false}]}}
+        {"_links":{"self":{"href":"\/1.1\/payment_received"}},"_embedded":{"payment_received":[{"_links":{"self":{"href":"\/1.1\/payment_received\/29461"}},"id":29461,"sequence_code":"PD20140008","customer":{"_links":{"self":{"href":"\/1.1\/customer\/8663"}},"id":8663,"name":"Jan Nov\u00e1k","comid":"1234568006","vatid":null,"vat_payer":false,"email":"novak.jan@iucto.cz"},"invoice":null,"variable_symbol":null,"date":"2014-10-27","date_vat":"2014-10-27","currency":"CZK","price_inc_vat":726,"bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"deleted":false}]}}
 
 ## Správa plateb přijatých [/payment_received/{id}]
 + Model (application/hal+json)
     + Body
     
-            {"_links":{"self":{"href":"\/1.0\/payment_received\/29461"}},"id":29461,"sequence_code":"PD20140008","customer":{"_links":{"self":{"href":"\/1.0\/customer\/8663"}},"id":8663,"name":"Jan Nov\u00e1k","name_display":null,"comid":"1234568006","vatid":null,"vat_payer":false,"email":"novak.jan@iucto.cz","phone":null,"cellphone":null,"www":null,"usual_maturity":30,"preferred_payment_method":"transfer","invoice_language":"cs","address":{"street":"Stodoln\u00ed 123","city":"Ostrava","postalcode":"385 02","country":"CZ"},"note":null,"account_number1":"1230123\/0100","account_number2":null,"account_number3":null,"account_number4":null},"invoice":null,"variable_symbol":null,"date":"2014-10-27","date_vat":"2014-10-27","currency":"CZK","price":600,"price_czk":600,"price_inc_vat":726,"price_inc_vat_czk":726,"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.0\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"date_vat_prev":null,"description":null,"rounding_type":"none","reference_mark":null,"full_paid":false,"items":[{"id":34882,"text":"test","amount":6,"price":100,"unit":null,"vat":21,"accountentrytype_id":0,"vattype_id":3,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":0}],"deleted":false}
+            {"_links":{"self":{"href":"\/1.1\/payment_received\/29461"}},"id":29461,"sequence_code":"PD20140008","customer":{"_links":{"self":{"href":"\/1.1\/customer\/8663"}},"id":8663,"name":"Jan Nov\u00e1k","name_display":null,"comid":"1234568006","vatid":null,"vat_payer":false,"email":"novak.jan@iucto.cz","phone":null,"cellphone":null,"www":null,"usual_maturity":30,"preferred_payment_method":"transfer","invoice_language":"cs","address":{"street":"Stodoln\u00ed 123","city":"Ostrava","postalcode":"385 02","country":"CZ"},"note":null,"account_number1":"1230123\/0100","account_number2":null,"account_number3":null,"account_number4":null},"invoice":null,"variable_symbol":null,"date":"2014-10-27","date_vat":"2014-10-27","currency":"CZK","price":600,"price_czk":600,"price_inc_vat":726,"price_inc_vat_czk":726,"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"date_vat_prev":null,"description":null,"rounding_type":"none","reference_mark":null,"full_paid":false,"items":[{"id":34882,"text":"test","amount":6,"price":100,"unit":null,"vat":21,"accountentrytype_id":0,"vattype_id":3,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":0}],"deleted":false}
 
 ### Vytvoření nového dokladu [POST]
 Vytvoří nový doklad, odpověd obsahuje detail dokladu.  
@@ -899,13 +899,13 @@ Zjednodušený výpis všech dostupných dokladů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/order_received"}},"_embedded":{"order_received":[{"_links":{"self":{"href":"\/1.0\/order_received\/7"}},"id":7,"sequence_code":"OP20140001","date":"2014-10-24","currency":"CZK","price_inc_vat":148.83,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/1"}},"id":1,"name":"Fitona s.r.o.","comid":"12345666","vatid":"CZ12345666","vat_payer":true,"email":"bretislav.naprstek@datesoft.cz"},"deleted":false}
+        {"_links":{"self":{"href":"\/1.1\/order_received"}},"_embedded":{"order_received":[{"_links":{"self":{"href":"\/1.1\/order_received\/7"}},"id":7,"sequence_code":"OP20140001","date":"2014-10-24","currency":"CZK","price_inc_vat":148.83,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/1"}},"id":1,"name":"Fitona s.r.o.","comid":"12345666","vatid":"CZ12345666","vat_payer":true,"email":"bretislav.naprstek@datesoft.cz"},"deleted":false}
 
 ## Správa objednávek přijatých [/order_received/{id}]
 + Model (application/hal+json)
     + Body
     
-            {"_links":{"self":{"href":"\/1.0\/order_received\/10"}},"id":10,"sequence_code":"OP20150001","date":"2015-07-16","currency":"CZK","price":2600,"price_czk":2600,"price_inc_vat":3146,"price_inc_vat_czk":3146,"customer":{"_links":{"self":{"href":"\/1.0\/customer\/1"}},"id":1,"name":"Fitona s.r.o.","name_display":"Fitona","comid":"12345666","vatid":"CZ12345666","vat_payer":true,"email":"bretislav.naprstek@datesoft.cz","phone":"381 234 455","cellphone":null,"www":"www.datesoft.cz","usual_maturity":30,"preferred_payment_method":"transfer","invoice_language":"cs","address":{"street":"Dlouhá 22","city":"Praha 5","postalcode":"11150","country":"CZ"},"note":"lorem ipsum","account_number1":null,"account_number2":null,"account_number3":null,"account_number4":null},"description":"lorem ipsum test poznámky 55555","rounding_type":"up","items":[{"id":11,"text":"test","amount":20,"price":130,"unit":null,"vat":21,"department_id":0,"contract_id":0}],"deleted":false}
+            {"_links":{"self":{"href":"\/1.1\/order_received\/10"}},"id":10,"sequence_code":"OP20150001","date":"2015-07-16","currency":"CZK","price":2600,"price_czk":2600,"price_inc_vat":3146,"price_inc_vat_czk":3146,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/1"}},"id":1,"name":"Fitona s.r.o.","name_display":"Fitona","comid":"12345666","vatid":"CZ12345666","vat_payer":true,"email":"bretislav.naprstek@datesoft.cz","phone":"381 234 455","cellphone":null,"www":"www.datesoft.cz","usual_maturity":30,"preferred_payment_method":"transfer","invoice_language":"cs","address":{"street":"Dlouhá 22","city":"Praha 5","postalcode":"11150","country":"CZ"},"note":"lorem ipsum","account_number1":null,"account_number2":null,"account_number3":null,"account_number4":null},"description":"lorem ipsum test poznámky 55555","rounding_type":"up","items":[{"id":11,"text":"test","amount":20,"price":130,"unit":null,"vat":21,"department_id":0,"contract_id":0}],"deleted":false}
 
 ### Vytvoření nové objednávky [POST]
 Vytvoří nový doklad, odpověd obsahuje detail dokladu.
@@ -1024,13 +1024,13 @@ Zjednodušený výpis všech dostupných dokladů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/order_issued"}},"_embedded":{"order_issued":[{"_links":{"self":{"href":"\/1.0\/order_issued\/7"}},"id":7,"sequence_code":"OBJ20140001","date":"2014-10-24","currency":"CZK","price_inc_vat":442.86,"supplier":{"_links":{"self":{"href":"\/1.0\/supplier\/5815"}},"id":5815,"name":"Dodavatel 1","comid":null,"vatid":null,"vat_payer":false,"email":null},"deleted":false}
+        {"_links":{"self":{"href":"\/1.1\/order_issued"}},"_embedded":{"order_issued":[{"_links":{"self":{"href":"\/1.1\/order_issued\/7"}},"id":7,"sequence_code":"OBJ20140001","date":"2014-10-24","currency":"CZK","price_inc_vat":442.86,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/5815"}},"id":5815,"name":"Dodavatel 1","comid":null,"vatid":null,"vat_payer":false,"email":null},"deleted":false}
 
 ## Správa objednávek vydaných [/order_issued/{id}]
 + Model (application/hal+json)
     + Body
     
-            {"_links":{"self":{"href":"\/1.0\/order_issued\/11"}},"id":11,"sequence_code":"OV20150001","date":"2015-07-16","currency":"CZK","price":2600,"price_czk":2600,"price_inc_vat":3146,"price_inc_vat_czk":3146,"supplier":{"_links":{"self":{"href":"\/1.0\/supplier\/5815"}},"id":5815,"name":"Dodavatel 1","name_display":null,"comid":null,"vatid":null,"vat_payer":false,"email":null,"phone":null,"cellphone":null,"www":null,"address":{"street":"Ulice 233","city":"Mesto","postalcode":"39002","country":"CZ"},"note":null,"account_number1":null,"account_number2":null,"account_number3":null,"account_number4":null},"description":"lorem ipsum test poznámky 55555","rounding_type":"up","items":[{"id":12,"text":"test","amount":20,"price":130,"unit":null,"vat":21,"department_id":0,"contract_id":0}],"deleted":false}
+            {"_links":{"self":{"href":"\/1.1\/order_issued\/11"}},"id":11,"sequence_code":"OV20150001","date":"2015-07-16","currency":"CZK","price":2600,"price_czk":2600,"price_inc_vat":3146,"price_inc_vat_czk":3146,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/5815"}},"id":5815,"name":"Dodavatel 1","name_display":null,"comid":null,"vatid":null,"vat_payer":false,"email":null,"phone":null,"cellphone":null,"www":null,"address":{"street":"Ulice 233","city":"Mesto","postalcode":"39002","country":"CZ"},"note":null,"account_number1":null,"account_number2":null,"account_number3":null,"account_number4":null},"description":"lorem ipsum test poznámky 55555","rounding_type":"up","items":[{"id":12,"text":"test","amount":20,"price":130,"unit":null,"vat":21,"department_id":0,"contract_id":0}],"deleted":false}
 
 ### Vytvoření nové objednávky [POST]
 Vytvoří nový doklad, odpověd obsahuje detail dokladu.
@@ -1146,7 +1146,7 @@ Zjednodušený výpis všech dostupných zákazníků.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/customer"}},"_embedded":{"customer":[{"_links":{"self":{"href":"\/1.0\/customer\/5573"}},"id":5573,"name":"Jan Nov\u00e1k","ico":null,"dic":null,"vat_payer":false,"email":"novak.jan@iucto.cz"}]}}
+        {"_links":{"self":{"href":"\/1.1\/customer"}},"_embedded":{"customer":[{"_links":{"self":{"href":"\/1.1\/customer\/5573"}},"id":5573,"name":"Jan Nov\u00e1k","ico":null,"dic":null,"vat_payer":false,"email":"novak.jan@iucto.cz"}]}}
 
 
 ## Správa zákazníků [/customer/{id}]
@@ -1271,14 +1271,14 @@ Zjednodušený výpis všech dostupných dodavatelů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/supplier"}},"_embedded":{"supplier":[{"_links":{"self":{"href":"\/1.0\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"}]}}
+        {"_links":{"self":{"href":"\/1.1\/supplier"}},"_embedded":{"supplier":[{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"}]}}
 
 
 ## Správa dodavatelů [/supplier/{id}]
 + Model (application/hal+json)
     + Body
     
-            {"_links":{"self":{"href":"\/1.0\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null}
+            {"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null}
 
 ### Vytvoření dodavatele [POST]
 Vytvoří nový záznam, odpověd obsahuje detail vytvořeného dodavatele.
@@ -1372,7 +1372,7 @@ Seznam dostupných bankovních účtů.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/bank_account"}},"_embedded":{"bank_account":[{"_links":{"self":{"href":"\/1.0\/bank_account\/819"}},"id":819,"name":"Komer\u010dn\u00ed Banka","number":"123456789\/0100","currency":"CZK","isdefault":true},{"_links":{"self":{"href":"\/1.0\/bank_account\/822"}},"id":822,"name":"\u010cesk\u00e1 Spo\u0159itelna","number":"123456\/0800","currency":"CZK","isdefault":false}]}}
+        {"_links":{"self":{"href":"\/1.1\/bank_account"}},"_embedded":{"bank_account":[{"_links":{"self":{"href":"\/1.1\/bank_account\/819"}},"id":819,"name":"Komer\u010dn\u00ed Banka","number":"123456789\/0100","currency":"CZK","isdefault":true},{"_links":{"self":{"href":"\/1.1\/bank_account\/822"}},"id":822,"name":"\u010cesk\u00e1 Spo\u0159itelna","number":"123456\/0800","currency":"CZK","isdefault":false}]}}
 
 # Group Pokladny
 <a name="pokladny"/>
@@ -1396,7 +1396,7 @@ Seznam dostupných pokladen.
 
 + Response 200 (application/hal+json)
 
-        {"_links":{"self":{"href":"\/1.0\/cash_register"}},"_embedded":{"cash_register":[{"_links":{"self":{"href":"\/1.0\/cash_register\/735"}},"id":735,"name":"Pokladna","currency":"CZK","isdefault":true,"initial_state":0,"visible":true,"iseet":true,"business_premises":{"_links":{"self":{"href":"\/1.0\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}}]}}
+        {"_links":{"self":{"href":"\/1.1\/cash_register"}},"_embedded":{"cash_register":[{"_links":{"self":{"href":"\/1.1\/cash_register\/735"}},"id":735,"name":"Pokladna","currency":"CZK","isdefault":true,"initial_state":0,"visible":true,"iseet":true,"business_premises":{"_links":{"self":{"href":"\/1.1\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}}]}}
 
 
 # Group Hodnoty k obecným dokladům
@@ -1576,7 +1576,7 @@ Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
 
 + Response 200 (application/json)
     
-        {"_links":{"self":{"href":"\/1.0\/department"}},"_embedded":{"department":[{"_links":{"self":{"href":"\/1.0\/department\/85"}},"id":85,"code":"PR","name":"Praha","description":null},{"_links":{"self":{"href":"\/1.0\/department\/86"}},"id":86,"code":"BR","name":"Brno","description":"Sklad"}]}}
+        {"_links":{"self":{"href":"\/1.1\/department"}},"_embedded":{"department":[{"_links":{"self":{"href":"\/1.1\/department\/85"}},"id":85,"code":"PR","name":"Praha","description":null},{"_links":{"self":{"href":"\/1.1\/department\/86"}},"id":86,"code":"BR","name":"Brno","description":"Sklad"}]}}
 
 # Group Zakázky
 <a name="zakazky"/>
@@ -1591,7 +1591,7 @@ Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
 
 + Response 200 (application/json)
     
-        {"_links":{"self":{"href":"\/1.0\/contract"}},"_embedded":{"contract":[{"_links":{"self":{"href":"\/1.0\/contract\/68"}},"id":68,"code":"2014Z1","name":"V\u00fdstavba koridoru Z1","description":null}]}}
+        {"_links":{"self":{"href":"\/1.1\/contract"}},"_embedded":{"contract":[{"_links":{"self":{"href":"\/1.1\/contract\/68"}},"id":68,"code":"2014Z1","name":"V\u00fdstavba koridoru Z1","description":null}]}}
 
 # Group Hodnota k adresáři
 
@@ -1635,7 +1635,7 @@ Seznam dostupných provozoven.
 
 + Response 200 (application/json)
 
-        {"_links":{"self":{"href":"\/1.0\/business_premises"}},"_embedded":{"business_premises":[{"_links":{"self":{"href":"\/1.0\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},{"_links":{"self":{"href":"\/1.0\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}]}}
+        {"_links":{"self":{"href":"\/1.1\/business_premises"}},"_embedded":{"business_premises":[{"_links":{"self":{"href":"\/1.1\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},{"_links":{"self":{"href":"\/1.1\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}]}}
         
 
 # Group EET záznamy
@@ -1651,7 +1651,7 @@ Seznam dostupných provozoven.
 
 + Response 200 (application/json)
 
-        {"_links":{"self":{"href":"\/1.0\/business_premises"}},"_embedded":{"business_premises":[{"_links":{"self":{"href":"\/1.0\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},{"_links":{"self":{"href":"\/1.0\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}]}}        
+        {"_links":{"self":{"href":"\/1.1\/business_premises"}},"_embedded":{"business_premises":[{"_links":{"self":{"href":"\/1.1\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},{"_links":{"self":{"href":"\/1.1\/business_premises\/94"}},"id":94,"name":"Restaurace u koníčka","isdefault":false}]}}        
 
 ## Správa EET záznamů [/eet_status/{id}]
 + Model (application/hal+json)
