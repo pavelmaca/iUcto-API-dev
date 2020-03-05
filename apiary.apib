@@ -1661,6 +1661,11 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ### Vypis všech dostupných dokladů [GET]
 Zjednodušený výpis všech dostupných dokladů.
 
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + invoice_id: `12,55` (string, optional) - Filtr dle ID faktuy (čárkou oddělená čísla)
+
 + Request
     + Headers
 
@@ -1809,6 +1814,11 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 
 ### Vypis všech dostupných dokladů [GET]
 Zjednodušený výpis všech dostupných dokladů.
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + invoice_id: `12,55` (string, optional) - Filtr dle ID faktuy (čárkou oddělená čísla)
 
 + Request
     + Headers
