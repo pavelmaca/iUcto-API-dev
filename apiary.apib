@@ -195,7 +195,11 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 ## Bankovní účty [/bank_account]
 <a name="bankovni-ucty"></a>
 
-### Seznam bankovních účtů [GET]
+### Seznam bankovních účtů [GET /bank_account{?page,pageSize}]
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    
 + Request
     + Headers
 
@@ -208,7 +212,7 @@ Seznam metod pro zaokrouhlování částek v dokladech.
                 - href: /1.1/bank_account (required)
         - _embedded (object)
             - `bank_account` (array[`BANK_ACCOUNT_LIST`], required) - Pole bankovních účtů
-
+         - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail bankovního účtu [GET /bank_account/{id}]
 + Parameters
@@ -284,7 +288,11 @@ Smazat lze pouze bankovní účet bez žádné vazby na doklad.
 
 ## Pokladny [/cash_register]
 <a name="pokladny"></a>
-### Seznam pokladen [GET]
+### Seznam pokladen [GET /cash_register{?page,pageSize}]
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+
 + Request
     + Headers
 
@@ -297,6 +305,7 @@ Smazat lze pouze bankovní účet bez žádné vazby na doklad.
                 - href: /1.1/cash_register (required)
         - _embedded (object)
             - `cash_register` (array[`CASH_REGISTER_LIST`], required) - Pole dostupných pokladen
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail pokladny [GET /cash_register/{id}]
 + Parameters
@@ -319,7 +328,11 @@ Smazat lze pouze bankovní účet bez žádné vazby na doklad.
 ## Střediska [/department]
 <a name="strediska"/>
 
-### Seznam středisek  [GET]
+### Seznam středisek  [GET /department{?page,pageSize}]
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+
 + Request
     + Headers
 
@@ -332,6 +345,8 @@ Smazat lze pouze bankovní účet bez žádné vazby na doklad.
                 - href: /1.1/department (required)
         - _embedded (object)
             - `department` (array[`DEPARTMENT_LIST`], required) - Pole dostupných středisek
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+
 
 ### Detail střediska [GET /department/{id}]
 + Parameters
@@ -404,7 +419,11 @@ Pokusí se smazat vybrané středisko. Pokud je ovšem vázán na jiný záznam 
 ## Zakázky [/contract]
 <a name="zakazky"/>
 
-### Seznam zakázek [GET]
+### Seznam zakázek [GET /contract{?page,pageSize}]
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+
 + Request
     + Headers
 
@@ -417,7 +436,7 @@ Pokusí se smazat vybrané středisko. Pokud je ovšem vázán na jiný záznam 
                 - href: /1.1/contract (required)
         - _embedded (object)
             - `contract` (array[`CONTRACT_LIST`], required) - Pole dostupných zakázek
-
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail zakázky [GET /contract/{id}]
 + Parameters
@@ -489,7 +508,11 @@ Pokusí se smazat vybranou zakázku. Pokud je ovšem vázán na jiný záznam (f
 ## Provozovny [/business_premises]
 <a name="business-premises"></a>
 
-### Seznam provozoven [GET]
+### Seznam provozoven [GET /business_premises{?page,pageSize}]
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    
 + Request
     + Headers
 
@@ -502,6 +525,7 @@ Pokusí se smazat vybranou zakázku. Pokud je ovšem vázán na jiný záznam (f
                 - href: /1.1/business_premises (required)
         - _embedded (object)
             - `business_premises` (array[`BUSINESS_PREMISES_LIST`], required) - Pole dostupných provozoven
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail provozovny [GET /business_premises/{id}]
 + Parameters
@@ -606,8 +630,11 @@ Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný zázn
 ## Skupiny zákazníků [/customer_group]
 <a name="customer-group"></a>
 
-### Seznam skupin zákazníků[GET]
+### Seznam skupin zákazníků[GET /customer_group{?page,pageSize}]
 Seznam dostupných [účetních skupin pro zákazníky](https://online.iucto.cz/customergroup).
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
 + Request
     + Headers
 
@@ -620,7 +647,7 @@ Seznam dostupných [účetních skupin pro zákazníky](https://online.iucto.cz/
                 - href: /1.1/customer_group (required)
         - _embedded (object)
             - `customer_group` (array[`CUSTOMER_GROUP_LIST`], required) - Pole skupin
-
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 ## Dodavatelé [/supplier]
 <a name="dodavatele" />
 
@@ -705,8 +732,11 @@ Pokud je ovšem vázán na jiný záznam (faktury, platba apod.), vrátí chybu 
 ## Skupiny dodavatelů [/supplier_group]
 <a name="supplier-group"></a>
 
-### Seznam skupin dodavatelů[GET]
+### Seznam skupin dodavatelů[GET /supplier_group{?page,pageSize}]
 Seznam dostupných [účetních skupin pro dodavatele](https://online.iucto.cz/suppliergroup).
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
 + Request
     + Headers
 
@@ -719,6 +749,7 @@ Seznam dostupných [účetních skupin pro dodavatele](https://online.iucto.cz/s
                 - href: /1.1/supplier_group (required)
         - _embedded (object)
             - `supplier_group` (array[`SUPPLIER_GROUP_LIST`], required) - Pole skupin
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 ## Země [/country]
 <a name="country"></a>
 Zde uvedený výpis není kompletní, jedná se pouze o vzor.
@@ -748,7 +779,12 @@ Zde uvedený výpis není kompletní, jedná se pouze o vzor.
 ## Objednávky [/order_received]
 <a name="objednavky-prijate"/>
 
-### Seznam objednávek [GET]
+### Seznam objednávek [GET /order_received{?page,pageSize}]
+Výpis všech dostupných dokladů.
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+
 + Request
     + Headers
 
@@ -761,7 +797,7 @@ Zde uvedený výpis není kompletní, jedná se pouze o vzor.
                 - href: /1.1/order_received (required)
         - _embedded (object, required)
             - `order_received` (array[`ORDER_RECEIVED_LIST`], required) - Pole dostupných dokladů
-
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail objednávky [GET /order_received/{id}]
 + Parameters
@@ -1109,7 +1145,13 @@ Nelze smazat doklady s EET, použijte [Opravný daňový doklad](#opravne-danove
 ## Opravné daňové doklady [/creditnote_issued]
 <a name="opravne-danove-doklady"/>
 
-### Seznam opravných dokladů [GET /creditnote_issued]
+### Seznam opravných dokladů [GET /creditnote_issued{?page,pageSize}]
+Výpis všech dostupných dokladů.
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+
 + Request
     + Headers
 
@@ -1122,7 +1164,7 @@ Nelze smazat doklady s EET, použijte [Opravný daňový doklad](#opravne-danove
                 - href: /1.1/creditnote_issued (required)
         - _embedded (object, required)
             - `creditnote_issued` (array[`CREDITNOTE_ISSUED_LIST`], required) - Pole dostupných vydaných dokladů
-
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail opravného dokladu [GET /creditnote_issued/{id}]
 + Parameters
@@ -1218,7 +1260,13 @@ Nelze smazat doklady s EET, použijte nový [**Opravný daňový doklad**](#opra
 ## Objednávky vydané [/order_issued]
 <a name="objednavky-vydane"/>
 
-### Seznam objednávek vydaných [GET]
+### Seznam objednávek vydaných [GET /order_issued{?page,pageSize}]
+Výpis všech dostupných dokladů.
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+
+
 + Request
     + Headers
 
@@ -1231,7 +1279,7 @@ Nelze smazat doklady s EET, použijte nový [**Opravný daňový doklad**](#opra
                 - href: /1.1/order_issued (required)
         - _embedded (object, required)
             - `order_issued` (array[`ORDER_ISSUED_LIST`], required) - Pole dostupných dokladů
-
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail objednávky vydané [GET /order_issued/{id}]
 + Parameters
@@ -1685,9 +1733,13 @@ Umožňuje automatické spárování účetní dokladů s pohyby na bankovních 
 
 Po vložení nového pohybu se systém pokusí automaticky pohyb spárovat s existující fakturou.
 
-### Seznam bankovních pohybů [GET]
+### Seznam bankovních pohybů [GET /bank_transaction{?page,pageSize}]
 
 Seznam bankovních pohybů, které jsou již importované v systému.
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
 
 + Request
     + Headers
@@ -1701,6 +1753,7 @@ Seznam bankovních pohybů, které jsou již importované v systému.
                 - href: /1.1/bank_transaction (required)
         - _embedded (object)
             - `bank_transaction` (array[`BANK_STATEMENT_LIST`], required) - Pole transakcí
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail bankovního pohybu [GET /bank_transaction/{id}]
 
@@ -1906,7 +1959,12 @@ Odpověď obsahuje pole dostupných Účty DPH pro použití v dokladech.
 ## Seznam EET záznamů [/eet_status]
 <a name="eet-zpravy" />
 
-### Výpis dostupných EET záznamů  [GET]
+### Výpis dostupných EET záznamů [GET /eet_status{?page,pageSize}]
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+
 + Request
     + Headers
 
@@ -1919,6 +1977,7 @@ Odpověď obsahuje pole dostupných Účty DPH pro použití v dokladech.
                 - href: /1.1/eet_status (required)
         - _embedded (object, required)
             - `eet_status` (array[`EET_LIST`], required) - Pole EET záznamů
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ## Správa EET záznamů [/eet_status/{id}]
 + Model (application/hal+json)
