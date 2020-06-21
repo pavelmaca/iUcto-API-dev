@@ -2013,6 +2013,381 @@ Seznam přijatých parametrů je shodný s těmi, které je možné odesílat do
 + Response 200
     [Správa EET záznamů][]
 
+# Group Ceník a sklady
+## Ceník [/price_list]
+<a name="price-list"/>
+
+### Seznam položek [GET /price_list{?page,pageSize,is_stock,bar_code,external_code}]
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + is_stock: `false` (bool, optional) - Je na skladě
+    + bar_code: `BARCODE123` (string, optional) - Čárový kód
+    + external_code: `EXT1234` (string, optional) - Externí číslo
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/price_list (required)
+        - _embedded (object, required)
+            - `price_list` (array[`PRICE_LIST_LIST`], required) - Pole dostupných položek
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+
+### Detail položky [GET /price_list/{id}]
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/price_list/123 (required)
+        - _embedded (object, required)
+            - `price_list` (`PRICE_LIST_DETAIL`, required) - Detail
+
+### Vytvořit položku [POST /price_list]
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            Content-Type: application/json
+
+    + Attributes (`PRICE_LIST_CREATE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/price_list/123 (required)
+        - _embedded (object, required)
+            - `price_list` (`PRICE_LIST_DETAIL`, required) - Detail
+
+### Editovat položku [PUT /price_list/{id}]
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            Content-Type: application/json
+
+    + Attributes (`PRICE_LIST_CREATE`)
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/price_list/123 (required)
+        - _embedded (object, required)
+            - `price_list` (`PRICE_LIST_DETAIL`, required) - Detail
+
+### Smazat položku [DELETE /price_list/{id}]
+
+Nelze smazat položku ke které existuje pohyb na skladu. Použijte `is_hidden=true`.
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 204
+## Sklady [/warehouse]
+<a name="warehouse"/>
+
+### Seznam skladů [GET /warehouse{?page,pageSize}]
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/warehouse (required)
+        - _embedded (object, required)
+            - `warehouse` (array[`WAREHOUSE_LIST`], required) - Pole dostupných skladů
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+
+### Detail skladu [GET /warehouse/{id}]
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/warehouse/123 (required)
+        - _embedded (object, required)
+            - `warehouse` (`WAREHOUSE_DETAIL`, required) - Detail
+
+### Vytvoření skladu [POST /warehouse]
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            Content-Type: application/json
+
+    + Attributes (`WAREHOUSE_CREATE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/warehouse/123 (required)
+        - _embedded (object, required)
+            - `warehouse` (`WAREHOUSE_DETAIL`, required) - Detail
+
+### Editace skladu [PUT /warehouse/{id}]
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            Content-Type: application/json
+
+    + Attributes (`WAREHOUSE_CREATE`)
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/warehouse/123 (required)
+        - _embedded (object, required)
+            - `warehouse` (`WAREHOUSE_DETAIL`, required) - Detail
+
+### Smazání skladu [DELETE /warehouse/{id}]
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 204
+
+## Skladové karty [/inventory]
+<a name="inventory"/>
+
+Skladové karty slouží k přiřazení produktu na určitý sklad.
+
+Vytvořením pohybu vznikne skladová karta automaticky.
+
+### Seznam skladových karet [GET /inventory{?page,pageSize,product_id,warehouse_id}]
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + product_id: `123` (number, optional) - ID produktu
+    + warehouse_id: `23` (number, optional) - ID skladu
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/inventory (required)
+        - _embedded (object, required)
+            - `inventory` (array[`INVENTORY_LIST`], required) - Pole dostupných produktů
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+
+### Detail skladové karty [GET /inventory/{id}]
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/inventory/123 (required)
+        - _embedded (object, required)
+            - `inventory` (`INVENTORY_DETAIL`, required) - Detail
+
+### Vytvoření skladové karty [POST /inventory]
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`INVENTORY_CREATE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/inventory/123 (required)
+        - _embedded (object, required)
+            - `inventory` (`INVENTORY_DETAIL`, required) - Detail
+
+### Editace skladové karty [PUT /inventory/{id}]
++ Parameters
+    + id: 123 (number, required)
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`INVENTORY_CREATE`)
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/inventory/123 (required)
+        - _embedded (object, required)
+            - `inventory` (`INVENTORY_DETAIL`, required) - Detail
+
+### Smazání skladové karty [DELETE /inventory/{id}]
+
+Nelze smazat skladovou kartu, pokud existuje pohyb.
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 204
+## Skladové pohyby [/stock_movement]
+<a name="stock-movement"/>
+
+### Seznam pohybů [GET /stock_movement{?page,pageSize,product_id,warehouse_id,last_id}]
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + product_id: `123` (number, optional) - ID produktu
+    + warehouse_id: `23` (number, optional) - ID skladu
+    + last_id: `266` (number, optional) - ID poslední
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/stock_movement (required)
+        - _embedded (object, required)
+            - `stock_movement` (array[`STOCK_MOVEMENT_LIST`], required) - Pole dostupných položek
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+
+### Detail pohybu [GET /stock_movement/{id}]
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/stock_movement/123 (required)
+        - _embedded (object, required)
+            - `stock_movement` (`STOCK_MOVEMENT_DETAIL_AMOUNT`, required) - Detail
+
+### Vytvořit pohyb [POST /stock_movement]
+
+Pohyb lze vytvořit dvěma způsby (viz. příklady požadavků).
+1. `amount` - Inkrementální (přičte, nebo odečte zadané množství na sklad)
+2. `real_amount` - Absolutní (vytvoří takový pohyb, aby stav produktu odpovídal předané hodnotě)
+
+**Vytvořením pohybu vznikně automaticky skladová karta.**
+
++ Request
+
+    Inkrementální pohyb
+
+    + Headers
+
+            X-Auth-Key: api-key
+            Content-Type: application/json
+
+    + Attributes (`STOCK_MOVEMENT_CREATE_AMOUNT`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/stock_movement/123 (required)
+        - _embedded (object, required)
+            - `stock_movement` (`STOCK_MOVEMENT_DETAIL_AMOUNT`, required) - Detail
+
+
++ Request
+
+    Absolutní pohyb
+
+    + Headers
+
+            X-Auth-Key: api-key
+            Content-Type: application/json
+
+    + Attributes (`STOCK_MOVEMENT_CREATE_REAL`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/stock_movement/123 (required)
+        - _embedded (object, required)
+            - `stock_movement` (`STOCK_MOVEMENT_DETAIL_REAL`, required) - Detail
+
+
 
 # Data Structures
 
@@ -3222,3 +3597,200 @@ Směr platby.
 - fik: `123-222` (string) - FIK
 - bkp: `123-222` (string) - BKP
 - pkp: `123-222` (string) - PKP
+
+## `PRICE_LIST_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- `id`: `123` (number) - ID 
+
+
+## `PRICE_LIST_LIST_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v seznamu
+### Properties
+- `name`: `SOME NAME` (string, required) - Jméno
+- `amount`: `1` (number) - Množství
+- `unit`: `ks` (string, optional) - Jednotka
+- `bar_code`: `BARCODE123` (string, optional) - Čárový kód
+- `price`: `50` (price, required) - [**Price**](#data-types) - Cena
+- `is_vat_price:`: `false` (boolean, optional) - Cena včetně DPH
+- `vat_rate`: `0` (number, optional) - [**DPH**](#kurz-dph)
+- `currency`: `CZK` (enum, sample, optional) - [**Měna**](#currency)
+- `vat_chart_id`: `52` (number, optional) - [**Účet DPH**](#ucty-dph)
+- `external_code`: `20140001` (string, optional) - Externí číslo dokladu
+- `is_hidden`: `false` (boolean, optional) - Schovaný
+- `is_stock`: `false` (boolean, optional) - Skladem
+
+## `PRICE_LIST_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/price_list/123 (required)
+- Include `PRICE_LIST_LIST_READONLY`
+- Include `PRICE_LIST_LIST_WRITABLE`
+
+## `PRICE_LIST_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné detailu
+### Properties
+- Include `PRICE_LIST_LIST_READONLY`
+
+## `PRICE_LIST_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `PRICE_LIST_LIST_WRITABLE`
+- `description`: `Popis` (string, optional) - Poznámka
+- `accountentry_type_id`: `null` (string, optional) - [**Typ účetní položky**](#položky_typy_uc_polozek)
+- `vattype_id`: `null` (string, optional) - [**Seznam typů DPH**](#typy-dph)
+- `chart_account_id`: `46` (number, optional)- [**Účet úč. osnovy**](#ucty-uc-osnovy)
+- `department_id`: `0` (number, optional) - [**Střediska**](#strediska)
+- `contract_id`: `0` (number, optional) - [**Zakázky**](#zakazky) 
+
+## `PRICE_LIST_DETAIL` (object)
+### Properties
+- Include `PRICE_LIST_DETAIL_READONLY`
+- Include `PRICE_LIST_DETAIL_WRITABLE`
+
+## `PRICE_LIST_CREATE` (object)
+### Properties
+- Include `PRICE_LIST_DETAIL_WRITABLE`
+## `WAREHOUSE_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- id: `123` (number) - ID 
+
+
+## `WAREHOUSE_LIST_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v seznamu
+### Properties
+- `name`: `SOME NAME` (string, required) - Jméno
+- `description`: `Popis` (string, optional) - Poznámka
+- `is_default`: `false` (boolean) - Defaultní
+
+## `WAREHOUSE_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/warehouse/123 (required)
+- Include `WAREHOUSE_LIST_READONLY`
+- Include `WAREHOUSE_LIST_WRITABLE`
+
+## `WAREHOUSE_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné detailu
+### Properties
+- Include `WAREHOUSE_LIST_READONLY`
+
+## `WAREHOUSE_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `WAREHOUSE_LIST_WRITABLE`
+
+## `WAREHOUSE_DETAIL` (object)
+### Properties
+- Include `WAREHOUSE_DETAIL_READONLY`
+- Include `WAREHOUSE_DETAIL_WRITABLE`
+
+## `WAREHOUSE_CREATE` (object)
+### Properties
+- Include `WAREHOUSE_DETAIL_WRITABLE`
+## `INVENTORY_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- `id`: `123` (number) - ID 
+- `balance`: `0` (price) - Zůstatek
+- `is_deleted`: `false` (boolean) - Smazáno
+- `date_last_movement`: `2017-01-24` (date, optional) - [**Date**](#data-types) - Datum platby
+
+## `INVENTORY_LIST_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v seznamu
+### Properties
+- `product_id:`: `23` (number, required) - ID produktu
+- `warehouse_id:`: `23` (number, required) - [**ID skladu**](#warehouse)
+- `initial_balance`: `0` (price) - Počáteční zůstatek
+- `minimal_balance`: `0` (price) - Minimální zůstatek
+- `location`: `SOME LOCATION` (string) - Lokace
+
+
+## `INVENTORY_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/inventory/123 (required)
+- Include `INVENTORY_LIST_READONLY`
+- Include `INVENTORY_LIST_WRITABLE`
+
+## `INVENTORY_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné detailu
+### Properties
+- Include `INVENTORY_LIST_READONLY`
+
+## `INVENTORY_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `INVENTORY_LIST_WRITABLE`
+
+## `INVENTORY_DETAIL` (object)
+### Properties
+- Include `INVENTORY_DETAIL_READONLY`
+- Include `INVENTORY_DETAIL_WRITABLE`
+
+## `INVENTORY_CREATE` (object)
+### Properties
+- Include `INVENTORY_DETAIL_WRITABLE`
+## `STOCK_MOVEMENT_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- `id`: `123` (number) - ID
+
+## `STOCK_MOVEMENT_LIST_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v seznamu
+### Properties
+- `product_id:`: `23` (number, required) - ID produktu
+- `warehouse_id:`: `23` (number, required) - [**ID skladu**](#warehouse)
+- `note`: `Some note` (string, optional) - Poznámka
+- `date`: `2017-01-24` (date, optional) - [**Date**](#data-types) - Datum
+- `identification`: `SOMEIDENTITY` (string, required) - Identifikace systému, který pohyb vytvořil
+
+## `STOCK_MOVEMENT_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/stock_movement/123 (required)
+- Include `STOCK_MOVEMENT_LIST_READONLY`
+- Include `STOCK_MOVEMENT_LIST_WRITABLE`
+- `amount`: `-6` (number) - Změna počtu kusů na skladě (záporné číslo odečítá)
+
+## `STOCK_MOVEMENT_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné detailu
+### Properties
+- Include `STOCK_MOVEMENT_LIST_READONLY`
+
+## `STOCK_MOVEMENT_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `STOCK_MOVEMENT_LIST_WRITABLE`
+
+
+## `STOCK_MOVEMENT_DETAIL_AMOUNT` (object)
+### Properties
+- Include `STOCK_MOVEMENT_DETAIL_READONLY`
+- Include `STOCK_MOVEMENT_DETAIL_WRITABLE`
+- `amount`: `15` (number) - Změna počtu kusů na skladě (záporné číslo odečítá)
+
+## `STOCK_MOVEMENT_CREATE_AMOUNT` (object)
+### Properties
+- Include `STOCK_MOVEMENT_DETAIL_WRITABLE`
+- `amount`: `15` (number) - Přidá X kusů na sklad
+
+## `STOCK_MOVEMENT_CREATE_REAL` (object)
+### Properties
+- Include `STOCK_MOVEMENT_DETAIL_WRITABLE`
+- `real_amount`: `100` (number) - Nastaví zadané množství na sklad
+
+## `STOCK_MOVEMENT_DETAIL_REAL` (object)
+### Properties
+- Include `STOCK_MOVEMENT_DETAIL_READONLY`
+- Include `STOCK_MOVEMENT_DETAIL_WRITABLE`
+- `amount`: `95` (number) - Předchozí hodnota byla 5 kusů, bylo přidáno 95 do požadovaného 100 kusů na skladě
