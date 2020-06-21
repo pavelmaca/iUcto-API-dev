@@ -4,6 +4,7 @@ HOST: https://online.iucto.cz/api/1.1/
 # iÚčto
 <a name="top"/>
 
+
 `https://online.iucto.cz/api`
 
 iÚčto API je založena na REST principu.
@@ -11,32 +12,34 @@ API umožnuje práci s různými typy dokladů pomocí HTTP požadavků zasílan
 
 `Ke každému HTTP požadavku je nutné přidat HTTP hlavičku X-Auth-key`
 
-Vešekerá komunikace probíhá pomocí protokolu HTTPS.
+Veškerá komunikace probíhá pomocí protokolu HTTPS.
 
 Odpovědi serveru jsou ve formátu [HAL+JSON](http://stateless.co/hal_specification.html).
 Tělo požadavku v případě POST a PUT musí být ve formátu JSON.
 
+<a name="http-pozadavky"/>
+
 #Povolené HTTP požadavky:
-<a name="http_pozadavky"/>
 
 - `GET` - Získání záznamu, nebo seznamu
 - `POST` - Vytvoření nového záznamu
 - `PUT` - Editace záznamu
 - `DELETE` - Smazání záznamu
 
+<a name="odpovedy-serveru"/>
+
 #Popis obvyklých odpovědí serveru
-<a name="odpovedy_serveru"/>
 
 - 200 `OK` - požadavek proběhl v pořádku (některé akce mohou vrátit 201).
 - 201 `Created` - požadavek proběhl v pořádku a záznam byl vytvořen.
 - 204 `No Content` - požadavek proběhl v pořádku, ale není nic co by se dalo vrátit (tělo odpovědi je prázdné).
-- 400 `Bad Request` - neznámý formát požadavku, je možné že chybý nějaké parametry.
+- 400 `Bad Request` - neznámý formát požadavku, je možné že chybí nějaké parametry.
 - 401 `Unauthorized` - špatný API klíč v požadavku.
-- 403 `Forbidden` - přístup odepřen, uživatel nemá potřebná opravnění pro danou akci.
+- 403 `Forbidden` - přístup odepřen, uživatel nemá potřebná oprávnění pro danou akci.
 - 404 `Not Found` - záznam nenalezen.
 - 405 `Method Not Allowed` - požadovaná metoda není podporována.
 
-Odpověd může obsahovat popis chyby. Například při vkládání nového záznamu se špatnými daty se vypíší chybové zprávy validace.
+Odpověď může obsahovat popis chyby. Například při vkládání nového záznamu se špatnými daty se vypíší chybové zprávy validace.
 
 ## Výpis chybových hlášek
 
@@ -53,9 +56,11 @@ Odpověd může obsahovat popis chyby. Například při vkládání nového záz
 | 403 | Nelze smazat záznam.                          |
 | 403 | Účetní období, nebo období DPH je uzavřeno.   |
 
-# Authentizace
-<a name="authentizace"/>
-K authentizace každého HTTP požadavku slouží HTTP hlavička **X-Auth-Key**.
+<a name="autentizace"/>
+
+# Autentizace
+
+K autentizaci každého HTTP požadavku slouží HTTP hlavička **X-Auth-Key**.
 
 Vzor HTTP hlavičky pro přihlášení:
 
@@ -68,23 +73,25 @@ Ke každé firmě, ke které máte přístup se generuje samostatný klíč.
 
 ![Vygenerování klíče](https://raw.githubusercontent.com/PavelMaca/iUcto-API/master/images/key_generation.PNG)
 
-Uživatel musí mít v nastavené správcem firmy opraváněné pro přístup přes API (výchozí stav je povolen).
+Uživatel musí mít v nastavené správcem firmy oprávnění pro přístup přes API (výchozí stav je povolen).
 Při komunikaci prostřednictvím API má uživatel stejná oprávnění jako u webového rozhraní.
 
 
 **[Správa ACL](https://online.iucto.cz/users)**
 
 
-# Stránkování
 <a name="paging" />
+
+# Stránkování
 
 Stránkování je dostupné pouze u některých endpointů.
 
 Vyžaduje předání parametrů `page` a `pageSize`.
 Odpověď pak obsahuje údaje o celkovém počtu stránek.
 
+<a name="data-types" />
+
 # Datové typy
-<a name="data_types" />
 
 | Datový typ | Popis                                                |
 |------------|------------------------------------------------------|
@@ -92,27 +99,39 @@ Odpověď pak obsahuje údaje o celkovém počtu stránek.
 | Number     | Celé číslo                                           |
 | Boolean    | Hodnoty `true` a `false`                             |
 | Date       | Datum ve formátu `YYYY-mm-dd`                        |
-| Price      | Číslo se dvemi desetinými místy ve formátu `1500.10` |
+| Price      | Číslo se dvěma desetinnými místy ve formátu `1500.10` |
 
 Parametry uvedené jako volitelné, mohou nabývat hodnot `NULL`.
 
 # Typy dokladů
-Seznam dostupných dokladů přes API a jejich interní identifikátory pro získání např. [Typů DPH](#typy_dph).
 
-| Typ | Název                                         |
-|:---:|-----------------------------------------------|
-| FV  | [Faktury vydané](#faktury_vydane)             |
-| FP  | [Faktury přijaté](#faktury_prijate)           |
-| PV  | [Platby vydané](#platby-vydane)               |
-| PP  | [Platby přijaté](#platby-prijate)             |
-| OP  | [Objednávky přijaté](#objednavky-prijate)     |
-| OV  | [Objednávky vydané](#objednavky-vydane)       |
+<a name="typy-dokladu" />
+
+Seznam dostupných dokladů přes API a jejich interní identifikátory pro získání např. [Typů DPH](#typy-dph).
+
+| Typ  | Název                                                 |
+|:----:|-------------------------------------------------------|
+| FV   | [Faktury vydané](#faktury-vydane)                     |
+| FP   | [Faktury přijaté](#faktury-prijate)                   |
+| ZFV  | [Zálohové faktury vydané](#zalohove-faktury-vydane)   |
+| ZFP  | [Zálohové faktury přijaté](#zalohove-faktury-prijate) |
+| PV   | [Platby vydané](#platby-vydane)                       |
+| PP   | [Platby přijaté](#platby-prijate)                     |
+| OP   | [Objednávky přijaté](#objednavky-prijate)             |
+| OV   | [Objednávky vydané](#objednavky-vydane)               |
 
 # Přehled změn
 
-## 27.04.2020
+## v2.7
 - order_recieved
   * přidání sloupce externí číslo objednávky
+
+## 22.06.2020
+- bank_transaction
+    * zaúčtování pohyb a vytvoření platbu
+
+- proforma_invoice_issued
+    * stažení PDF
 
 ## 10.04.2020
 - invoice_issued
@@ -126,24 +145,28 @@ Seznam dostupných dokladů přes API a jejich interní identifikátory pro zís
   * datum DUZP je povinné pouze pokud je na dokladu položka se sazbou DPH
 
 # Group Seznamy
+
 ## Měny [/currency]
 <a name="currency"></a>
-### Seznam dostupných měn [GET]
+
+### Seznam měn [GET]
 Seznam dostupných měn pro použití v dokladech.
 
 Dostupnost se může měnit v závislosti na aktivaci rozšíření **Účtování v cizích měnách**
 
 + Request
     + Headers
-    
+
             X-Auth-Key: api-key
 
 + Response 200 (application/json)
     + Attributes (CURRENCY)
 
+
 ## Metody plateb [/payment_type]
-<a name="metody_plateb"></a>
-### Seznam dostupných metod  [GET]
+<a name="metody-plateb"></a>
+
+### Seznam metod plateb  [GET]
 Seznam dostupných metod pro provedení platby používaných v dokladech.
 + Request
     + Headers
@@ -153,9 +176,11 @@ Seznam dostupných metod pro provedení platby používaných v dokladech.
 + Response 200 (application/json)
     + Attributes (PAYMENT_TYPE)
 
+
 ## Způsoby zaokrouhlení [/rounding_type]
 <a name="zaokrouhleni"></a>
-### Seznam dostupných typů zaokrouhlení [GET]
+
+### Seznam typů zaokrouhlení [GET]
 Seznam metod pro zaokrouhlování částek v dokladech.
 + Request
     + Headers
@@ -168,7 +193,8 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 # Group Firma
 
 ## Bankovní účty [/bank_account]
-<a name="bank_account"></a>
+<a name="bankovni-ucty"></a>
+
 ### Seznam bankovních účtů [GET]
 + Request
     + Headers
@@ -194,13 +220,33 @@ Seznam metod pro zaokrouhlování částek v dokladech.
             X-Auth-Key: api-key
 
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object)
             - self (object)
                 - href: /1.1/bank_account/123 (required)
         - _embedded (object)
             - `bank_account` (`BANK_ACCOUNT_DETAIL`, required) - Detail bankovního účtu
+
+### Vytvoření bankovního účtu [POST /bank_account]
+
+Výchozí [**Účet úč. osnovy**](#ucty-uc-osnovy) je 221.
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`BANK_ACCOUNT_PARAMS`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/bank_account/123 (required)
+        - _embedded (object)
+            - `bank_account` (`BANK_ACCOUNT_DETAIL`, required) - Detail bankovního účtu
+
 
 
 ### Editace bankovního účtu [PUT /bank_account/{id}]
@@ -214,7 +260,7 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 
     + Attributes (`BANK_ACCOUNT_PARAMS`)
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object)
             - self (object)
@@ -223,6 +269,9 @@ Seznam metod pro zaokrouhlování částek v dokladech.
             - `bank_account` (`BANK_ACCOUNT_DETAIL`, required) - Detail bankovního účtu
 
 ### Smazání bankovního účtu [DELETE /bank_account/{id}]
+
+Smazat lze pouze bankovní účet bez žádné vazby na doklad.
+
 + Parameters
     + id: 123 (number, required)
 
@@ -247,7 +296,7 @@ Seznam metod pro zaokrouhlování částek v dokladech.
             - self (object)
                 - href: /1.1/cash_register (required)
         - _embedded (object)
-            - `cash_register` (array[`CASH_REGISTER`], required) - Pole dostupných pokladen
+            - `cash_register` (array[`CASH_REGISTER_LIST`], required) - Pole dostupných pokladen
 
 ### Detail pokladny [GET /cash_register/{id}]
 + Parameters
@@ -265,14 +314,10 @@ Seznam metod pro zaokrouhlování částek v dokladech.
             - self (object)
                 - href: /1.1/cash_register/123 (required)
         - _embedded (object)
-            - `cash_register` (`CASH_REGISTER`, required) - Detail pokladny
+            - `cash_register` (`CASH_REGISTER_DETAIL`, required) - Detail pokladny
 
 ## Střediska [/department]
 <a name="strediska"/>
-+ Model (application/hal+json)
-    + Body
-
-            {"_links":{"self":{"href":"\/1.1\/department\/392"}},"id":392,"name":"Středisko ABC","code":"ABC","description":"popis"}
 
 ### Seznam středisek  [GET]
 + Request
@@ -280,65 +325,74 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/json)
-
-        {"_links":{"self":{"href":"\/1.1\/department"}},"_embedded":{"department":[{"_links":{"self":{"href":"\/1.1\/department\/85"}},"id":85,"code":"PR","name":"Praha","description":null},{"_links":{"self":{"href":"\/1.1\/department\/86"}},"id":86,"code":"BR","name":"Brno","description":"Sklad"}]}}
-
-### Vytvoření střediska [POST /department/{id}]
-Vytvoří nový záznam, odpověd obsahuje detail vytvořeného střediska.
-
-Povinné parametry:
-- code
-- name
-
-+ Request (application/json)
-    + Headers
-
-            X-Auth-Key: api-key
-    + Body
-
-            {"name":"Středisko ABC","code":"ABC","description":"popis"}
-
-+ Response 201
-    [Střediska][]
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/department (required)
+        - _embedded (object)
+            - `department` (array[`DEPARTMENT_LIST`], required) - Pole dostupných středisek
 
 ### Detail střediska [GET /department/{id}]
-Vrátí veškerá data ke středisku.
-
 + Parameters
-    + id (int) ... ID střediska
+    + id: 123 (number, required)
 
 + Request
     + Headers
 
             X-Auth-Key: api-key
 
-+ Response 200
-    [Střediska][]
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/department/475 (required)
+        - _embedded (object)
+            - `department` (`DEPARTMENT_DETAIL`, required) - Detail střediska
+
+
+
+### Vytvoření střediska [POST /department]
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`DEPARTMENT_BASE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/department/475 (required)
+        - _embedded (object)
+            - `department` (`DEPARTMENT_DETAIL`, required) - Detail střediska
 
 ### Editace střediska [PUT /department/{id}]
-Aktulizuje předané parametry vybraného střediska.
-Poviné pole jsou stejná jako při vkládání nového záznamu.
-
 + Parameters
-    + id (int) ... ID střediska
+    + id: 123 (number, required)
 
 + Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`DEPARTMENT_BASE`)
 
-            {"name":"Středisko ABC","code":"ABC","description":"popis"}
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/department/475 (required)
+        - _embedded (object)
+            - `department` (`DEPARTMENT_DETAIL`, required) - Detail střediska
 
-+ Response 200
-        [Střediska][]
 
 ### Smazání střediska [DELETE /department/{id}]
-Pokusí se smazat vybrané středisko. Pokud je ovšem vázán na jiný záznam (faktury, platba, apod.), vrátí chybu a středisko se nasmaže.
+Pokusí se smazat vybrané středisko. Pokud je ovšem vázán na jiný záznam (faktury, platba apod.), vrátí chybu a středisko se nesmaže.
 + Parameters
-    + id (int) ... ID střediska
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -349,10 +403,6 @@ Pokusí se smazat vybrané středisko. Pokud je ovšem vázán na jiný záznam 
 
 ## Zakázky [/contract]
 <a name="zakazky"/>
-+ Model (application/hal+json)
-    + Body
-
-            {"_links":{"self":{"href":"\/1.1\/contract\/456"}},"id":456,"name":"Zakázka ABC","code":"ABC","description":"popis"}
 
 ### Seznam zakázek [GET]
 + Request
@@ -360,66 +410,74 @@ Pokusí se smazat vybrané středisko. Pokud je ovšem vázán na jiný záznam 
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/contract (required)
+        - _embedded (object)
+            - `contract` (array[`CONTRACT_LIST`], required) - Pole dostupných zakázek
 
-        {"_links":{"self":{"href":"\/1.1\/contract"}},"_embedded":{"contract":[{"_links":{"self":{"href":"\/1.1\/contract\/68"}},"id":68,"code":"2014Z1","name":"V\u00fdstavba koridoru Z1","description":null}]}}
-
-
-### Vytvoření zakázky [POST /contract/{id}]
-Vytvoří nový záznam, odpověd obsahuje detail vytvořené zakázky.
-
-Povinné parametry:
-- code
-- name
-
-+ Request (application/json)
-    + Headers
-
-            X-Auth-Key: api-key
-    + Body
-
-            {"name":"Zakázka ABC","code":"ABC","description":"popis"}
-
-+ Response 201
-    [Zakázky][]
 
 ### Detail zakázky [GET /contract/{id}]
-Vrátí veškerá data k zakázce.
-
 + Parameters
-    + id (int) ... ID zakázky
+    + id: 123 (number, required)
 
 + Request
     + Headers
 
             X-Auth-Key: api-key
 
-+ Response 200
-    [Zakázky][]
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/contract/475 (required)
+        - _embedded (object)
+            - `contract` (`CONTRACT_DETAIL`, required) - Detail zakázky
+
+
+### Vytvoření zakázky [POST /contract]
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`CONTRACT_BASE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/contract/475 (required)
+        - _embedded (object)
+            - `contract` (`CONTRACT_DETAIL`, required) - Detail zakázky
+
 
 ### Editace zakázky [PUT /contract/{id}]
-Aktulizuje předané parametry vybrané zakázky.
-Poviné pole jsou stejná jako při vkládání nového záznamu.
-
 + Parameters
-    + id (int) ... ID zakázky
+    + id: 123 (number, required)
 
 + Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`CONTRACT_BASE`)
 
-            {"name":"Zakázka ABC","code":"ABC","description":"popis"}
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/contract/475 (required)
+        - _embedded (object)
+            - `contract` (`CONTRACT_DETAIL`, required) - Detail zakázky
 
-+ Response 200
-        [Zakázky][]
 
-### Smazání zakkázky [DELETE /contract/{id}]
-Pokusí se smazat vybranou zakázku. Pokud je ovšem vázán na jiný záznam (faktury, platba, apod.), vrátí chybu a zakázka se nasmaže.
+### Smazání zakázky [DELETE /contract/{id}]
+Pokusí se smazat vybranou zakázku. Pokud je ovšem vázán na jiný záznam (faktury, platba apod.), vrátí chybu a zakázka se nesmaže.
 + Parameters
-    + id (int) ... ID zakázky
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -429,7 +487,8 @@ Pokusí se smazat vybranou zakázku. Pokud je ovšem vázán na jiný záznam (f
 + Response 204
 
 ## Provozovny [/business_premises]
-<a name="business_premises"></a>
+<a name="business-premises"></a>
+
 ### Seznam provozoven [GET]
 + Request
     + Headers
@@ -442,7 +501,25 @@ Pokusí se smazat vybranou zakázku. Pokud je ovšem vázán na jiný záznam (f
             - self (object)
                 - href: /1.1/business_premises (required)
         - _embedded (object)
-            - `business_premises` (array[`BUSINESS_PREMISES`], required) - Pole dostupných provozoven
+            - `business_premises` (array[`BUSINESS_PREMISES_LIST`], required) - Pole dostupných provozoven
+
+### Detail provozovny [GET /business_premises/{id}]
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
+
++ Response 200 (application/json)
+    + Attributes (object)
+        - _link (object)
+            - self (object)
+                - href: /1.1/business_premises/897 (required)
+        - _embedded (object)
+            - `business_premises` (`BUSINESS_PREMISES_DETAIL`, required) - Detail provozovny
 
 # Group Adresář
 
@@ -470,20 +547,7 @@ Zjednodušený výpis všech dostupných zákazníků.
             - `customer` (array[`CUSTOMER_LIST`], required) - Pole zákazníků
         - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
-### Vytvoření zákazníka [POST /customer]
-Přidání zákazníka do adresáře
-
-+ Request (application/json)
-    + Headers
-
-            X-Auth-Key: api-key
-
-    + Attributes (`CUSTOMER_PARAMS`)
-
-+ Response 200 (application/json)
-    + Attributes (`CUSTOMER_DETAIL`)
-
-### Detail zakazníka [GET /customer/{id}]
+### Detail zákazníka [GET /customer/{id}]
 Podrobný výpis zákazníka
 
 + Parameters
@@ -496,6 +560,19 @@ Podrobný výpis zákazníka
 
 
 + Response 200 (application/json)
+    + Attributes (`CUSTOMER_DETAIL`)
+
+### Vytvoření zákazníka [POST /customer]
+Přidání zákazníka do adresáře
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`CUSTOMER_PARAMS`)
+
++ Response 201 (application/json)
     + Attributes (`CUSTOMER_DETAIL`)
 
 ### Editace zákazníka [PUT /customer/{id}]
@@ -515,7 +592,7 @@ Podrobný výpis zákazníka
     + Attributes (`CUSTOMER_DETAIL`)
 
 ### Smazání zákazníka [DELETE /customer/{id}]
-Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný záznam (faktury, platba, apod.), vrátí chybu a zákazník se nasmaže.
+Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný záznam (faktury, platba apod.), vrátí chybu a zákazník se nesmaže.
 
 + Parameters
     + id: 123 (number, required)
@@ -527,9 +604,10 @@ Pokusí se smazat vybraného zákazníka. Pokud je ovšem vázán na jiný zázn
 
 + Response 204
 ## Skupiny zákazníků [/customer_group]
-<a name="customer_group"></a>
+<a name="customer-group"></a>
+
 ### Seznam skupin zákazníků[GET]
-Seznam dostupných [učetních skupin pro zákazníky](https://online.iucto.cz/customergroup).
+Seznam dostupných [účetních skupin pro zákazníky](https://online.iucto.cz/customergroup).
 + Request
     + Headers
 
@@ -567,19 +645,6 @@ Zjednodušený výpis všech dostupných dodavatelů.
             - `supplier` (array[`SUPPLIER_LIST`], required) - Pole dodavatelů
         - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
-### Vytvoření dodavatele [POST /supplier]
-Přidání dodavatele do adresáře
-
-+ Request (application/json)
-    + Headers
-
-            X-Auth-Key: api-key
-
-    + Attributes (`SUPPLIER_PARAMS`)
-
-+ Response 200 (application/json)
-    + Attributes (`SUPPLIER_DETAIL`)
-
 ### Detail dodavatele [GET /supplier/{id}]
 Podrobný výpis dodavatele
 
@@ -593,6 +658,19 @@ Podrobný výpis dodavatele
 
 
 + Response 200 (application/json)
+    + Attributes (`SUPPLIER_DETAIL`)
+
+### Vytvoření dodavatele [POST /supplier]
+Přidání dodavatele do adresáře
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`SUPPLIER_PARAMS`)
+
++ Response 201 (application/json)
     + Attributes (`SUPPLIER_DETAIL`)
 
 ### Editace dodavatele [PUT /supplier/{id}]
@@ -613,7 +691,7 @@ Podrobný výpis dodavatele
 
 ### Smazání dodavatele [DELETE /supplier/{id}]
 Pokusí se smazat vybraného dodavatele.
-Pokud je ovšem vázán na jiný záznam (faktury, platba, apod.), vrátí chybu a dodavatele se nasmaže.
+Pokud je ovšem vázán na jiný záznam (faktury, platba apod.), vrátí chybu a dodavatele se nesmaže.
 
 + Parameters
     + id: 123 (number, required)
@@ -625,10 +703,10 @@ Pokud je ovšem vázán na jiný záznam (faktury, platba, apod.), vrátí chybu
 
 + Response 204
 ## Skupiny dodavatelů [/supplier_group]
-<a name="supplier_group"></a>
+<a name="supplier-group"></a>
 
 ### Seznam skupin dodavatelů[GET]
-Seznam dostupných [učetních skupin pro zdodavatele](https://online.iucto.cz/suppliergroup).
+Seznam dostupných [účetních skupin pro dodavatele](https://online.iucto.cz/suppliergroup).
 + Request
     + Headers
 
@@ -644,7 +722,7 @@ Seznam dostupných [učetních skupin pro zdodavatele](https://online.iucto.cz/s
 ## Země [/country]
 <a name="country"></a>
 Zde uvedený výpis není kompletní, jedná se pouze o vzor.
-### Seznam dostupných zemí  [GET]
+### Seznam zemí  [GET]
 + Request
     + Headers
 
@@ -653,8 +731,9 @@ Zde uvedený výpis není kompletní, jedná se pouze o vzor.
 + Response 200 (application/json)
     + Attributes (COUNTRY)
 # Preferované metody platby [/preferred_payment_method]
-<a name="preferred_payment_method"></a>
-### Seznam dostupných metod  [GET]
+<a name="preferred-payment-method"></a>
+
+### Seznam preferovaných metod platby  [GET]
 + Request
     + Headers
 
@@ -669,49 +748,24 @@ Zde uvedený výpis není kompletní, jedná se pouze o vzor.
 ## Objednávky [/order_received]
 <a name="objednavky-prijate"/>
 
-**Parametry dokladu**
+### Seznam objednávek [GET]
++ Request
+    + Headers
 
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| id                        | int         | 11    | ID dokladu                                                 | x      | -             |
-| sequence_code             | string      | 45    | Číslo dokladu                                              | x      | -             |
-| external_code             | string      | 45    | Externí číslo dokladu                                      | x      | x             |
-| customer                  | array       | -     | [**Zákazník**](#zakaznici)                                 | x      | -             |
-| customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                             | -      | x             |
-| invoice_id                | int         | 11    | [**ID Faktury vydané**](#faktury_vydane)                   | x      | -             |
-| date                      | date        | -     | Datum vystavení                                            | x      | x             |
-| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                  | x      | x             |
-| price                     | int         | 11    | Celková částka bez DPH                                     | -      | -             |
-| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                               | -      | -             |
-| price_inc_vat             | int         | 11    | Celková částka s DPH                                       | x      | -             |
-| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                 | -      | -             |
-| description               | string      | -     | Poznámka                                                   | -      | x             |
-| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                   | -      | x             |
-| deleted                   | bool        | -     | Doklad je smazaný                                          | x      | -             |
+            X-Auth-Key: api-key
 
-**Položky dokladu**
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/order_received (required)
+        - _embedded (object, required)
+            - `order_received` (array[`ORDER_RECEIVED_LIST`], required) - Pole dostupných dokladů
 
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             |
-| items:id                  | int         | 11    | ID položky                                                 | -      | -             |
-| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             |
-| items:unit                | string      | 10    | Jednotka                                                   | -      | x             |
-| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             |
-| items:text                | string      | 255   | Popis                                                      | -      | x             |
-| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             |
-| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             |
-| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             |
 
-*Hodnoty `id` a `items:id` jsou přiřazeny službou v momentu vytvoření nového záznamu.*
-
-+ Model (application/hal+json)
-    + Body
-
-            {"_links":{"self":{"href":"\/1.1\/order_received\/10"}},"id":10,"sequence_code":"OP20150001","external_code":"EP20150241","date":"2015-07-16","currency":"CZK","price":2600,"price_czk":2600,"price_inc_vat":3146,"price_inc_vat_czk":3146,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/1"}},"id":1,"name":"Fitona s.r.o.","name_display":"Fitona","comid":"12345666","vatid":"CZ12345666","vat_payer":true,"email":"bretislav.naprstek@datesoft.cz","phone":"381 234 455","cellphone":null,"www":"www.datesoft.cz","usual_maturity":30,"preferred_payment_method":"transfer","invoice_language":"cs","address":{"street":"Dlouhá 22","city":"Praha 5","postalcode":"11150","country":"CZ"},"note":"lorem ipsum","account_number1":null,"account_number2":null,"account_number3":null,"account_number4":null},"description":"lorem ipsum test poznámky 55555","rounding_type":"up","items":[{"id":11,"text":"test","amount":20,"price":130,"unit":null,"vat":21,"department_id":0,"contract_id":0}],"deleted":false}
-
-### Vypis všech dostupných dokladů [GET]
-Zjednodušený výpis všech dostupných dokladů.
+### Detail objednávky [GET /order_received/{id}]
++ Parameters
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -719,72 +773,57 @@ Zjednodušený výpis všech dostupných dokladů.
             X-Auth-Key: api-key
 
 + Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/order_received/123 (required)
+        - _embedded (object, required)
+            - `order_received` (`ORDER_RECEIVED_DETAIL`, required) - Detail dokladu
 
-        {"_links":{"self":{"href":"\/1.1\/order_received"}},"_embedded":{"order_received":[{"_links":{"self":{"href":"\/1.1\/order_received\/7"}},"id":7,"sequence_code":"OP20140001","external_code":"EP20140241","date":"2014-10-24","currency":"CZK","price_inc_vat":148.83,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/1"}},"id":1,"name":"Fitona s.r.o.","comid":"12345666","vatid":"CZ12345666","vat_payer":true,"email":"bretislav.naprstek@datesoft.cz"},"deleted":false}
 
 
-### Vytvoření nové objednávky [POST /order_received/{id}]
-Vytvoří nový doklad, odpověd obsahuje detail dokladu.
 
-Povinné parametry dokladu:
+### Vytvoření nové objednávky [POST /order_received]
++ Request (application/json)
+    + Headers
 
-    date
-    currency
-    customer_id
-    items
-    items:text
-    items:amount
-    items:price
-    items:vat
+            X-Auth-Key: api-key
+
+    + Attributes (`ORDER_RECEIVED_CREATE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/order_received/123 (required)
+        - _embedded (object, required)
+            - `order_received` (`ORDER_RECEIVED_DETAIL`, required) - Detail dokladu
+
+
+### Editace objednávky [PUT /order_received/{id}]
++ Parameters
+    + id: 123 (number, required)
 
 + Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`ORDER_RECEIVED_CREATE`)
 
-            {"date": "2015-07-15", "currency": "CZK", "customer_id": 1, "payment_type": "transfer", "description": "lorem ipsum test poznámky", "rounding_type": "up", "items": [ { "text": "test", "amount": 10, "price": 130, "unit": null, "vat": 21, "department_id": 0, "contract_id": 0 } ] }
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/order_received/123 (required)
+        - _embedded (object, required)
+            - `order_received` (`ORDER_RECEIVED_DETAIL`, required) - Detail dokladu
 
-+ Response 201
-        [Objednávky][]
 
-### Detail dokladu [GET /order_received/{id}]
-Vrátí kompletní kolekci dat vybraného dokladu.
+### Smazání objednávky [DELETE /order_received/{id}]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
 + Parameters
-    + id (int) ... ID dokladu
-
-+ Request
-    + Headers
-
-            X-Auth-Key: api-key
-
-+ Response 200
-        [Objednávky][]
-
-### Editace dokladu [PUT /order_received/{id}]
-Aktulizuje předané parametry vybraného dokladu.
-Povinná pole jsou stejná jako při vkládání nového záznamu.
-
-+ Parameters
-    + id (int) ... ID dokladu
-
-+ Request (application/json)
-    + Headers
-
-            X-Auth-Key: api-key
-
-    + Body
-
-            {"external_code":"EP20130241","date": "2015-07-15","currency": "CZK","customer_id": 1,"payment_type": "transfer","description": "lorem ipsum test poznámky","rounding_type": "up","items": [{"text": "test","amount": 10,"price": 130,"unit": null,"vat": 21,"department_id": 0,"contract_id": 0}]}
-
-+ Response 200
-        [Objednávky][]
-
-### Smazání dokladu [DELETE /order_received/{id}]
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
-+ Parameters
-    + id (int) ... ID dokladu
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -793,10 +832,9 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 
 + Response 204
 ## Zálohové faktury vydané [/proforma_invoice_issued]
+<a name="zalohove-faktury-vydane" />
 
-### Seznam zálohových faktur [GET /proforma_invoice_issued{?page,pageSize}]
-
-Seznam zálohových faktur vydaných.
+### Seznam zálohových faktur vydané [GET /proforma_invoice_issued{?page,pageSize}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
@@ -806,7 +844,7 @@ Seznam zálohových faktur vydaných.
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
@@ -815,10 +853,7 @@ Seznam zálohových faktur vydaných.
             - `proforma_invoice_issued` (array[`PROFORMA_INVOICE_ISSUED_LIST`], required) - Pole dostupných vydaných zálohových faktur
         - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
-### Detail zálohové faktury [GET /proforma_invoice_issued/{id}]
-
-Podrobné inforamce k zálohové faktuře vydané.
-
+### Detail zálohové faktury vydané [GET /proforma_invoice_issued/{id}]
 + Parameters
     + id: 123 (number, required)
 
@@ -827,7 +862,7 @@ Podrobné inforamce k zálohové faktuře vydané.
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
@@ -835,12 +870,12 @@ Podrobné inforamce k zálohové faktuře vydané.
         - _embedded (object, required)
             - `proforma_invoice_issued` (`PROFORMA_INVOICE_ISSUED_DETAIL`, required) - Detail faktury
 
-### Vytvoření zálohové faktury [POST /proforma_invoice_issued]
+### Vytvoření zálohové faktury vydané [POST /proforma_invoice_issued]
 
 **Neplátci DPH**
 
 Tyto parametry nejsou povinné
-- `date_vat`, `date_vat_prev`, `items.unit_price_inc_vat`, `items.vat`,  `items.vat_total`, `items.vattype_id`, `itemsvat_chart_id`
+- `date_vat`, `date_vat_prev`, `items.unit_price_inc_vat`, `items.vat`,  `items.vat_total`, `items.vattype_id`, `items.vat_chart_id`
 
 
 **Zaúčtování položek**
@@ -848,15 +883,14 @@ Tyto parametry nejsou povinné
 - Parametry `accountentrytype_id` a `vattype_id` přepisují hodnoty `chart_account_id` a `vat_chart_id`.
 
 
-+ Request
++ Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
-            Content-Type: application/json
 
     + Attributes (`PROFORMA_INVOICE_ISSUED_CREATE`)
 
-+ Response 200 (application/json)
++ Response 201 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
@@ -864,9 +898,28 @@ Tyto parametry nejsou povinné
         - _embedded (object, required)
             - `proforma_invoice_issued` (`PROFORMA_INVOICE_ISSUED_DETAIL`, required) - Detail faktury
 
-### Editace zálohové faktury [PUT /proforma_invoice_issued/{id}]
+### Editace zálohové faktury vydané [PUT /proforma_invoice_issued/{id}]
++ Parameters
+    + id: 123 (number, required)
 
-Editace zálohové faktury vydané.
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`PROFORMA_INVOICE_ISSUED_CREATE`)
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/proforma_invoice_issued/123 (required)
+        - _embedded (object, required)
+            - `proforma_invoice_issued` (`PROFORMA_INVOICE_ISSUED_DETAIL`, required) - Detail faktury
+
+### Stažení PDF zálohové faktury vydané [GET /proforma_invoice_issued/{id}/pdf]
+
+Vrátí binární data PDF souboru pro tisk nebo uložení do souboru.
 
 + Parameters
     + id: 123 (number, required)
@@ -875,21 +928,12 @@ Editace zálohové faktury vydané.
     + Headers
 
             X-Auth-Key: api-key
-            Content-Type: application/json
 
-    + Attributes (`PROFORMA_INVOICE_ISSUED_CREATE`)
++ Response 200 (application/pdf)
 
-+ Response 200 (application/json)
-    + Attributes (object)
-        - _link (object, required)
-            - self (object, required)
-                - href: /1.1/proforma_invoice_issued/123 (required)
-        - _embedded (object, required)
-            - `proforma_invoice_issued` (`PROFORMA_INVOICE_ISSUED_DETAIL`, required) - Detail faktury
+### Smazání zálohové faktury vydané [DELETE /proforma_invoice_issued/{id}]
 
-### Smazání zálohové faktury [DELETE /proforma_invoice_issued/{id}]
-
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
 
 + Parameters
     + id: 123 (number, required)
@@ -901,11 +945,9 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 
 + Response 204
 ## Faktury vydané [/invoice_issued]
+<a name="faktury-vydane"/>
 
-### Seznam faktur [GET /invoice_issued{?page,pageSize,customer_id,customer_ico,date_from,date_to,maturity_date_from,maturity_date_to,date_vat_from,date_vat_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,accounted,payment_type,bank_account}]
-
-Vrátí kompletní kolekci dat vybraného dokladu. Pokud má doklad nastaveno EET, vrátí se jeho status.
-
+### Seznam faktur vydaných [GET /invoice_issued{?page,pageSize,customer_id,customer_ico,date_from,date_to,maturity_date_from,maturity_date_to,date_vat_from,date_vat_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,accounted,payment_type,bank_account}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
@@ -934,7 +976,7 @@ Vrátí kompletní kolekci dat vybraného dokladu. Pokud má doklad nastaveno EE
             X-Auth-Key: api-key
 
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
@@ -943,10 +985,7 @@ Vrátí kompletní kolekci dat vybraného dokladu. Pokud má doklad nastaveno EE
             - `invoice_issued` (array[`INVOICE_ISSUED_LIST`], required) - Pole dostupných vydaných faktur
         - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
-### Detail faktury [GET /invoice_issued/{id}]
-
-Podrobné inforamce k faktuře vydané.
-
+### Detail faktury vydané [GET /invoice_issued/{id}]
 + Parameters
     + id: 123 (number, required)
 
@@ -956,20 +995,20 @@ Podrobné inforamce k faktuře vydané.
             X-Auth-Key: api-key
 
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
                 - href: /1.1/invoice_issued/123 (required)
         - _embedded (object, required)
-            - `invoice_issued` (INVOICE_ISSUED_GET_DETAIL, required) - Detail faktury
+            - `invoice_issued` (INVOICE_ISSUED_DETAIL, required) - Detail faktury
 
-### Vytvoření faktury [POST /invoice_issued]
+### Vytvoření faktury vydané [POST /invoice_issued]
 
 **Neplátci DPH**
 
 Tyto parametry nejsou povinné
-- `date_vat`, `date_vat_prev`, `items.unit_price_inc_vat`, `items.vat`,  `items.vat_total`, `items.vattype_id`, `itemsvat_chart_id`
+- `date_vat`, `date_vat_prev`, `items.unit_price_inc_vat`, `items.vat`,  `items.vat_total`, `items.vattype_id`, `items.vat_chart_id`
 
 
 **Zaúčtování položek**
@@ -992,55 +1031,52 @@ K faktuře vydané lze připojit několik zálohových faktur předáním pole s
 Maximálně lze nastavit čtyři upomínky.
 Datum splatnosti musí být před, nebo v den upomínky.
 
+
 **EET**
 
-Přidání EET k faktuře lze dvěmy způsoby.
-- Nastavením parametru `eet = true` se automaticky odešle EET zpráva (pouze při vytvoření faktury).
-- Zápisem již odeslané EET zprávy do endpointu [**EET zprávy**](#eet_message) a nastavnám ID zprávy do proměnné `eet_status`.
+Přidání EET k dokladu lze dvěmy způsoby.
+- Nastavením parametru `eet = true` se automaticky odešle EET zpráva (pouze při vytváření dokladu).
+- Zápisem již odeslané EET zprávy do endpointu [**EET zprávy**](#eet-zpravy) a nastavnám ID zprávy do proměnné `eet_status`.
 
-+ Request
+
++ Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
-            Content-Type: application/json
 
     + Attributes (`INVOICE_ISSUED_CREATE`)
 
-+ Response 200 (application/json)
++ Response 201 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
                 - href: /1.1/invoice_issued/123 (required)
         - _embedded (object, required)
-            - `invoice_issued` (INVOICE_ISSUED_GET_DETAIL, required) - Detail faktury
+            - `invoice_issued` (INVOICE_ISSUED_DETAIL, required) - Detail faktury
 
-### Editace faktury [PUT /invoice_issued/{id}]
-
-Aktulizuje předané parametry vybraného dokladu.
-Poviné pole jsou stejná jako při vkládání nového záznamu.
+### Editace faktury vydané [PUT /invoice_issued/{id}]
 
 Nelze editovat doklady s EET, použijte [Opravný daňový doklad](#opravne-danove-doklady).
 
 + Parameters
     + id: 123 (number, required)
 
-+ Request
++ Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
-            Content-Type: application/json
 
     + Attributes (`INVOICE_ISSUED_CREATE`)
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
                 - href: /1.1/invoice_issued/123 (required)
         - _embedded (object, required)
-            - `invoice_issued` (INVOICE_ISSUED_GET_DETAIL, required) - Detail faktury
+            - `invoice_issued` (INVOICE_ISSUED_DETAIL, required) - Detail faktury
 
-### Stažení PDF faktury [GET /invoice_issued/{id}/pdf]
+### Stažení PDF faktury vydané [GET /invoice_issued/{id}/pdf]
 
 Vrátí binární data PDF souboru pro tisk nebo uložení do souboru.
 
@@ -1052,12 +1088,12 @@ Vrátí binární data PDF souboru pro tisk nebo uložení do souboru.
 
             X-Auth-Key: api-key
 
-+ Response 200 (Content-Type:application/pdf)
++ Response 200 (application/pdf)
 
 
-### Smazání faktury [DELETE /invoice_issued/{id}]
+### Smazání faktury vydané [DELETE /invoice_issued/{id}]
 
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
 
 Nelze smazat doklady s EET, použijte [Opravný daňový doklad](#opravne-danove-doklady).
 
@@ -1071,67 +1107,26 @@ Nelze smazat doklady s EET, použijte [Opravný daňový doklad](#opravne-danove
 
 + Response 204
 ## Opravné daňové doklady [/creditnote_issued]
-<a name="dobropisy"/>
+<a name="opravne-danove-doklady"/>
 
-**Parametry dokladu**
+### Seznam opravných dokladů [GET /creditnote_issued]
++ Request
+    + Headers
 
-| Parametr                  | Typ         | Délka | Popis                                                           | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|-----------------------------------------------------------------|:------:|:-------------:|
-| id                        | int         | 11    | ID dokladu                                                      | x      | -             |
-| invoice_issued_id         | int         | 11    | [**ID Faktury vydané**](#faktury_vydane)                        | x      | x             |
-| sequence_code             | string      | 45    | Číslo dokladu                                                   | x      | -             |
-| variable_symbol           | string      | 42    | Variabilní symbol                                               | x      | x             |
-| customer                  | array       | -     | [**Zákazník**](#zakaznici)                                      | x      | -             |
-| customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                                  | -      | x             |
-| customer_bank_account     | string      | 45    | Bankovní účet zákazníka                                         | -      | x             |
-| date                      | date        | -     | Datum vystavení                                                 | x      | x             |
-| maturity_date             | date        | -     | Datum splatnosti                                                | x      | x             |
-| payment_type              | int         | 1     | [**Forma úhrady**](#metody_plateb)                              | -      | x             |
-| bank_account              | int         | 11    | [**ID bankovního účet pro příjem platby**](#bankovni_ucty)      | -      | x             |
-| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                       | x      | x             |
-| price                     | int         | 11    | Celková částka bez DPH                                          | -      | -             |
-| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                                    | -      | -             |
-| price_inc_vat             | int         | 11    | Celková částka s DPH                                            | x      | -             |
-| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                      | -      | -             |
-| to_be_paid                | int         | -     | Zbývajicí částka k úhradě (v měně dokladu)                      | x      | -             |
-| date_vat                  | date        | -     | Datum zdanitelného plnění                                       | x      | x             |
-| date_vat_prev             | date        | -     | Datum předchozí sazby DPH                                       | -      | x             |
-| description               | string      | -     | Poznámka (důvod opravy)                                         | -      | x             |
-| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                        | -      | x             |
-| accounted                 | bool        | -     | Doklad je zaúčtován                                             | x      | -             |
-| eet                       | bool        | -     | Vygenerovat EET                                                 | x      | x             |
-| business_premises_id      | int         | 12    | [**Id provozovny**](#provozovny) - povinný pokud `eet` = 'true' | -      | x             |
-| deleted                   | bool        | -     | Doklad je smazaný                                               | x      | -             |
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/creditnote_issued (required)
+        - _embedded (object, required)
+            - `creditnote_issued` (array[`CREDITNOTE_ISSUED_LIST`], required) - Pole dostupných vydaných dokladů
 
 
-**Položky dokladu**
-
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             |
-| items:id                  | int         | 11    | ID položky                                                 | -      | -             |
-| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             |
-| items:unit                | string      | 10    | Jednotka                                                   | -      | x             |
-| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             |
-| items:text                | string      | 255   | Popis                                                      | -      | x             |
-| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             |
-| items:accountentrytype_id | int         | 11    | [**Typ účetní položky**](#typy_uc_polozek)                 | -      | x             |
-| items:vattype_id          | int         | 11    | [**Typ DPH**](#typy_dph)                                   | -      | x             |
-| items:chart_account_id    | int         | 11    | [**Účet účetní osnovy**](#ucty_uc_osnovy)                  | -      | x             |
-| items:vat_chart_id        | int         | 11    | [**Účet DPH**](#ucty_dph)                                  | -      | x             |
-| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             |
-| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             |
-
-*Hodnoty `id` a `items:id` jsou přiřazeny službou v momentu vytvoření nového záznamu.*
-
-+ Model (application/hal+json)
-    + Body
-
-            {"_links":{"self":{"href":"\/1.1\/creditnote_issued"}},"_embedded":{"creditnote_issued":[{"_links":{"self":{"href":"\/1.1\/creditnote_issued\/13290"}},"id":13290,"sequence_code":"ODV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"business_premises":{"_links":{"self":{"href":"\/1.1\/business_premises\/74"}},"id":74,"name":"Restaurace pod dubem","isdefault":true},"eet_status":{"status":"ok","FIK":"4321a339-d567-48d0-b0a1-b3d158ba4901-ff","BKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ==","PKP":"ag/z4tOR5ugI20Pc3n8A3oBdFPlHpj7mIbuv+r7HHqOFXk2J5zGA8KPzwYPF1ACYNnqtkqpeGP5OD3TWfHKPXO/1llK28SUUtixHixO/uflQ77LH3PxmAIOkrQFylGYNcAa9YZ50eyXjbSZLVUTqXOntMTfenA51ZKRx40TYQlF3ePlOMTWxWfhRWXlESvmtWY92RxvjJBanenyz2sjvqGkUMa1oIpWbawS7a+VNX5IJDxCeh0+yfPY/atoDb4yM2NdKO4WeeHxxKLTo/SE+4AA3Dd9NiqQUnQMkZkiP8sSlTG/KQ2nsD7CtmNBBAJa/euywclO/KackOb311bt6MQ=="},"deleted":false}]}}
-
-
-### Vypis všech dostupných dokladů [GET]
-Zjednodušený výpis všech dostupných dokladů.
+### Detail opravného dokladu [GET /creditnote_issued/{id}]
++ Parameters
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -1139,84 +1134,78 @@ Zjednodušený výpis všech dostupných dokladů.
             X-Auth-Key: api-key
 
 + Response 200 (application/hal+json)
-
-        {"_links":{"self":{"href":"\/1.1\/creditnote_issued"}},"_embedded":{"creditnote_issued":[{"_links":{"self":{"href":"\/1.1\/creditnote_issued\/13290"}},"id":13290,"invoice_issued_id":5666,"sequence_code":"ODV20140001","variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","price_inc_vat":2522.85,"to_be_paid":2522.85,"customer":{"_links":{"self":{"href":"\/1.1\/customer\/5779"}},"id":5779,"name":"Martin Nov\u00fd","comid":null,"vatid":null,"vat_payer":false,"email":null},"accounted":false,"eet":true,"deleted":false}]}}
-
-### Vytvoření nového dokladu [POST /creditnote_issued/{id}]
-Vytvoří nový doklad, odpověd obsahuje detail dokladu.
-
-Povinné parametry dokladu:
- - variable_symbol
- - date
- - date_vat
- - maturity_date
- - currency
- - customer_id
- - bank_account
- - description
- - items
- - items:text
- - items:amount
- - items:price
- - items:vat
- - items:accountentrytype_id
-
- Pokud je v nastavení klienta řádně nastavené EET je možné použít paramter `eet` = 'true', což zaeviduje doklad do EET.
- Poud je nastaven paramter `eet` = 'true', pramater `business_premises_id` je povinný.
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/creditnote_issued/123 (required)
+        - _embedded (object, required)
+            - `creditnote_issued` (`CREDITNOTE_ISSUED_DETAIL`, required) - Detail dokladu
 
 
-+ Request (application/json)
-    + Headers
 
-            X-Auth-Key: api-key
+### Vytvoření opravného dokladu [POST /creditnote_issued]
 
-    + Body
+**Neplátci DPH**
 
-            {"invoice_issued_id":458,"variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-07-12","currency":"CZK","customer_id":5779,"customer_bank_account":null,"payment_type":"creditcard","bank_account":825,"date_vat_prev":null,"description":"Opravný doklad","rounding_type":null,"eet":true,"business_premises_id":458,"items":[{"text":"b\u00edl\u00e9 tri\u010dko","amount":5,"price":400,"unit":"ks","vat":21,"accountentrytype_id":16,"vattype_id":1,"department_id":0,"contract_id":0,"chart_account_id":309,"vat_chart_id":302},{"text":"doprava","amount":1,"price":85,"unit":null,"vat":21,"accountentrytype_id":63,"vattype_id":23,"department_id":0,"contract_id":0,"chart_account_id":272,"vat_chart_id":302}]}
+Tyto parametry nejsou povinné
+- `date_vat`, `date_vat_prev`, `items.unit_price_inc_vat`, `items.vat`,  `items.vat_total`, `items.vattype_id`, `items.vat_chart_id`
 
-+ Response 201
-        [Opravné daňové doklady][]
 
-### Detail dokladu [GET /creditnote_issued/{id}]
-Vrátí kompletní kolekci dat vybraného dokladu.
-Pokud má doklad nastaveno EET, vrátí se jeho status.
+**Zaúčtování položek**
 
-+ Parameters
-    + id (int) ... ID dokladu
+- Parametry `accountentrytype_id` a `vattype_id` přepisují hodnoty `chart_account_id` a `vat_chart_id`.
 
-+ Request
-    + Headers
 
-            X-Auth-Key: api-key
+**EET**
 
-+ Response 200
-        [Opravné daňové doklady][]
+Přidání EET k dokladu lze dvěmy způsoby.
+- Nastavením parametru `eet = true` se automaticky odešle EET zpráva (pouze při vytváření dokladu).
+- Zápisem již odeslané EET zprávy do endpointu [**EET zprávy**](#eet-zpravy) a nastavnám ID zprávy do proměnné `eet_status`.
 
-### Editace dokladu [PUT /creditnote_issued/{id}]
-Aktulizuje předané parametry vybraného dokladu.
-Poviné pole jsou stejná jako při vkládání nového záznamu.
-Nelze  editovat doklady s EET, použijte nový [**Opravný daňový doklad**](#dobropisy).
-
-+ Parameters
-    + id (int) ... ID dokladu
 
 + Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`CREDITNOTE_ISSUED_CREATE`)
 
-            {"invoice_issued_id":985,"variable_symbol":"20140001","date":"2014-07-12","date_vat":"2014-07-12","maturity_date":"2014-08-12","currency":"CZK","customer_id":5779,"customer_bank_account":null,"payment_type":"transfer","bank_account":825,"date_vat_prev":null,"description":"Opravný doklad","rounding_type":null,"items":[{"text":"b\u00edl\u00e9 tri\u010dko","amount":5,"price":400,"unit":"ks","vat":21,"accountentrytype_id":16,"vattype_id":1,"department_id":0,"contract_id":0,"chart_account_id":309,"vat_chart_id":302},{"text":"doprava","amount":1,"price":85,"unit":null,"vat":21,"accountentrytype_id":63,"vattype_id":23,"department_id":0,"contract_id":0,"chart_account_id":272,"vat_chart_id":302}]}
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/creditnote_issued/123 (required)
+        - _embedded (object, required)
+            - `creditnote_issued` (`CREDITNOTE_ISSUED_DETAIL`, required) - Detail dokladu
 
-+ Response 200
-        [Opravné daňové doklady][]
+### Editace opravného dokladu [PUT /creditnote_issued/{id}]
 
-### Smazání dokladu [DELETE /creditnote_issued/{id}]
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
-Nelze smazat doklady s EET, použijte nový [**Opravný daňový doklad**](#dobropisy).
+Nelze  editovat doklady s EET, použijte nový [**Opravný daňový doklad**](#opravne-danove-doklady).
+
 + Parameters
-    + id (int) ... ID dokladu
+    + id: 123 (number, required)
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`CREDITNOTE_ISSUED_CREATE`)
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/creditnote_issued/123 (required)
+        - _embedded (object, required)
+            - `creditnote_issued` (`CREDITNOTE_ISSUED_DETAIL`, required) - Detail dokladu
+
+
+### Smazání opravného dokladu [DELETE /creditnote_issued/{id}]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
+Nelze smazat doklady s EET, použijte nový [**Opravný daňový doklad**](#opravne-danove-doklady).
++ Parameters
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -1229,48 +1218,24 @@ Nelze smazat doklady s EET, použijte nový [**Opravný daňový doklad**](#dobr
 ## Objednávky vydané [/order_issued]
 <a name="objednavky-vydane"/>
 
-**Parametry dokladu**
+### Seznam objednávek vydaných [GET]
++ Request
+    + Headers
 
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| id                        | int         | 11    | ID dokladu                                                 | x      | -             |
-| sequence_code             | string      | 45    | Číslo dokladu                                              | x      | -             |
-| supplier                  | array       | -     | [**Dodavatel**](#dodavatele)                               | x      | -             |
-| supplier_id               | int         | 11    | [**Id dodavatele**](#dodavatele)                           | -      | x             |
-| invoice_id                | int         | 11    | [**ID Faktury přijaté**](#faktury_prijate)                 | x      | -             |
-| date                      | date        | -     | Datum vystavení                                            | x      | x             |
-| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                  | x      | x             |
-| price                     | int         | 11    | Celková částka bez DPH                                     | -      | -             |
-| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                               | -      | -             |
-| price_inc_vat             | int         | 11    | Celková částka s DPH                                       | x      | -             |
-| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                 | -      | -             |
-| description               | string      | -     | Poznámka                                                   | -      | x             |
-| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                   | -      | x             |
-| deleted                   | bool        | -     | Doklad je smazaný                                          | x      | -             |
+            X-Auth-Key: api-key
 
-** Položky dokladu**
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/order_issued (required)
+        - _embedded (object, required)
+            - `order_issued` (array[`ORDER_ISSUED_LIST`], required) - Pole dostupných dokladů
 
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             |
-| items:id                  | int         | 11    | ID položky                                                 | -      | -             |
-| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             |
-| items:unit                | string      | 10    | Jednotka                                                   | -      | x             |
-| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             |
-| items:text                | string      | 255   | Popis                                                      | -      | x             |
-| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             |
-| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             |
-| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             |
 
-*Hodnoty `id` a `items:id` jsou přiřazeny službou v momentu vytvoření nového záznamu.*
-
-+ Model (application/hal+json)
-    + Body
-
-            {"_links":{"self":{"href":"\/1.1\/order_issued\/11"}},"id":11,"sequence_code":"OV20150001","date":"2015-07-16","currency":"CZK","price":2600,"price_czk":2600,"price_inc_vat":3146,"price_inc_vat_czk":3146,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/5815"}},"id":5815,"name":"Dodavatel 1","name_display":null,"comid":null,"vatid":null,"vat_payer":false,"email":null,"phone":null,"cellphone":null,"www":null,"address":{"street":"Ulice 233","city":"Mesto","postalcode":"39002","country":"CZ"},"note":null,"account_number1":null,"account_number2":null,"account_number3":null,"account_number4":null},"description":"lorem ipsum test poznámky 55555","rounding_type":"up","items":[{"id":12,"text":"test","amount":20,"price":130,"unit":null,"vat":21,"department_id":0,"contract_id":0}],"deleted":false}
-
-### Vypis všech dostupných dokladů [GET]
-Zjednodušený výpis všech dostupných dokladů.
+### Detail objednávky vydané [GET /order_issued/{id}]
++ Parameters
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -1278,71 +1243,59 @@ Zjednodušený výpis všech dostupných dokladů.
             X-Auth-Key: api-key
 
 + Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/order_issued/123 (required)
+        - _embedded (object, required)
+            - `order_issued` (`ORDER_ISSUED_DETAIL`, required) - Detail dokladu
 
-        {"_links":{"self":{"href":"\/1.1\/order_issued"}},"_embedded":{"order_issued":[{"_links":{"self":{"href":"\/1.1\/order_issued\/7"}},"id":7,"sequence_code":"OBJ20140001","date":"2014-10-24","currency":"CZK","price_inc_vat":442.86,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/5815"}},"id":5815,"name":"Dodavatel 1","comid":null,"vatid":null,"vat_payer":false,"email":null},"deleted":false}
 
-### Vytvoření nové objednávky [POST /order_issued/{id}]
-Vytvoří nový doklad, odpověd obsahuje detail dokladu.
 
-Povinné parametry dokladu:
+### Vytvoření objednávky vydané [POST /order_issued]
++ Request (application/json)
+    + Headers
 
-    date
-    currency
-    customer_id
-    items
-    items:text
-    items:amount
-    items:price
-    items:vat
+            X-Auth-Key: api-key
+
+    + Attributes (`ORDER_ISSUED_CREATE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/order_issued/123 (required)
+        - _embedded (object, required)
+            - `order_issued` (`ORDER_ISSUED_DETAIL`, required) - Detail dokladu
+
+
+
+
+### Editace objednávky vydané [PUT /order_issued/{id}]
++ Parameters
+    + id: 123 (number, required)
 
 + Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`ORDER_ISSUED_CREATE`)
 
-            {"date": "2015-07-15","currency": "CZK","supplier_id": 5815,"payment_type": "transfer","description": "lorem ipsum test poznámky","rounding_type": "up","items": [{"text": "test","amount": 10,"price": 150,"unit": null,"vat": 21,"department_id": 0,"contract_id": 0}] }
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/order_issued/123 (required)
+        - _embedded (object, required)
+            - `order_issued` (`ORDER_ISSUED_DETAIL`, required) - Detail dokladu
 
-+ Response 201
-        [Objednávky vydané][]
 
-### Detail dokladu [GET /order_issued/{id}]
-Vrátí kompletní kolekci dat vybraného dokladu.
+
+### Smazání objednávky vydané [DELETE /order_issued/{id}]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
 + Parameters
-    + id (int) ... ID dokladu
-
-+ Request
-    + Headers
-
-            X-Auth-Key: api-key
-
-+ Response 200
-        [Objednávky vydané][]
-
-### Editace dokladu [PUT /order_issued/{id}]
-Aktulizuje předané parametry vybraného dokladu.
-Povinná pole jsou stejná jako při vkládání nového záznamu.
-
-+ Parameters
-    + id (int) ... ID dokladu
-
-+ Request (application/json)
-    + Headers
-
-            X-Auth-Key: api-key
-
-    + Body
-
-            {"date": "2015-07-15","currency": "CZK","supplier_id": 5815,"payment_type": "transfer","description": "lorem ipsum test poznámky","rounding_type": "up","items": [{"text": "test","amount": 10,"price": 150,"unit": null,"vat": 21,"department_id": 0,"contract_id": 0}] }
-
-+ Response 200
-        [Objednávky vydané][]
-
-### Smazání dokladu [DELETE /order_issued/{id}]
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
-+ Parameters
-    + id (int) ... ID dokladu
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -1351,10 +1304,9 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 
 + Response 204
 ## Zálohové faktury přijaté [/proforma_invoice_received]
+<a name="zalohove-faktury-prijate" />
 
-### Seznam zálohových faktur [GET /proforma_invoice_received{?page,pageSize}]
-
-Seznam zálohových faktur přijatých.
+### Seznam zálohových faktur přijatých [GET /proforma_invoice_received{?page,pageSize}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
@@ -1364,7 +1316,7 @@ Seznam zálohových faktur přijatých.
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
@@ -1373,10 +1325,7 @@ Seznam zálohových faktur přijatých.
             - `proforma_invoice_received` (array[`PROFORMA_INVOICE_RECEIVED_LIST`], required) - Pole dostupných přijatých zálohových faktur
         - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
-### Detail zálohové faktury [GET /proforma_invoice_received/{id}]
-
-Podrobné inforamce k zálohové faktuře přijaté.
-
+### Detail zálohové faktury přijaté [GET /proforma_invoice_received/{id}]
 + Parameters
     + id: 123 (number, required)
 
@@ -1385,7 +1334,7 @@ Podrobné inforamce k zálohové faktuře přijaté.
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
@@ -1393,7 +1342,7 @@ Podrobné inforamce k zálohové faktuře přijaté.
         - _embedded (object, required)
             - `proforma_invoice_received` (`PROFORMA_INVOICE_RECEIVED_DETAIL`, required) - Detail faktury
 
-### Vytvoření zálohové faktury [POST /proforma_invoice_received]
+### Vytvoření zálohové faktury přijaté [POST /proforma_invoice_received]
 
 **Neplátci DPH**
 
@@ -1406,15 +1355,14 @@ Tyto parametry nejsou povinné
 - Parametry `accountentrytype_id` a `vattype_id` přepisují hodnoty `chart_account_id` a `vat_chart_id`.
 
 
-+ Request
++ Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
-            Content-Type: application/json
 
     + Attributes (`PROFORMA_INVOICE_RECEIVED_CREATE`)
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object, required)
             - self (object, required)
@@ -1422,18 +1370,14 @@ Tyto parametry nejsou povinné
         - _embedded (object, required)
             - `proforma_invoice_received` (`PROFORMA_INVOICE_RECEIVED_DETAIL`, required) - Detail faktury
 
-### Editace zálohové faktury [PUT /proforma_invoice_received/{id}]
-
-Editace zálohové faktury přijaté.
-
+### Editace zálohové faktury přijaté [PUT /proforma_invoice_received/{id}]
 + Parameters
     + id: 123 (number, required)
 
-+ Request
++ Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
-            Content-Type: application/json
 
     + Attributes (`PROFORMA_INVOICE_RECEIVED_CREATE`)
 
@@ -1445,9 +1389,9 @@ Editace zálohové faktury přijaté.
         - _embedded (object, required)
             - `proforma_invoice_received` (`PROFORMA_INVOICE_RECEIVED_DETAIL`, required) - Detail faktury
 
-### Smazání zálohové faktury [DELETE /proforma_invoice_received/{id}]
+### Smazání zálohové faktury přijaté [DELETE /proforma_invoice_received/{id}]
 
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
 
 + Parameters
     + id: 123 (number, required)
@@ -1459,62 +1403,25 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 
 + Response 204
 ## Faktury přijaté [/invoice_received]
-<a name="faktury_prijate"/>
+<a name="faktury-prijate"/>
 
-**Parametry dokladu**
+### Seznam faktur přijatých [GET]
++ Request
+    + Headers
 
-| Parametr                  | Typ         | Délka | Popis                                                         | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|---------------------------------------------------------------|:------:|:-------------:|
-| id                        | int         | 11    | ID dokladu                                                    | x      | -             |
-| sequence_code             | string      | 45    | Číslo dokladu                                                 | x      | -             |
-| variable_symbol           | string      | 42    | Variabilní symbol                                             | x      | x             |
-| supplier                  | array       | -     | [**Dodavatel**](#dodavatele)                                  | x      | -             |
-| supplier_id               | int         | 11    | [**Id dodavatele**](#dodavatele)                              | -      | x             |
-| order_id                  | int         | 11    | [**Id objednávky**](#objednavky-vydane)                       | x      | -             |
-| date                      | date        | -     | Datum vystavení                                               | x      | x             |
-| maturity_date             | date        | -     | Datum splatnosti                                              | x      | x             |
-| payment_type              | int         | 1     | [**Forma úhrady**](#metody_plateb)                            | -      | x             |
-| bank_account              | int         | 11    | [**ID bankovního účtu pro provedení platby**](#bankovni_ucty) | -      | x             |
-| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                     | x      | x             |
-| price                     | int         | 11    | Celková částka bez DPH                                        | -      | -             |
-| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                                  | -      | -             |
-| price_inc_vat             | int         | 11    | Celková částka s DPH                                          | x      | -             |
-| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                    | -      | -             |
-| to_be_paid                | int         | -     | Zbývajicí částka k úhradě (v měně dokladu)                    | x      | -             |
-| date_vat                  | date        | -     | Datum zdanitelného plnění                                     | x      | x             |
-| date_vat_prev             | date        | -     | Datum předchozí sazby DPH                                     | -      | x             |
-| description               | string      | -     | Poznámka                                                      | -      | x             |
-| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                      | -      | x             |
-| accounted                 | bool        | -     | Doklad je zaúčtován                                           | x      | -             |
-| deleted                   | bool        | -     | Doklad je smazaný                                             | x      | -             |
+            X-Auth-Key: api-key
 
-**Položky dokladu**
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/invoice_received (required)
+        - _embedded (object, required)
+            - `invoice_received` (array[`INVOICE_RECEIVED_LIST`], required) - Pole dostupných přijatých faktur
 
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             |
-| items:id                  | int         | 11    | ID položky                                                 | -      | -             |
-| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             |
-| items:unit                | string      | 10    | Jednotka                                                   | -      | x             |
-| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             |
-| items:text                | string      | 255   | Popis                                                      | -      | x             |
-| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             |
-| items:accountentrytype_id | int         | 11    | [**Typ účetní položky**](#typy_uc_polozek)                 | -      | x             |
-| items:vattype_id          | int         | 11    | [**Typ DPH**](#typy_dph)                                   | -      | x             |
-| items:chart_account_id    | int         | 11    | [**Účet účetní osnovy**](#ucty_uc_osnovy)                  | -      | x             |
-| items:vat_chart_id        | int         | 11    | [**Účet DPH**](#ucty_dph)                                  | -      | x             |
-| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             |
-| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             |
-
-*Hodnoty `id` a `items:id` jsou přiřazeny službou v momentu vytvoření nového záznamu.*
-
-+ Model (application/hal+json)
-    + Body
-
-            {"_links":{"self":{"href":"\/1.1\/invoice_received\/30861"}},"id":30861,"sequence_code":"FP20140005","variable_symbol":"20140005","date":"2014-10-01","date_vat":"2014-10-01","maturity_date":"2014-11-01","currency":"CZK","price":130,"price_czk":130,"price_inc_vat":130,"price_inc_vat_czk":130,"to_be_paid":130,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null},"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"date_vat_prev":null,"description":null,"rounding_type":"up","items":[{"id":47983,"text":"test","amount":1,"price":130,"unit":null,"vat":0,"accountentrytype_id":22,"vattype_id":16,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":64}],"accounted":false,"deleted":false}
-
-### Vypis všech dostupných dokladů [GET]
-Zjednodušený výpis všech dostupných dokladů.
+### Detail faktury přijaté [GET /invoice_received/{id}]
++ Parameters
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -1522,76 +1429,54 @@ Zjednodušený výpis všech dostupných dokladů.
             X-Auth-Key: api-key
 
 + Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/invoice_received/123 (required)
+        - _embedded (object, required)
+            - `invoice_received` (`INVOICE_RECEIVED_DETAIL`, required) - Detail faktury
 
-        {"_links":{"self":{"href":"\/1.1\/invoice_received"}},"_embedded":{"invoice_received":[{"_links":{"self":{"href":"\/1.1\/invoice_received\/30861"}},"id":30861,"sequence_code":"FP20140005","variable_symbol":"20140005","date":"2014-10-01","date_vat":"2014-10-01","maturity_date":"2014-11-01","currency":"CZK","price_inc_vat":130,"to_be_paid":130,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"},"accounted":false,"deleted":false}]}}
+### Vytvoření faktury přijaté [POST /invoice_received]
++ Request (application/json)
+    + Headers
 
-### Vytvoření nového dokladu [POST /invoice_received/{id}]
-Vytvoří nový doklad, odpověd obsahuje detail dokladu.
+            X-Auth-Key: api-key
 
-Povinné parametry dokladu:
+    + Attributes (`INVOICE_RECEIVED_CREATE`)
 
-    variable_symbol
-    date
-    date_vat
-    maturity_date
-    currency
-    supplier_id
-    bank_account
-    items
-    items:text
-    items:amount
-    items:price
-    items:vat
-    items:accountentrytype_id
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/invoice_received/123 (required)
+        - _embedded (object, required)
+            - `invoice_received` (`INVOICE_RECEIVED_DETAIL`, required) - Detail faktury
+
+
+### Editace faktury přijaté [PUT /invoice_received/{id}]
++ Parameters
+    + id: 123 (number, required)
 
 + Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`INVOICE_RECEIVED_CREATE`)
 
-            {"variable_symbol":"20140005","date":"2014-10-01","date_vat":"2014-10-01","maturity_date":"2014-11-01","currency":"CZK","supplier_id":9093,"payment_type":"transfer","bank_account":448,"date_vat_prev":null,"description":null,"rounding_type":"up","items":[{"text":"test","amount":1,"price":130,"unit":null,"vat":0,"accountentrytype_id":22,"vattype_id":16,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":64}]}
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/invoice_received/123 (required)
+        - _embedded (object, required)
+            - `invoice_received` (`INVOICE_RECEIVED_DETAIL`, required) - Detail faktury
 
-+ Response 201
-        [Faktury přijaté][]
 
-### Detail dokladu [GET /invoice_received/{id}]
-Vrátí kompletní kolekci dat vybraného dokladu.
+### Smazání faktury přijaté [DELETE /invoice_received/{id}]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
 + Parameters
-    + id (int) ... ID dokladu
-
-+ Request
-    + Headers
-
-            X-Auth-Key: api-key
-
-+ Response 200
-        [Faktury přijaté][]
-
-### Editace dokladu [PUT /invoice_received/{id}]
-Aktulizuje předané parametry vybraného dokladu.
-Poviné pole jsou stejná jako při vkládání nového záznamu.
-
-+ Parameters
-    + id (int) ... ID dokladu
-
-+ Request (application/json)
-    + Headers
-
-            X-Auth-Key: api-key
-
-    + Body
-
-            {"variable_symbol":"20140005","date":"2014-10-01","date_vat":"2014-10-01","maturity_date":"2014-11-05","currency":"CZK","supplier_id":9093,"payment_type":"transfer","bank_account":448,"date_vat_prev":null,"description":null,"rounding_type":"up","items":[{"text":"test","amount":1,"price":130,"unit":null,"vat":0,"accountentrytype_id":22,"vattype_id":16,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":64}]}
-
-+ Response 200
-        [Faktury přijaté][]
-
-### Smazání dokladu [DELETE /invoice_received/{id}]
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
-+ Parameters
-    + id (int) ... ID dokladu
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -1605,71 +1490,11 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ## Platby vydané [/payment_issued]
 <a name="platby-vydane"/>
 
-**Parametry dokladu**
-
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| id                        | int         | 11    | ID dokladu                                                 | x      | -             |
-| sequence_code             | string      | 45    | Číslo dokladu                                              | x      | -             |
-| variable_symbol           | string      | 42    | Variabilní symbol                                          | x      | x             |
-| customer                  | array       | -     | [**Zákazník**](#zakaznici)                                 | x      | -             |
-| customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                             | -      | x             |
-| supplier                  | array       | -     | [**Dodavatel**](#dodavatele)                               | x      | -             |
-| supplier_id               | int         | 11    | [**Id dodavatele**](#dodavatele)                           | -      | x             |
-| date                      | date        | -     | Datum vystavení                                            | x      | x             |
-| payment_type              | string      | -     | Povolené hodnoty: **'transfer'** a **'cash'**              | -      | x             |
-| bank_account              | int/array   | 11/-  | [**ID bankovního účtu / Bankovní účet**](#bankovni_ucty)   | x      | x             |
-| cash_register_id          | int         | 11    | [**ID pokladny**](#pokladny)                               | -      | x             |
-| cash_register             | array       | -     | [**Pokladna**](#pokladny)                                  | x      | x             |
-| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                  | x      | x             |
-| price                     | int         | 11    | Celková částka bez DPH                                     | -      | -             |
-| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                               | -      | -             |
-| price_inc_vat             | int         | 11    | Celková částka s DPH                                       | x      | -             |
-| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                 | -      | -             |
-| date_vat                  | date        | -     | Datum zdanitelného plnění                                  | x      | x             |
-| date_vat_prev             | date        | -     | Datum předchozí sazby DPH                                  | -      | x             |
-| description               | string      | -     | Poznámka                                                   | -      | x             |
-| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                   | -      | x             |
-| deleted                   | bool        | -     | Doklad je smazaný                                          | x      | -             |
-| invoice                   | array       | -     | [**Faktura přijatá**](#faktury_prijate)                    | x      | -             |
-| invoice_id                | int         | 11    | [**ID Faktury přijaté**](#faktury_prijate)                 | -      | x             |
-| reference_mark            | string      | 45    | Referenční značka                                          | -      | x             |
-| full_paid                 | bool        | -     | Příznak, zda je faktura uhrazena v plné výši               | -      | x             |
-
-**Položky dokladu**
-
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             |
-| items:id                  | int         | 11    | ID položky                                                 | -      | -             |
-| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             |
-| items:unit                | string      | 10    | Jednotka                                                   | -      | x             |
-| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             |
-| items:text                | string      | 255   | Popis                                                      | -      | x             |
-| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             |
-| items:accountentrytype_id | int         | 11    | [**Typ účetní položky**](#typy_uc_polozek)                 | -      | x             |
-| items:vattype_id          | int         | 11    | [**Typ DPH**](#typy_dph)                                   | -      | x             |
-| items:chart_account_id    | int         | 11    | [**Účet účetní osnovy**](#ucty_uc_osnovy)                  | -      | x             |
-| items:vat_chart_id        | int         | 11    | [**Účet DPH**](#ucty_dph)                                  | -      | x             |
-| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             |
-| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             |
-
-*Hodnoty `id` a `items:id` jsou přiřazeny službou v momentu vytvoření nového záznamu.*
-
-+ Model (application/hal+json)
-    + Body
-
-            {"_links":{"self":{"href":"\/1.1\/payment_issued\/54412"}},"id":54412,"sequence_code":"VD20140008","customer":null,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","name_display":null,"comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz","phone":null,"cellphone":null,"www":null,"address":{"street":"Domovn\u00ed 685","city":"Plze\u0148","postalcode":"56985","country":"CZ"},"note":null,"account_number1":"1230123\/0999","account_number2":null,"account_number3":null,"account_number4":null},"invoice":null,"variable_symbol":null,"date":"2014-10-31","date_vat":"2014-10-31","currency":"CZK","price":600,"price_czk":600,"price_inc_vat":726,"price_inc_vat_czk":726,"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"date_vat_prev":null,"description":null,"rounding_type":"none","reference_mark":null,"full_paid":false,"items":[{"id":60949,"text":"test","amount":6,"price":100,"unit":null,"vat":21,"accountentrytype_id":0,"vattype_id":16,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":0}],"deleted":false}
-
-
-
-### Vypis všech dostupných dokladů [GET]
-Zjednodušený výpis všech dostupných dokladů.
-
+### Seznam plateb vydaných [GET /payment_issued{?page,pageSize,invoice_id}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
-    + invoice_id: `12,55` (string, optional) - Filtr dle ID faktuy (čárkou oddělená čísla)
+    + invoice_id: `12,55` (string, optional) - Filtr dle ID faktury (čárkou oddělená čísla)
 
 + Request
     + Headers
@@ -1677,79 +1502,76 @@ Zjednodušený výpis všech dostupných dokladů.
             X-Auth-Key: api-key
 
 + Response 200 (application/hal+json)
-
-        {"_links":{"self":{"href":"\/1.1\/payment_issued"}},"_embedded":{"payment_issued":[{"_links":{"self":{"href":"\/1.1\/payment_issued\/54412"}},"id":54412,"sequence_code":"VD20140008","customer":null,"supplier":{"_links":{"self":{"href":"\/1.1\/supplier\/9093"}},"id":9093,"name":"Firma a.s.","comid":"00110011","vatid":"FK123555444","vat_payer":true,"email":"firma@fiktivni.cz"},"invoice":null,"variable_symbol":null,"date":"2014-10-31","date_vat":"2014-10-31","currency":"CZK","price_inc_vat":726,"bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"deleted":false}]}}
-
-### Vytvoření nového dokladu [POST /payment_issued/{id}]
-Vytvoří nový doklad, odpověd obsahuje detail dokladu.
-
-Povinné parametry dokladu:
-
-    date
-    date_vat (pokud existuje položka s DPH)
-    currency
-    customer_id nebo supplier_id
-    payment_type
-    bank_account (pokud je `payment_type` = 'transfer')
-    cash_register_id (pokud je `payment_type` = 'cash')
-    items
-    items:text
-    items:amount
-    items:price
-    items:vat
-    items:accountentrytype_id
-
-**Nelze nastavit současně zákazníka a dodavatele, či bankovní účet a pokladnu.**
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/payment_issued (required)
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+        - _embedded (object, required)
+            - `payment_issued` (array[`PAYMENT_ISSUED_LIST`], required) - Pole dostupných dokladů
 
 
-+ Request (application/json)
-    + Headers
 
-            X-Auth-Key: api-key
-
-    + Body
-
-            {"supplier_id":9093,"date":"2014-10-31","date_vat":"2014-10-31","bank_account":448,"currency":"CZK","payment_type":"transfer","items":[{"price":100,"text":"test","amount":6,"vat":21,"vattype_id":16,"chart_account_id":63}]}
-
-+ Response 201
-        [Platby vydané][]
-
-### Detail dokladu [GET /payment_issued/{id}]
-Vrátí kompletní kolekci dat vybraného dokladu.
+### Detail platby vydané [GET /payment_issued/{id}]
 + Parameters
-    + id (int) ... ID dokladu
+    + id: 123 (number, required)
 
 + Request
     + Headers
 
             X-Auth-Key: api-key
 
-+ Response 200
-        [Platby vydané][]
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/payment_issued/123 (required)
+        - _embedded (object, required)
+            - `payment_issued` (`PAYMENT_ISSUED_DETAIL`, required) - Detail dokladu
 
-### Editace dokladu [PUT /payment_issued/{id}]
-Aktulizuje předané parametry vybraného dokladu.
-Poviné ple jsou stejná jako při vkládání nového záznamu.
+### Vytvoření platby vydané [POST /payment_issued]
 
-+ Parameters
-    + id (int) ... ID dokladu
+Nelze nastavit současně zákazníka a dodavatele, či bankovní účet a pokladnu.
 
 + Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`PAYMENT_ISSUED_CREATE`)
 
-            {"supplier_id":9093,"date":"2014-10-31","date_vat":"2014-10-31","bank_account":448,"currency":"CZK","payment_type":"transfer","items":[{"price":100,"text":"test","amount":10,"vat":21,"vattype_id":16,"chart_account_id":63}]}
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/payment_issued/123 (required)
+        - _embedded (object, required)
+            - `paymnet_issued` (`PAYMENT_ISSUED_DETAIL`, required) - Detail dokladu
 
-+ Response 200
-        [Platby vydané][]
 
-### Smazání dokladu [DELETE /payment_issued/{id}]
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
+### Editace platby vydané [PUT /payment_issued/{id}]
 + Parameters
-    + id (int) ... ID dokladu
+    + id: 123 (number, required)
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`PAYMENT_ISSUED_CREATE`)
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/payment_issued/123 (required)
+        - _embedded (object, required)
+            - `payment_issued` (`PAYMENT_ISSUED_DETAIL`, required) - Detail dokladu
+
+### Smazání platby vydané [DELETE /payment_issued/{id}]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
++ Parameters
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -1760,70 +1582,11 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ## Platby přijaté [/payment_received]
 <a name="platby-prijate"/>
 
-**Parametry dokladu**
-
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| id                        | int         | 11    | ID dokladu                                                 | x      | -             |
-| sequence_code             | string      | 45    | Číslo dokladu                                              | x      | -             |
-| variable_symbol           | string      | 42    | Variabilní symbol                                          | x      | x             |
-| customer                  | array       | -     | [**Zákazník**](#zakaznici)                                 | x      | -             |
-| customer_id               | int         | 11    | [**Id zákazníka**](#zakaznici)                             | -      | x             |
-| date                      | date        | -     | Datum vystavení                                            | x      | x             |
-| payment_type              | string      | -     | Povolené hodnoty: **'transfer'** a **'cash'**              | -      | x             |
-| bank_account              | int/array   | 11/-  | [**ID bankovního účtu / Bankovní účet**](#bankovni_ucty)   | x      | x             |
-| cash_register_id          | int         | 11    | [**ID pokladny**](#pokladny)                               | -      | x             |
-| cash_register             | array       | -     | [**Pokladna**](#pokladny)                                  | x      | x             |
-| currency                  | string      | 3     | [**Měna dokladu**](#meny)                                  | x      | x             |
-| price                     | int         | 11    | Celková částka bez DPH                                     | -      | -             |
-| price_czk                 | int         | 11    | Celková částka v CZK bez DPH                               | -      | -             |
-| price_inc_vat             | int         | 11    | Celková částka s DPH                                       | x      | -             |
-| price_inc_vat_czk         | int         | 11    | Celková částka v CZK s DPH                                 | -      | -             |
-| date_vat                  | date        | -     | Datum zdanitelného plnění                                  | x      | x             |
-| date_vat_prev             | date        | -     | Datum předchozí sazby DPH                                  | -      | x             |
-| description               | string      | -     | Poznámka                                                   | -      | x             |
-| rounding_type             | string      | -     | [**Způsob zaokrouhlení**](#zaokrouhleni)                   | -      | x             |
-| deleted                   | bool        | -     | Doklad je smazaný                                          | x      | -             |
-| invoice                   | array       | -     | [**Faktura vydaná**](#faktury_vydane)                      | x      | -             |
-| invoice_id                | int         | 11    | [**ID Faktury vydané**](#faktury_vydane)                   | -      | x             |
-| reference_mark            | string      | 45    | Referenční značka                                          | -      | x             |
-| full_paid                 | bool        | -     | Příznak, zda je faktura uhrazena v plné výši               | -      | x             |
-| eet                       | bool        | -     | Vygenerovat EET (pouze pro payment_type = 'cash')          | x      | x             |
-| eet_status                | object      | -     | Stav EET a detail zprávy                                   | x      | x             |
-
-
-**Položky dokladu**
-
-| Parametr                  | Typ         | Délka | Popis                                                      | Výpis  | Zapisovatelné |
-|---------------------------|:-----------:|:-----:|------------------------------------------------------------|:------:|:-------------:|
-| items                     | array       | -     | Pole obsahujicí všechny položky dokladu                    | -      | x             |
-| items:id                  | int         | 11    | ID položky                                                 | -      | -             |
-| items:amount              | decimal     | 12,2  | Počet                                                      | -      | x             |
-| items:unit                | string      | 10    | Jednotka                                                   | -      | x             |
-| items:price               | decimal     | 12,2  | Cena za jednotku                                           | -      | x             |
-| items:text                | string      | 255   | Popis                                                      | -      | x             |
-| items:vat                 | decimal     | 5,2   | [**DPH**](#kurz_dph)                                       | -      | x             |
-| items:accountentrytype_id | int         | 11    | [**Typ účetní položky**](#typy_uc_polozek)                 | -      | x             |
-| items:vattype_id          | int         | 11    | [**Typ DPH**](#typy_dph)                                   | -      | x             |
-| items:chart_account_id    | int         | 11    | [**Účet účetní osnovy**](#ucty_uc_osnovy)                  | -      | x             |
-| items:vat_chart_id        | int         | 11    | [**Účet DPH**](#ucty_dph)                                  | -      | x             |
-| items:department_id       | int         | 11    | [**Středisko**](#strediska)                                | -      | x             |
-| items:contract_id         | int         | 11    | [**Zakázka**](#zakazky)                                    | -      | x             |
-
-*Hodnoty `id` a `items:id` jsou přiřazeny službou v momentu vytvoření nového záznamu.*
-
-+ Model (application/hal+json)
-    + Body
-
-            {"_links":{"self":{"href":"\/1.1\/payment_received\/29461"}},"id":29461,"sequence_code":"PD20140008","customer":{"_links":{"self":{"href":"\/1.1\/customer\/8663"}},"id":8663,"name":"Jan Nov\u00e1k","name_display":null,"comid":"1234568006","vatid":null,"vat_payer":false,"email":"novak.jan@iucto.cz","phone":null,"cellphone":null,"www":null,"usual_maturity":30,"preferred_payment_method":"transfer","invoice_language":"cs","address":{"street":"Stodoln\u00ed 123","city":"Ostrava","postalcode":"385 02","country":"CZ"},"note":null,"account_number1":"1230123\/0100","account_number2":null,"account_number3":null,"account_number4":null},"invoice":null,"variable_symbol":null,"date":"2014-10-27","date_vat":"2014-10-27","currency":"CZK","price":600,"price_czk":600,"price_inc_vat":726,"price_inc_vat_czk":726,"payment_type":"transfer","bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"date_vat_prev":null,"description":null,"rounding_type":"none","reference_mark":null,"full_paid":false,"items":[{"id":34882,"text":"test","amount":6,"price":100,"unit":null,"vat":21,"accountentrytype_id":0,"vattype_id":3,"department_id":0,"contract_id":0,"chart_account_id":63,"vat_chart_id":0}],"deleted":false}
-
-### Vypis všech dostupných dokladů [GET]
-Zjednodušený výpis všech dostupných dokladů.
-
+### Seznam plateb přijatých [GET /payment_received{?page,pageSize,invoice_id}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
-    + invoice_id: `12,55` (string, optional) - Filtr dle ID faktuy (čárkou oddělená čísla)
+    + invoice_id: `12,55` (string, optional) - Filtr dle ID faktury (čárkou oddělená čísla)
 
 + Request
     + Headers
@@ -1831,34 +1594,39 @@ Zjednodušený výpis všech dostupných dokladů.
             X-Auth-Key: api-key
 
 + Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/payment_received (required)
+        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+        - _embedded (object, required)
+            - `payment_received` (array[`PAYMENT_RECEIVED_LIST`], required) - Pole dostupných dokladů
 
-        {"_links":{"self":{"href":"\/1.1\/payment_received"}},"_embedded":{"payment_received":[{"_links":{"self":{"href":"\/1.1\/payment_received\/29461"}},"id":29461,"sequence_code":"PD20140008","customer":{"_links":{"self":{"href":"\/1.1\/customer\/8663"}},"id":8663,"name":"Jan Nov\u00e1k","comid":"1234568006","vatid":null,"vat_payer":false,"email":"novak.jan@iucto.cz"},"invoice":null,"variable_symbol":null,"date":"2014-10-27","date_vat":"2014-10-27","currency":"CZK","price_inc_vat":726,"bank_account":{"_links":{"self":{"href":"\/1.1\/bank_account\/448"}},"id":448,"name":"B\u00da","number":"657657\/0100","currency":"CZK","isdefault":false,"initial_state":0,"visible":true},"cash_register":null,"deleted":false}]}}
+### Detail platby přijaté [GET /payment_received/{id}]
++ Parameters
+    + id: 123 (number, required)
 
++ Request
+    + Headers
 
-### Vytvoření nového dokladu [POST /payment_received/{id}]
-Vytvoří nový doklad, odpověd obsahuje detail dokladu.
+            X-Auth-Key: api-key
 
-Povinné parametry dokladu:
- - date
- - date_vat (pokud existuje položka s DPH)
- - currency
- - customer_id
- - payment_type
- - bank_account (pokud je `payment_type` = 'transfer')
- - cash_register_id (pokud je `payment_type` = 'cash')
- - items
- - items:text
- - items:amount
- - items:price
- - items:vat
- - items:accountentrytype_id
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/payment_received/123 (required)
+        - _embedded (object, required)
+            - `payment_received` (`PAYMENT_RECEIVED_DETAIL`, required) - Detail dokladu
 
-**Podle hodnoty 'payment_type' je nutné nstavit buď pokladnu, nebo bankovní účet.**
+### Vytvoření platby přijaté [POST /payment_received]
+
+**Podle hodnoty 'payment_type' je nutné nastavit buď pokladnu nebo bankovní účet.**
 
 Pokud je v nastavení klienta řádně nastavené EET, `payment_type` = 'cash' a pokladna je povolena pro EET, je možné použít parametr `eet` = 'true', který odešle platbu do EET.
 
 
-Pro přidání dokladu s již odeslanou [**EET zprávou**](#eet_list), nejprve vytvořte samostatně EET záznam, jehož ID nastavíte jako parametr `eet_status`.
+Pro přidání dokladu s již odeslanou [**EET zprávou**](#eet-zpravy), nejprve vytvořte samostatně EET záznam, jehož ID nastavíte jako parametr `eet_status`.
 Záznamy se automaticky propojí.
 
 
@@ -1867,51 +1635,43 @@ Záznamy se automaticky propojí.
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`PAYMENT_RECEIVED_CREATE`)
 
-            {"customer_id":8663,"date":"2014-10-27","date_vat":"2014-10-27","bank_account":448,"currency":"CZK","payment_type":"transfer","items":[{"price":100,"text":"test","amount":6,"vat":21,"vattype_id":3,"chart_account_id":63}]}
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/payment_received/123 (required)
+        - _embedded (object, required)
+            - `paymnet_received` (`PAYMENT_RECEIVED_DETAIL`, required) - Detail dokladu
 
-+ Response 201
-        [Platby přijaté][]
+### Editace platby přijaté [PUT /payment_received/{id}]
 
-### Detail dokladu [GET /payment_received/{id}]
-Vrátí kompletní kolekci dat vybraného dokladu.
-+ Parameters
-    + id (int) ... ID dokladu
-
-+ Request
-    + Headers
-
-            X-Auth-Key: api-key
-
-+ Response 200
-        [Platby přijaté][]
-
-### Editace dokladu [PUT /payment_received/{id}]
-Aktulizuje předané parametry vybraného dokladu.
-Poviné ple jsou stejná jako při vkládání nového záznamu.
-Platby s EET nelze editovat, použijte Vrácení přijaté platby.EET:
+Platby s EET nelze editovat, použijte Vrácení přijaté EET platby.
 
 + Parameters
-    + id (int) ... ID dokladu
+    + id: 123 (number, required)
 
 + Request (application/json)
     + Headers
 
             X-Auth-Key: api-key
 
-    + Body
+    + Attributes (`PAYMENT_RECEIVED_CREATE`)
 
-            {"customer_id":8663,"date":"2014-10-28","date_vat":"2014-10-28","bank_account":448,"currency":"CZK","payment_type":"transfer","items":[{"price":100,"text":"test","amount":6,"vat":21,"vattype_id":3,"chart_account_id":63}]}
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.1/payment_received/123 (required)
+        - _embedded (object, required)
+            - `payment_received` (`PAYMENT_RECEIVED_DETAIL`, required) - Detail dokladu
 
-+ Response 200
-        [Platby přijaté][]
-
-### Smazání dokladu [DELETE /payment_received/{id}]
-Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
+### Smazání platby přijaté [DELETE /payment_received/{id}]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nesmaže.
 Platby s EET nelze editovat, použijte Vrácení přijaté platby.
 + Parameters
-    + id (int) ... ID dokladu
+    + id: 123 (number, required)
 
 + Request
     + Headers
@@ -1920,21 +1680,21 @@ Platby s EET nelze editovat, použijte Vrácení přijaté platby.
 
 + Response 204
 ## Bankovní pohyby [/bank_transaction]
-
-Umožuje automatické spárování účetní dokladů s pohyby na bankovních účtech.
+<a name="bankovni-pohyby"/>
+Umožňuje automatické spárování účetní dokladů s pohyby na bankovních účtech.
 
 Po vložení nového pohybu se systém pokusí automaticky pohyb spárovat s existující fakturou.
 
-### Seznam pohybů [GET]
+### Seznam bankovních pohybů [GET]
 
-Seznam bankovních pohybů, které jsou již imporotvané v systému.
+Seznam bankovních pohybů, které jsou již importované v systému.
 
 + Request
     + Headers
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object)
             - self (object)
@@ -1942,9 +1702,9 @@ Seznam bankovních pohybů, které jsou již imporotvané v systému.
         - _embedded (object)
             - `bank_transaction` (array[`BANK_STATEMENT_LIST`], required) - Pole transakcí
 
-### Detail pohybu [GET /bank_transaction/{id}]
+### Detail bankovního pohybu [GET /bank_transaction/{id}]
 
-Podorbné inforamce k pohybu, včetně spárovaných dokladů.
+Podrobné informace k pohybu, včetně spárovaných dokladů.
 
 + Parameters
     + id: 123 (number, required)
@@ -1955,7 +1715,7 @@ Podorbné inforamce k pohybu, včetně spárovaných dokladů.
             X-Auth-Key: api-key
 
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object)
             - self (object)
@@ -1963,11 +1723,11 @@ Podorbné inforamce k pohybu, včetně spárovaných dokladů.
         - _embedded (object)
             - `bank_transaction` (BANK_STATEMENT_DETAIL, required) - Detail transakce
 
-### Import pohybu [POST /bank_transaction/{id}]
+### Import bankovního pohybu [POST /bank_transaction/{id}]
 
 Přenesení nového pohybu do systému.
 
-Pohyb může být označen jedinečním idetifikátorm (`reference_number`) z výpisu, který zamezí duplicitám.
+Pohyb může být označen jedinečným identifikátorem (`reference_number`) z výpisu, který zamezí duplicitám.
 
 Součástí importu je automatický pokus o spárování dokladu s exitujícími doklady v systému.
 
@@ -1976,7 +1736,7 @@ Součástí importu je automatický pokus o spárování dokladu s exitujícími
 - Existuje právě jeden doklad s tímto variabilním symbolem a bankovním účtem, bude doklad spárován s pohybem.
 - Nesmí být na pohybu větší částka než je na dokladu.
 
-**Hodnoty závyslé na směru transakce**
+**Hodnoty závislé na směru transakce**
 
 Pokud je transakce příchozí je protistranou [Zákazník](#zakaznici) a s účetními parametry se zachází jako u [Platby přijaté](#platby-prijate).
 - `coountraparty`
@@ -1994,7 +1754,7 @@ Pokud je transakce příchozí je protistranou [Zákazník](#zakaznici) a s úč
     + Attributes (`BANK_STATEMENT_PARAMS`)
 
 
-+ Response 200 (application/json)
++ Response 201 (application/hal+json)
     + Attributes (object)
         - _link (object)
             - self (object)
@@ -2003,8 +1763,8 @@ Pokud je transakce příchozí je protistranou [Zákazník](#zakaznici) a s úč
             - `bank_transaction` (`BANK_STATEMENT_DETAIL`, required) - Detail transakce
 
 
-### Editace pohybu [PUT /bank_transaction/{id}]
-Při editacy typu platby (`payment_type`) se musí také změnit hodnoty `counterparty` , `account_entry_type` a `vat_type`, tak aby odpovídali typu dokladu.
+### Editace bankovního pohybu [PUT /bank_transaction/{id}]
+Při editaci typu platby (`payment_type`) se musí také změnit hodnoty `counterparty` , `account_entry_type` a `vat_type`, tak aby odpovídali typu dokladu.
 
 + Parameters
     + id: 123 (number, required)
@@ -2016,7 +1776,7 @@ Při editacy typu platby (`payment_type`) se musí také změnit hodnoty `counte
 
     + Attributes (`BANK_STATEMENT_PARAMS`)
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
     + Attributes (object)
         - _link (object)
             - self (object)
@@ -2024,7 +1784,22 @@ Při editacy typu platby (`payment_type`) se musí také změnit hodnoty `counte
         - _embedded (object)
             - `bank_transaction` (`BANK_STATEMENT_DETAIL`, required) - Detail transakce
 
-### Smazání pohybu [DELETE /bank_transaction/{id}]
+### Zaúčtování platby [GET /bank_transaction/{id}/account]
+
+Automatické vytvoření platby, pokud je bankovní pohyb úspěšně spárovaný s dokladem.
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/pdf)
+
+
+### Smazání bankovního pohybu [DELETE /bank_transaction/{id}]
 + Parameters
     + id: 123 (number, required)
 
@@ -2038,7 +1813,7 @@ Při editacy typu platby (`payment_type`) se musí také změnit hodnoty `counte
 # Group Účetnictví
 
 ## Kurzy DPH [/vat_rates]
-<a name="kurz_dph"/>
+<a name="kurz-dph"/>
 
 ### Seznam kurzů DPH [GET /vat_rates?date={date}]
 + Parameters
@@ -2053,16 +1828,16 @@ Při editacy typu platby (`payment_type`) se musí také změnit hodnoty `counte
 
         [21,15,0]
 ## Typy účetních položek [/accountentry_type?doctype={doctype}]
-<a name="typy_uc_polozek"/>
+<a name="polozky-typy-uc-polozek"/>
 
 ### Seznam typů účetních položek [GET]
-Odpověd obsahuje pole dostupných účetních položek v závislosti na parametru `doctype`.
+Odpověď obsahuje pole dostupných účetních položek v závislosti na parametru `doctype`.
 
 Formát odpovědi:
 `{"id": "popis"}`
 
 + Parameters
-    + doctype (string) ... Typ dokladu. Pro seznam dostupných hodnot si přejděte na [Typy dokladů](#typy_dokladu)
+    + doctype (string) ... Typ dokladu. Pro seznam dostupných hodnot si přejděte na [Typy dokladů](#typy-dokladu)
 
 + Request
     + Headers
@@ -2073,16 +1848,16 @@ Formát odpovědi:
 
         {"141":"Bonusy od banky","163":"Da\u0148ov\u00fd bonus","167":"Da\u0148ov\u00fd doklad","62":"Dopravn\u00e9\/ p\u0159epravn\u00e9","149":"Dotace organiza\u010dn\u00ed slo\u017eky","166":"Kurzov\u00e9 zisky","176":"Kurzov\u00fd rozd\u00edl zisk","99":"Myln\u00e1 p\u0159\u00edchoz\u00ed platba","159":"Pen\u00edze na cest\u011b - p\u0159\u00edjem","136":"P\u0159evod mezi bankovn\u00edmi \u00fa\u010dty","126":"P\u0159ijat\u00e9 z\u00e1lohy ","10":"Prodej majetku","30":"Prodej materi\u00e1lu","7":"Prodej slu\u017eby","130":"Prodej slu\u017eby - extern\u00ed servis","171":"Prodej slu\u017eby - lokalizace","172":"Prodej slu\u017eby - marketing","142":"Prodej slu\u017eby - n\u00e1jem","170":"Prodej slu\u017eby - p\u0159eklady","144":"Prodej slu\u017eby - pron\u00e1jem zemn\u00edho stroje","131":"Prodej slu\u017eby - servis za\u0159\u00edzen\u00ed","173":"Prodej slu\u017eby - v\u00fduka","8":"Prodej v\u00fdrobky","3":"Prodej zbo\u017e\u00ed","168":"Smluvn\u00ed pokuty a \u00faroky z prodlen\u00ed","12":"\u00dahrada faktury vydan\u00e9","153":"\u00dahrada pohled\u00e1vky za spole\u010dn\u00edkem","187":"\u00dahrada z\u00e1lohov\u00e9 faktury vydan\u00e9","31":"\u00darok","1":"\u00darok z bankovn\u00edho \u00fa\u010dtu","162":"Vklad fyzick\u00e9 osoby do podnik\u00e1n\u00ed","134":"Vklad spole\u010dn\u00edka spole\u010dnosti","140":"Vr\u00e1cen\u00ed DPH finan\u010dn\u00edm \u00fa\u0159adem","146":"V\u00fdb\u011br z banky na pokladnu","132":"Vy\u00fa\u010dtov\u00e1n\u00ed odvodu hotovosti z pokladny","38":"Zaokrouhlen\u00ed ","139":"Zv\u00fd\u0161en\u00ed z\u00e1kladn\u00edho kapit\u00e1lu"}
 ## Typy DPH [/vat_type?doctype={doctype}]
-<a name="typy_dph"/>
+<a name="typy-dph"/>
 
 ### Seznam typů DPH [GET]
-Odpověd obsahuje pole dostupných typů DPH v závislosti na parametru `doctype`.
+Odpověď obsahuje pole dostupných typů DPH v závislosti na parametru `doctype`.
 
 Formát odpovědi:
 `{"id": "popis"}`
 
 + Parameters
-    + doctype (string) ... Typ dokladu. Pro seznam dostupných hodnot si přejděte na [Typy dokladů](#typy_dokladu)
+    + doctype (string) ... Typ dokladu. Pro seznam dostupných hodnot si přejděte na [Typy dokladů](#typy-dokladu)
 
 + Request
     + Headers
@@ -2093,10 +1868,10 @@ Formát odpovědi:
 
         {"20":"Bez DPH","11":"Dod\u00e1n\u00ed nov\u00e9ho dopravn\u00edho prost\u0159edku","3":"Dod\u00e1n\u00ed zbo\u017e\u00ed do EU","8":"Dod\u00e1n\u00ed zlata ","14":"Osvobozen\u00e9 pln\u011bn\u00ed bez odpo\u010dtu","13":"Osvobozen\u00e9 pln\u011bn\u00ed-n\u00e1rok ","4":"Poskytnut\u00ed slu\u017eby do EU","22":"P\u0159enesen\u00e1 da\u0148ov\u00e1 povinnost (dodavatel)","21":"P\u0159enesen\u00e1 da\u0148ov\u00e1 povinnost (odb\u011bratel)","15":"Slu\u017eby do zahrani\u010d\u00ed ","12":"V\u00fdvoz zbo\u017e\u00ed mimo EU ","23":"Zas\u00edl\u00e1n\u00ed zbo\u017e\u00ed","1":"Zdaniteln\u00e9 pln\u011bn\u00ed v \u010cR "}
 ## Účty účetní osnovy [/chart_account]
-<a name="ucty_uc_osnovy"/>
+<a name="ucty-uc-osnovy"/>
 
-### Seznam dostupných účtů účetní osnovy [GET]
-Odpověd obsahuje pole dostupných účtů úč. osnovy pro použití v dokladech.
+### Seznam účtů účetní osnovy [GET]
+Odpověď obsahuje pole dostupných účtů úč. osnovy pro použití v dokladech.
 
 `{"id": "popis"}`
 
@@ -2109,10 +1884,10 @@ Odpověd obsahuje pole dostupných účtů úč. osnovy pro použití v dokladec
 
         {"3":"010000 - Dlouhodob\u00fd nehmotn\u00fd majetek ","4":"011000 - Z\u0159izovac\u00ed v\u00fddaje ","5":"012000 - Nehmotn\u00e9 v\u00fdsledky v\u00fdzkumu a v\u00fdvoje ","6":"013000 - Software ","7":"014000 - Oceniteln\u00e1 pr\u00e1va ","8":"015000 - Goodwill ","9":"019000 - Jin\u00fd dlouhodob\u00fd nehmotn\u00fd majetek ","10":"021000 - Stavby ","11":"022000 - Samostatn\u00e9 movit\u00e9 v\u011bci a soubory movit\u00fdch v\u011bc\u00ed ","12":"025000 - P\u011bstitelsk\u00e9 celky trval\u00fdch porost\u016f ","13":"026000 - Dosp\u011bl\u00e1 zv\u00ed\u0159ata a jejich skupiny ","14":"029000 - Jin\u00fd dlouhodob\u00fd hmotn\u00fd majetek ","15":"031000 - Pozemky ","16":"032000 - Um\u011bleck\u00e1 d\u00edla a sb\u00edrky ","17":"040000 - Nedokon\u010den\u00fd dlouhodob\u00fd nehmotn\u00fd a hmotn\u00fd majetek a po\u0159izovan\u00fd dlouhodob\u00fd finan\u010dn\u00ed majetek ","18":"041000 - Po\u0159\u00edzen\u00ed dlouhodob\u00e9ho nehmotn\u00e9ho majetku ","19":"042000 - Po\u0159\u00edzen\u00ed dlouhodob\u00e9ho hmotn\u00e9ho majetku ","20":"043000 - Po\u0159\u00edzen\u00ed dlouhodob\u00e9ho finan\u010dn\u00edho majetku ","21":"050000 - Poskytnut\u00e9 z\u00e1lohy na dlouhodob\u00fd majetek ","22":"051000 - Poskytnut\u00e9 z\u00e1lohy na dlouhodob\u00fd nehmotn\u00fd majetek ","23":"052000 - Poskytnut\u00e9 z\u00e1lohy na dlouhodob\u00fd hmotn\u00fd majetek ","24":"053000 - Poskytnut\u00e9 z\u00e1lohy na dlouhodob\u00fd finan\u010dn\u00ed majetek ","25":"061000 - Pod\u00edly v ovl\u00e1dan\u00fdch a \u0159\u00edzen\u00fdch osob\u00e1ch ","26":"062000 - Pod\u00edly v \u00fa\u010detn\u00edch jednotk\u00e1ch pod podstatn\u00fdm vlivem ","27":"063000 - Ostatn\u00ed cenn\u00e9 pap\u00edry a pod\u00edly ","28":"065000 - Dluhov\u00e9 cenn\u00e9 pap\u00edry dr\u017een\u00e9 do splatnosti ","29":"066000 - P\u016fj\u010dky a \u00fav\u011bry - ovl\u00e1daj\u00edc\u00ed a \u0159\u00edd\u00edc\u00ed osoby, podstatn\u00fd vliv ","30":"067000 - Ostatn\u00ed p\u016fj\u010dky ","31":"069000 - Jin\u00fd dlouhodob\u00fd finan\u010dn\u00ed majetek ","32":"070000 - Opr\u00e1vky k dlouhodob\u00e9mu nehmotn\u00e9mu majetku ","33":"071000 - Opr\u00e1vky ke z\u0159izovac\u00edm v\u00fddaj\u016fm ","34":"072000 - Opr\u00e1vky k nehmotn\u00fdm v\u00fdsledk\u016fm v\u00fdzkumu a v\u00fdvoje ","35":"073000 - Opr\u00e1vky k softwaru ","36":"074000 - Opr\u00e1vky k oceniteln\u00fdm pr\u00e1v\u016fm ","37":"075000 - Opr\u00e1vky ke goodwillu ","38":"079000 - Opr\u00e1vky k jin\u00e9mu dlouhodob\u00e9mu nehmotn\u00e9mu majetku ","39":"081000 - Opr\u00e1vky ke stavb\u00e1m ","40":"082000 - Opr\u00e1vky k samost. movit\u00fdm v\u011bcem a soubor\u016fm movit\u00fdch v\u011bc\u00ed ","41":"085000 - Opr\u00e1vky k p\u011bstitelsk\u00fdm celk\u016fm trval\u00fdch porost\u016f ","42":"086000 - Opr\u00e1vky k z\u00e1kladn\u00edmu st\u00e1du a ta\u017en\u00fdm zv\u00ed\u0159at\u016fm ","43":"089000 - Opr\u00e1vky k jin\u00e9mu dlouhodob\u00e9mu hmotn\u00e9mu majetku ","44":"091000 - Opravn\u00e1 polo\u017eka k dlouhodob\u00e9mu nehmotn\u00e9mu majetku ","45":"092000 - Opravn\u00e1 polo\u017eka k dlouhodob\u00e9mu hmotn\u00e9mu majetku ","46":"093000 - Opravn\u00e1 polo\u017eka k dlouhodob\u00e9mu nedokon\u010den\u00e9mu nehmotn\u00e9mu majetku ","47":"094000 - Opravn\u00e1 polo\u017eka k dlouhodob\u00e9mu nedokon\u010den\u00e9mu hmotn\u00e9mu majetku ","48":"095000 - Opravn\u00e1 polo\u017eka k poskytnut\u00fdm z\u00e1loh\u00e1m na dlouhodob\u00fd majetek ","49":"096000 - Opravn\u00e1 polo\u017eka k dlouhodob\u00e9mu finan\u010dn\u00edmu majetku ","50":"097000 - Oce\u0148ovac\u00ed rozd\u00edl k nabyt\u00e9mu majetku ","51":"098000 - Opr\u00e1vky k oce\u0148ovac\u00edmu rozd\u00edlu k nabyt\u00e9mu majetku ","102":"111000 - Po\u0159\u00edzen\u00ed materi\u00e1lu ","103":"112000 - Materi\u00e1l na sklad\u011b ","104":"119000 - Materi\u00e1l na cest\u011b ","105":"121000 - Nedokon\u010den\u00e1 v\u00fdroba ","106":"122000 - Polotovary vlastn\u00ed v\u00fdroby ","107":"123000 - V\u00fdrobky ","115":"124000 - Mlad\u00e1 a ostatn\u00ed zv\u00ed\u0159ata a jejich skupiny ","108":"131000 - Po\u0159\u00edzen\u00ed zbo\u017e\u00ed ","109":"132000 - Zbo\u017e\u00ed na sklad\u011b a v prodejn\u00e1ch ","110":"139000 - Zbo\u017e\u00ed na cest\u011b ","111":"151000 - Poskytnut\u00e9 z\u00e1lohy na materi\u00e1l ","112":"152000 - Poskytnut\u00e9 z\u00e1lohy na zv\u00ed\u0159ata ","113":"153000 - Poskytnut\u00e9 z\u00e1lohy na zbo\u017e\u00ed ","114":"191000 - Opravn\u00e1 polo\u017eka k materi\u00e1lu ","129":"192000 - Opravn\u00e1 polo\u017eka k nedokon\u010den\u00e9 v\u00fdrob\u011b ","130":"193000 - Opravn\u00e1 polo\u017eka k polotovar\u016fm vlastn\u00ed v\u00fdroby ","131":"194000 - Opravn\u00e1 polo\u017eka k v\u00fdrobk\u016fm ","132":"195000 - Opravn\u00e1 polo\u017eka ke zv\u00ed\u0159at\u016fm ","133":"196000 - Opravn\u00e1 polo\u017eka ke zbo\u017e\u00ed ","134":"197000 - Opravn\u00e1 polo\u017eka k z\u00e1loh\u00e1m na materi\u00e1l","135":"198000 - Opravn\u00e1 polo\u017eka k z\u00e1loh\u00e1m na zbo\u017e\u00ed ","136":"199000 - Opravn\u00e1 polo\u017eka k z\u00e1loh\u00e1m na zv\u00ed\u0159ata ","52":"211000 - Pokladna ","53":"213000 - Ceniny ","54":"221000 - Bankovn\u00ed \u00fa\u010dty ","55":"231000 - Kr\u00e1tkodob\u00e9 bankovn\u00ed \u00fav\u011bry ","56":"232000 - Eskontn\u00ed \u00fav\u011bry ","149":"241000 - Emitovan\u00e9 kr\u00e1tkodob\u00e9 dluhopisy","150":"249000 - Ostatn\u00ed kr\u00e1tkodob\u00e9 finan\u010dn\u00ed v\u00fdpomoci","151":"251000 - Registrovan\u00e9 majetkov\u00e9 cenn\u00e9 pap\u00edry k obchodov\u00e1n\u00ed","152":"252000 - Vlastn\u00ed akcie a vlastn\u00ed obchodn\u00ed pod\u00edly","153":"253000 - Registrovan\u00e9 dluhov\u00e9 cenn\u00e9 pap\u00edry k obchodov\u00e1n\u00ed","154":"255000 - Vlastn\u00ed dluhopisy","155":"256000 - Dluhov\u00e9 cenn\u00e9 pap\u00edry se splat. do 1 roku dr\u017een\u00e9 do splatnosti","156":"257000 - Ostatn\u00ed cenn\u00e9 pap\u00edry k obchodov\u00e1n\u00ed","157":"259000 - Po\u0159izov\u00e1n\u00ed kr\u00e1tkodob\u00e9ho finan\u010dn\u00edho majetku","139":"261000 - Pen\u00edze na cest\u011b ","158":"291000 - Opravn\u00e1 polo\u017eka ke kr\u00e1tkodob\u00e9mu finan\u010dn\u00edmu majetku","57":"311000 - Pohled\u00e1vky z obchodn\u00edch vztah\u016f ","159":"312000 - Sm\u011bnky k inkasu","160":"313000 - Pohled\u00e1vky za eskontovan\u00e9 cenn\u00e9 pap\u00edry","161":"314000 - Poskytnut\u00e9 z\u00e1lohy - dlouhodob\u00e9 a kr\u00e1tkodob\u00e9","162":"315000 - Ostatn\u00ed pohled\u00e1vky","140":"321000 - Z\u00e1vazky z obchodn\u00edch vztah\u016f ","163":"322000 - Sm\u011bnka k \u00fahrad\u011b","141":"324000 - P\u0159ijat\u00e9 provozn\u00ed z\u00e1lohy ","142":"325000 - Ostatn\u00ed z\u00e1vazky ","58":"331000 - Zam\u011bstnanci ","59":"333000 - Ostatn\u00ed z\u00e1vazky v\u016f\u010di zam\u011bstnanc\u016fm ","61":"335000 - Pohled\u00e1vky za zam\u011bstnanci ","60":"336000 - Z\u00fa\u010dtov\u00e1n\u00ed s institucemi soci\u00e1l. zabezpe\u010den\u00ed a zdravot. poji\u0161t\u011bn\u00ed ","62":"341000 - Da\u0148 z p\u0159\u00edjm\u016f ","63":"342000 - Ostatn\u00ed p\u0159\u00edm\u00e9 dan\u011b ","64":"343000 - Da\u0148 z p\u0159idan\u00e9 hodnoty ","65":"345000 - Ostatn\u00ed dan\u011b a poplatky ","166":"346000 - Dotace ze st\u00e1tn\u00edho rozpo\u010dtu","167":"347000 - Ostatn\u00ed dotace","66":"349000 - Vyrovn\u00e1vac\u00ed \u00fa\u010det pro DPH ","168":"351000 - Pohled\u00e1vky - ovl\u00e1daj\u00edc\u00ed a \u0159\u00edd\u00edc\u00ed osoba","169":"352000 - Pohled\u00e1vky - podstatn\u00fd vliv","170":"353000 - Pohled\u00e1vky za upsan\u00fd z\u00e1kladn\u00ed kapit\u00e1l","171":"354000 - Pohled\u00e1vky za spole\u010dn\u00edky p\u0159i \u00fahrad\u011b ztr\u00e1ty","172":"355000 - Ostatn\u00ed pohled\u00e1vky za spole\u010dn\u00edky a \u010dleny dru\u017estva","173":"358000 - Pohled\u00e1vky za \u00fa\u010dastn\u00edky sdru\u017een\u00ed","174":"361000 - Z\u00e1vazky - ovl\u00e1daj\u00edc\u00ed a \u0159\u00edd\u00edc\u00ed osoba","175":"362000 - Z\u00e1vazky - podstatn\u00fd vliv","176":"364000 - Z\u00e1vazky ke spole\u010dn\u00edk\u016fm p\u0159i rozd\u011blov\u00e1n\u00ed zisku","177":"365000 - Ostatn\u00ed z\u00e1vazky ke spole\u010dn\u00edk\u016fm a \u010dlen\u016fm dru\u017estva","178":"366000 - Z\u00e1vazky ke spole\u010dn\u00edk\u016fm a \u010dlen\u016fm dru\u017estva ze z\u00e1visl\u00e9 \u010dinnosti","179":"367000 - Z\u00e1vazky z upsan\u00fdch nesplacen\u00fdch cenn\u00fdch pap\u00edr\u016f a vklad\u016f","180":"368000 - Z\u00e1vazky k \u00fa\u010dastn\u00edk\u016fm sdru\u017een\u00ed","181":"371000 - Pohled\u00e1vky z prodeje podniku","182":"372000 - Z\u00e1vazky z koup\u011b podniku","183":"373000 - Pohled\u00e1vky a z\u00e1vazky z pevn\u00fdch term\u00ednov\u00fdch operac\u00ed","184":"374000 - Pohled\u00e1vky z pron\u00e1jmu","185":"375000 - Pohled\u00e1vky z emitovan\u00fdch dluhopis\u016f","186":"376000 - Nakoupen\u00e9 opce","187":"377000 - Prodan\u00e9 opce","67":"378000 - Jin\u00e9 pohled\u00e1vky ","68":"379000 - Jin\u00e9 z\u00e1vazky ","188":"381000 - N\u00e1klady p\u0159\u00ed\u0161t\u00edch obdob\u00ed","189":"382000 - Komplexn\u00ed n\u00e1klady p\u0159\u00ed\u0161t\u00edch obdob\u00ed","190":"383000 - V\u00fddaje p\u0159\u00ed\u0161t\u00edch obdob\u00ed","191":"384000 - V\u00fdnosy p\u0159\u00ed\u0161t\u00edch obdob\u00ed","192":"385000 - P\u0159\u00edjmy p\u0159\u00ed\u0161t\u00edch obdob\u00ed","193":"388000 - Dohadn\u00e9 \u00fa\u010dty aktivn\u00ed","194":"389000 - Dohadn\u00e9 \u00fa\u010dty pasivn\u00ed","195":"391000 - Opravn\u00e1 polo\u017eka k pohled\u00e1vk\u00e1m","196":"395000 - Vnit\u0159n\u00ed z\u00fa\u010dtov\u00e1n\u00ed","197":"398000 - Spojovac\u00ed \u00fa\u010det p\u0159i sdru\u017een\u00ed","69":"411000 - Z\u00e1kladn\u00ed kapit\u00e1l ","116":"412000 - Emisn\u00ed a\u017eio ","117":"413000 - Ostatn\u00ed kapit\u00e1lov\u00e9 fondy ","198":"414000 - Oce\u0148ovac\u00ed rozd\u00edly z p\u0159ecen\u011bn\u00ed majetku a z\u00e1vazk\u016f","199":"417000 - Rozd\u00edly z p\u0159em\u011bn spole\u010dnost\u00ed","200":"418000 - Oce\u0148ovac\u00ed rozd\u00edly z p\u0159ecen\u011bn\u00ed p\u0159i p\u0159em\u011bn\u00e1ch spole\u010dnost\u00ed","118":"419000 - Zm\u011bny z\u00e1kladn\u00edho kapit\u00e1lu ","119":"421000 - Z\u00e1konn\u00fd rezervn\u00ed fond ","120":"422000 - Ned\u011bliteln\u00fd fond ","121":"423000 - Statut\u00e1rn\u00ed fondy ","122":"427000 - Ostatn\u00ed fondy ","123":"428000 - Nerozd\u011blen\u00fd zisk minul\u00fdch let ","124":"429000 - Neuhrazen\u00e1 ztr\u00e1ta minul\u00fdch let ","125":"431000 - V\u00fdsledek hospoda\u0159en\u00ed ve schvalovac\u00edm \u0159\u00edzen\u00ed ","201":"451000 - Rezervy podle zvl\u00e1\u0161tn\u00edch pr\u00e1vn\u00edch p\u0159edpis\u016f","202":"452000 - Rezerva na d\u016fchody a podobn\u00e9 z\u00e1vazky","126":"453000 - Rezerva na da\u0148 z p\u0159\u00edjm\u016f ","127":"459000 - Ostatn\u00ed rezervy ","203":"461000 - Bankovn\u00ed \u00fav\u011bry","204":"471000 - Dlouhodob\u00e9 z\u00e1vazky - ovl\u00e1daj\u00edc\u00ed a \u0159\u00edd\u00edc\u00ed osoba","205":"472000 - Dlouhodob\u00e9 z\u00e1vazky - podstatn\u00fd vliv","206":"473000 - Emitovan\u00e9 dluhopisy","207":"474000 - Z\u00e1vazky z pron\u00e1jmu","128":"475000 - Dlouhodob\u00e9 p\u0159ijat\u00e9 z\u00e1lohy ","208":"478000 - Dlouhodob\u00e9 sm\u011bnky k \u00fahrad\u011b","209":"479000 - Jin\u00e9 dlouhodob\u00e9 z\u00e1vazky","210":"481000 - Odlo\u017een\u00fd da\u0148ov\u00fd z\u00e1vazek a pohled\u00e1vka","211":"491000 - \u00da\u010det individu\u00e1ln\u00edho podnikatele","70":"501000 - Spot\u0159eba materi\u00e1lu ","71":"502000 - Spot\u0159eba energie ","72":"503000 - Spot\u0159eba ostatn\u00edch neskladovateln\u00fdch dod\u00e1vek ","73":"504000 - Prodan\u00e9 zbo\u017e\u00ed ","74":"511000 - Opravy a udr\u017eov\u00e1n\u00ed ","75":"512000 - Cestovn\u00e9 ","76":"513000 - N\u00e1klady na reprezentaci ","77":"518000 - Ostatn\u00ed slu\u017eby ","213":"520000 - Osobn\u00ed n\u00e1klady","78":"521000 - Mzdov\u00e9 n\u00e1klady ","79":"522000 - P\u0159\u00edjmy spole\u010dn\u00edk\u016f a \u010dlen\u016f dru\u017estva ze z\u00e1visl\u00e9 \u010dinnosti ","80":"523000 - Odm\u011bny \u010dlen\u016fm org\u00e1n\u016f spole\u010dnosti a dru\u017estva ","81":"524000 - Z\u00e1konn\u00e9 soci\u00e1ln\u00ed poji\u0161t\u011bn\u00ed ","82":"525000 - Ostatn\u00ed soci\u00e1ln\u00ed poji\u0161t\u011bn\u00ed ","83":"526000 - Soci\u00e1ln\u00ed n\u00e1klady individu\u00e1ln\u00edho podnikatele ","84":"527000 - Z\u00e1konn\u00e9 soci\u00e1ln\u00ed n\u00e1klady ","85":"528000 - Ostatn\u00ed soci\u00e1ln\u00ed n\u00e1klady ","214":"530000 - Dan\u011b a poplatky","86":"531000 - Da\u0148 silni\u010dn\u00ed ","87":"532000 - Da\u0148 z nemovitost\u00ed ","88":"538000 - Ostatn\u00ed dan\u011b a poplatky ","215":"540000 - Jin\u00e9 provozn\u00ed n\u00e1klady","89":"541000 - Z\u016fstatkov\u00e1 cena prodan\u00e9ho dlouhodob\u00e9ho nehmotn\u00e9ho a hmotn\u00e9ho majetku ","90":"542000 - Prodan\u00fd materi\u00e1l ","91":"543000 - Dary ","92":"544000 - Smluvn\u00ed pokuty a \u00faroky z prodlen\u00ed ","143":"545000 - Ostatn\u00ed pokuty a pen\u00e1le ","144":"546000 - Odpis pohled\u00e1vky ","216":"548000 - Ostatn\u00ed provozn\u00ed n\u00e1klady","217":"549000 - Manka a \u0161kody z provozn\u00ed \u010dinnosti","93":"551000 - Odpisy dlouhodob\u00e9ho nehmotn\u00e9ho a hmotn\u00e9ho majetku ","218":"552000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed rezerv podle zvl\u00e1\u0161tn\u00edch pr\u00e1vn\u00edch p\u0159edpis\u016f","219":"554000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed ostatn\u00edch rezerv","220":"555000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed komplexn\u00edch n\u00e1klad\u016f p\u0159\u00ed\u0161t\u00edch obdob\u00ed","221":"557000 - Z\u00fa\u010dtov\u00e1n\u00ed opr\u00e1vky k oce\u0148ovac\u00edmu rozd\u00edlu k nabyt\u00e9mu majetku","222":"558000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed z\u00e1konn\u00fdch opravn\u00fdch polo\u017eek v provozn\u00ed \u010dinnosti","223":"559000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed opravn\u00fdch polo\u017eek v provozn\u00ed \u010dinnosti","224":"560000 - Finan\u010dn\u00ed n\u00e1klady","225":"561000 - Prodan\u00e9 cenn\u00e9 pap\u00edry a pod\u00edly","145":"562000 - \u00daroky ","146":"563000 - Kurzov\u00e9 ztr\u00e1ty ","226":"564000 - N\u00e1klady z p\u0159ecen\u011bn\u00ed cenn\u00fdch pap\u00edr\u016f","227":"566000 - N\u00e1klady z finan\u010dn\u00edho majetku","228":"567000 - N\u00e1klady z deriv\u00e1tov\u00fdch operac\u00ed","229":"568000 - Ostatn\u00ed finan\u010dn\u00ed n\u00e1klady","230":"569000 - Manka a \u0161kody na finan\u010dn\u00edm majetku","231":"574000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed finan\u010dn\u00edch rezerv","232":"579000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed opravn\u00fdch polo\u017eek ve finan\u010dn\u00ed \u010dinnosti","233":"580000 - Mimo\u0159\u00e1dn\u00e9 n\u00e1klady","234":"581000 - N\u00e1klady na zm\u011bnu metody","235":"582000 - \u0160kody","236":"584000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed mimo\u0159\u00e1dn\u00fdch rezerv","237":"588000 - Ostatn\u00ed mimo\u0159\u00e1dn\u00e9 n\u00e1klady","238":"589000 - Tvorba a z\u00fa\u010dtov\u00e1n\u00ed opravn\u00fdch polo\u017eek v mimo\u0159\u00e1dn\u00e9 \u010dinnosti","239":"591000 - Da\u0148 z p\u0159\u00edjm\u016f z b\u011b\u017en\u00e9 \u010dinnosti - splatn\u00e1","240":"592000 - Da\u0148 z p\u0159\u00edjm\u016f z b\u011b\u017en\u00e9 \u010dinnosti - odlo\u017een\u00e1","241":"593000 - Da\u0148 z p\u0159\u00edjm\u016f z mimo\u0159\u00e1dn\u00e9 \u010dinnosti - splatn\u00e1","242":"594000 - Da\u0148 z p\u0159\u00edjm\u016f z mimo\u0159\u00e1dn\u00e9 \u010dinnosti - odlo\u017een\u00e1","243":"595000 - Dodate\u010dn\u00e9 odvody dan\u011b z p\u0159\u00edjm\u016f","244":"596000 - P\u0159evod pod\u00edlu na v\u00fdsledku hospoda\u0159en\u00ed spole\u010dn\u00edk\u016fm","245":"597000 - P\u0159evod provozn\u00edch n\u00e1klad\u016f","246":"598000 - P\u0159evod finan\u010dn\u00edch n\u00e1klad\u016f","247":"599000 - Rezerva na da\u0148 z p\u0159\u00edjmu","94":"601000 - Tr\u017eby za vlastn\u00ed v\u00fdrobky ","1":"602000 - Tr\u017eby z prodeje slu\u017eeb ","2":"604000 - Tr\u017eby za zbo\u017e\u00ed ","248":"610000 - Zm\u011bny stavu z\u00e1sob vlastn\u00ed \u010dinnosti","249":"611000 - Zm\u011bna stavu nedokon\u010den\u00e9 v\u00fdroby","250":"612000 - Zm\u011bna stavu polotovar\u016f vlastn\u00ed v\u00fdroby","251":"613000 - Zm\u011bna stavu v\u00fdrobk\u016f","252":"614000 - Zm\u011bna stavu zv\u00ed\u0159at","253":"620000 - Aktivace","254":"621000 - Aktivace materi\u00e1lu a zbo\u017e\u00ed","255":"622000 - Aktivace vnitropodnikov\u00fdch slu\u017eeb","256":"623000 - Aktivace dlouhodob\u00e9ho nehmotn\u00e9ho majetku","257":"624000 - Aktivace dlouhodob\u00e9ho hmotn\u00e9ho majetku","258":"640000 - Jin\u00e9 provozn\u00ed v\u00fdnosy","100":"641000 - Tr\u017eby z prodeje dlouhodob\u00e9ho nehmotn\u00e9ho a hmotn\u00e9ho majetku ","101":"642000 - Tr\u017eby z prodeje materi\u00e1lu ","137":"644000 - Smluvn\u00ed pokuty a \u00faroky z prodlen\u00ed ","259":"646000 - V\u00fdnosy z odepsan\u00fdch pohled\u00e1vek","138":"648000 - Ostatn\u00ed provozn\u00ed v\u00fdnosy ","260":"660000 - Finan\u010dn\u00ed v\u00fdnosy","261":"661000 - Tr\u017eby z prodeje cenn\u00fdch pap\u00edr\u016f a pod\u00edl\u016f","95":"662000 - \u00daroky ","96":"663000 - Kursov\u00e9 zisky ","262":"664000 - V\u00fdnosy z p\u0159ecen\u011bn\u00ed cenn\u00fdch pap\u00edr\u016f","263":"665000 - V\u00fdnosy z dlouhodob\u00e9ho finan\u010dn\u00edho majetku","264":"666000 - V\u00fdnosy z kr\u00e1tkodob\u00e9ho finan\u010dn\u00edho majetku","265":"667000 - V\u00fdnosy z deriv\u00e1tov\u00fdch operac\u00ed","266":"668000 - Ostatn\u00ed finan\u010dn\u00ed v\u00fdnosy","267":"680000 - Mimo\u0159\u00e1dn\u00e9 v\u00fdnosy","268":"681000 - V\u00fdnosy ze zm\u011bny metody","591":"684000 - \u010clensk\u00e9 p\u0159\u00edsp\u011bvky","269":"688000 - Ostatn\u00ed mimo\u0159\u00e1dn\u00e9 v\u00fdnosy","270":"697000 - P\u0159evod provozn\u00edch v\u00fdnos\u016f","271":"698000 - P\u0159evod finan\u010dn\u00edch v\u00fdnos\u016f","97":"701000 - Po\u010d\u00e1te\u010dn\u00ed \u00fa\u010det rozva\u017en\u00fd ","98":"702000 - Kone\u010dn\u00fd \u00fa\u010det rozva\u017en\u00fd ","99":"710000 - \u00da\u010det zisk\u016f a ztr\u00e1t "}
 ## Účty DPH [/vat_chart]
-<a name="ucty_dph"/>
+<a name="ucty-dph"/>
 
-### Seznam dostupných účtů DPH [GET]
-Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
+### Seznam účtů DPH [GET]
+Odpověď obsahuje pole dostupných Účty DPH pro použití v dokladech.
 
 `{"id": "popis"}`
 
@@ -2127,11 +1902,11 @@ Odpověd obsahuje pole dostupných Účty DPH pro použití v dokladech.
 
 
 # Group EET
-<a name="eet_message" />
 
-## Seznam záznamů [/eet_status]
-### Výpis dostupných záznamů  [GET]
-Seznam dostupných provozoven.
+## Seznam EET záznamů [/eet_status]
+<a name="eet-zpravy" />
+
+### Výpis dostupných EET záznamů  [GET]
 + Request
     + Headers
 
@@ -2151,10 +1926,10 @@ Seznam dostupných provozoven.
 
             {"_links":{"self":{"href":"\/1.1\/eet_status\/22"}},"id":22,"uuid_zpravy":"b941b54f-206a-4839-a710-d84f2a5b42b8","dat_odesl":"1487924615","prvni_zaslani":true,"overeni":false,"dic_popl":"CZ00000019","dic_poverujiciho":null,"id_provoz":1,"id_pokl":"1093_def","porad_cis":"1_def_86166","dat_trzby":"2017-02-24T09:23:35+01:00","celk_trzba":19,"zakl_nepodl_dph":0,"zakl_dan1":0,"dan1":0,"zakl_dan2":0,"dan2":0,"zakl_dan3":0,"dan3":0,"cest_sluz":0,"pouzit_zboz1":0,"pouzit_zboz2":0,"pouzit_zboz3":0,"urceno_cerp_zuct":0,"cerp_zuct":0,"rezim":0,"pkp":"aLeoljmrsete8CI107u3bPlXY1aho\/0dWTRfEjV6hPd6\/MzNw3vYuMhPgBVHkzVmpyoNHJd9dr4FkYi36Fa+SGgkgVfvanWhHYjpO3\/Dmn1c0nTe3lAJ9oURQJqjxxbWmMsEWGhFzR\/GGgphTNbysNVEho35DR74tIEYeUZz+ZaUR5jBicCZi079K4dhc+PdYhQHWlQh7J6Nn39bKOCCe18eVZrlKKTG8rpyyK7ZMBzQjMSZGCGAgt1tS+5rOmjHFS0TB4LhPz6F25lnBRVbJTFLF3dBdKhqjV6gGhw6dLcloi5ydY\/RuCaPqhjecekwk+rnkDGotA4DMfeyavKHug==","bkp":"f5da6cd5-3b49c4f4-7d9ded56-5827b3be-332c0c97","dat_prij":null,"fik":"5d2e5e79-59b3-49f9-bb59-566072a7aaf1-f4","test":null,"kod_varov":null,"Varovani":null,"status":"ok","external":true}
 
-### Vytvoření záznamu [POST]
+### Vytvoření EET záznamu [POST]
 Vytvoří nový EET záznam, který byl již zpracován aplikací třetí strany.
 
-Seznam příjmaných parametrů je shodný s těmi, které je možné odesílat do EET, včetně návratových atributů.
+Seznam přijatých parametrů je shodný s těmi, které je možné odesílat do EET, včetně návratových atributů.
 
 + Request (application/json)
     + Headers
@@ -2167,9 +1942,7 @@ Seznam příjmaných parametrů je shodný s těmi, které je možné odesílat 
 + Response 201
     [Správa EET záznamů][]
 
-### Detail [GET]
-Vrátí veškerá data k záznamu.
-
+### Detail EET záznamu [GET]
 + Parameters
     + id (int) ... ID záznamu
 
@@ -2194,6 +1967,97 @@ Datum ve formátu `YYYY-mm-dd`
 - pageCount: 22 (number, optional) - Celkový počet stránek
 - page: 1 (number, optional) - Číslo aktuální stránky
 - pageSize: 50 (number, optional) - Počet záznamů na stránce
+
+## `DOCUMENT_ITEMS_CREATE` (object)
+### Properties
+- text: `Položka A` (string, required) - Popis položky
+- amount: `1` (number, required) - Počet kusů
+- price: `50` (price, required) - [**Price**](#data-types) - Cena
+- `unit_price_inc_vat`: `false` (boolean, optional) - Cena je včetně DPH
+- `unit`: `ks` (string) - Jednotka
+- `vat`: `0` (number) - [**DPH**](#kurz-dph)
+- `vat_total`: `0` (price) - [**Price**](#data-types) - DPH celkem
+- `department_id`: `1` (number) - [**Střediska**](#strediska)
+- `contract_id`: `1` (number) - [**Zakázky**](#zakazky)
+
+## `DOCUMENT_ITEMS_CREATE_ACC` (object)
+### Properties
+- Include `DOCUMENT_ITEMS_CREATE`
+- One Of
+    - Properties
+        - `accountentrytype_id`: `532` (number, optional) - [**Typ účetní položky**](#polozky-typy-uc-polozek)
+        - `vattype_id`: `1` (number, optional) - [**Seznam typů DPH**](#typy-dph)
+        - `chart_account_id`: `null` (string, optional)- [**Účet úč. osnovy**](#ucty-uc-osnovy)
+        - `vat_chart_id`: `null` (string, optional) - [**Účet DPH**](#ucty-dph)
+    - Properties
+        - `accountentrytype_id`: `null` (string, optional) - [**Typ účetní položky**](#polozky-typy-uc-polozek)
+        - `vattype_id`: `null` (string, optional) - [**Seznam typů DPH**](#typy-dph)
+        - `chart_account_id`: `46` (number, optional)- [**Účet úč. osnovy**](#ucty-uc-osnovy)
+        - `vat_chart_id`: `52` (number, optional) - [**Účet DPH**](#ucty-dph)
+
+## `DOCUMENT_ITEMS_DETAIL` (object)
+### Properties
+- id: `123456` (number) - ID položky
+- Include `DOCUMENT_ITEMS_CREATE`
+
+## `DOCUMENT_ITEMS_DETAIL_ACC` (object)
+### Properties
+- id: `123456` (number) - ID položky
+- Include `DOCUMENT_ITEMS_CREATE_ACC`
+
+## `DOCUMENT_ISSUED_LIST_READONLY` (object)
+### Properties
+- id: `123` (number) - ID dokladu
+- `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
+- `deleted`: `false` (boolean) - Smazáno
+
+
+## `DOCUMENT_ISSUED_LIST_WRITABLE` (object)
+### Properties
+- `sequence_code`: `DOC20190001` (string, optional) - Číslo dokladu
+- `variable_symbol`: `20190001` (string, optional) - Variabilní symbol
+- date: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- `date_vat`: `2019-01-10` (date, optional) - [**Date**](#data-types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
+- `maturity_date`: `2019-01-25` (date, required) - [**Date**](#data-types) - Datum splatnosti
+- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+
+## `DOCUMENT_ISSUED_LIST` (object)
+### Properties
+- `customer` (`CUSTOMER_LIST`, required) - Zákazník
+
+## `DOCUMENT_ISSUED_DETAIL_READONLY` (object)
+### Properties
+- price: `50` (price, required) - [**Price**](#data-types) - Cena
+- `price_czk`: `50` (price, required) - [**Price**](#data-types) - Cena v CZK
+- `price_inc_vat_czk`: `50` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+- items (array[`DOCUMENT_ITEMS_DETAIL_ACC`], required) - Pole položek
+
+## `DOCUMENT_ISSUED_DETAIL_WRITABLE` (object)
+### Properties
+- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody-plateb)
+- `customer_bank_account`: `123456789/0800` (string) - Bankovní účet zákazníka
+- `date_vat_prev`: `2019-01-01` (date, optional) - [**Date**](#data-types) - Datum předchozí sazby DPH
+- `description`: `Popis` (string, optional) - Poznámka
+- `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
+
+## `DOCUMENT_ISSUED_DETAIL` (object)
+### Properties
+- `customer` (`CUSTOMER_DETAIL`, required) - Zákazník
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bankovni-ucty)
+
+## `DOCUMENT_ISSUED_CREATE` (object)
+### Properties
+- items (array[`DOCUMENT_ITEMS_CREATE_ACC`], required) - Pole položek
+- `customer_id`: 785 (number, required) - ID [zákazníka](#zakaznici)
+- One Of
+    - Properties
+        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: `null` (string, optional) - ID [**bankovního účtu**](#bankovni-ucty)
+    - Properties
+        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: 456 (number, required) - ID [**bankovního účtu**](#bankovni-ucty)
+
+
 
 
 ## `CURRENCY` (array)
@@ -2245,6 +2109,11 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 
 
 
+## `BANK_ACCOUNT_LINK` (object)
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/bank_account/7 (required)
 
 ## `BANK_ACCOUNT_READONLY` (object)
 ### Properties
@@ -2253,9 +2122,9 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 
 ## `BANK_ACCOUNT_BASE` (object)
 ### Properties
-- name: `Komerční Banka` (string, required) - Název účtu
+- name: `Komerční Banka` (string, optional) - Název účtu
 - currency: CZK (enum, sample, required) - [**Měna**](#currency)
-- isdefault: true (boolean, required) - Nastaven jako výchozí
+- isdefault: true (boolean, optional) - Nastaven jako výchozí
 
 ## `BANK_ACCOUNT_EXTRA` (object)
 ### Properties
@@ -2264,13 +2133,14 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 - `bank_code`: 0100 (string, required) - Kód banky
 - swift: KOMBCZPPXXX (string, optional) - SWIFT
 - iban: `CZ10INGB0697669236` (string, optional) - IBAN
-- `initial_state`: 0 (price) - [**Price**](#data_types) - Počátenční stav účtu
-- `chart_account_id`: 424 (number, optional) - [**Účet úč. osnovy**](#ucty_uc_osnovy)
-- `chart_account_valid_from`: `01-01-2017` (date, required) - [**Date**](#data_types) - Účet úč. osnovy platný od
+- `initial_state`: 0 (price) - [**Price**](#data-types) - Počáteční stav účtu
+- `chart_account_id`: 424 (number, optional) - [**Účet úč. osnovy**](#ucty-uc-osnovy)
+- `chart_account_valid_from`: `01-01-2017` (date, required) - [**Date**](#data-types) - Účet úč. osnovy platný od
 - visible: true (boolean) - Viditelnost účtu v seznamech
 
 ## `BANK_ACCOUNT_LIST` (object)
 ### Properties
+- Include `BANK_ACCOUNT_LINK`
 - Include `BANK_ACCOUNT_READONLY`
 - Include `BANK_ACCOUNT_BASE`
 
@@ -2287,27 +2157,98 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 - Include `BANK_ACCOUNT_BASE`
 - Include `BANK_ACCOUNT_EXTRA`
 
-## `CASH_REGISTER` (object)
+## `CASH_REGISTER_LINK` (object)
 ### Properties
 - _link (object)
     - self (object)
         - href: /1.1/cash_register/475 (required)
-- id: 475 (number, required) - ID účtu
+
+## `CASH_REGISTER_DETAIL` (object)
+### Properties
+- id: 475 (number, required) - ID pokladny
 - name: `EET pokladna` (string, required) - Název pokladny
 - currency: CZK (enum, sample, required) - [**Měna**](#currency)
 - isdefault: true (boolean, required) - Nastavena jako výchozí
-- `initial_state`: 0 (price) - [**Price**](#data_types) - Počátenční stav pokladny
+- `initial_state`: 0 (price) - [**Price**](#data-types) - Počáteční stav pokladny
 - iseet: true (boolean, required) - Zda je pokladna nastavená pro EET
-- `business_premises` (`BUSINESS_PREMISES`, optional)  - [**Provozovna**](#business_premises)
+- `business_premises` (`BUSINESS_PREMISES_LIST`, optional)  - [**Provozovna**](#business-premises)
 
-## `BUSINESS_PREMISES` (object)
+## `CASH_REGISTER_LIST` (object)
+### Properties
+- Include `CASH_REGISTER_LINK`
+- Include `CASH_REGISTER_DETAIL`
+
+## `DEPARTMENT_LINK` (object)
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/department/475 (required)
+
+## `DEPARTMENT_READONLY` (object)
+### Properties
+- id: 475 (number, required) - ID střediska
+
+## `DEPARTMENT_BASE` (object)
+### Properties
+- code: `PR` (string, required) - Kód střediska
+- name: `Praha` (string, required) - Název střediska
+- description: `Sklad` (string, optional) - Popis
+
+## `DEPARTMENT_DETAIL` (object)
+### Properties
+- Include `DEPARTMENT_READONLY`
+- Include `DEPARTMENT_BASE`
+
+## `DEPARTMENT_LIST` (object)
+### Properties
+- Include `DEPARTMENT_LINK`
+- Include `DEPARTMENT_READONLY`
+- Include `DEPARTMENT_BASE`
+
+
+## `CONTRACT_LINK` (object)
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/contract/475 (required)
+
+## `CONTRACT_READONLY` (object)
+### Properties
+- id: 475 (number, required) - ID zakázky
+
+## `CONTRACT_BASE` (object)
+### Properties
+- code: `ABC` (string, required) - Kód zakázky
+- name: `Zakázka ABC` (string, required) - Název zakázky
+- description: `popis` (string, optional) - Popis
+
+## `CONTRACT_DETAIL` (object)
+### Properties
+- Include `CONTRACT_READONLY`
+- Include `CONTRACT_BASE`
+
+## `CONTRACT_LIST` (object)
+### Properties
+- Include `CONTRACT_LINK`
+- Include `CONTRACT_READONLY`
+- Include `CONTRACT_BASE`
+
+## `BUSINESS_PREMISES_LINK` (object)
 ### Properties
 - _link (object)
     - self (object)
         - href: /1.1/business_premises/897 (required)
+        
+## `BUSINESS_PREMISES_DETAIL` (object)
+### Properties
 - id: 897 (number, required) - ID provozovny
 - name: `Restaurace u koníčka` (string, required) - Název provozovny
 - isdefault: true (boolean) - Nastavena jako výchozí
+
+## `BUSINESS_PREMISES_LIST` (object)
+### Properties
+- Include `BUSINESS_PREMISES_LINK`
+- Include `BUSINESS_PREMISES_DETAIL`
 
 
 ## `CUSTOMER_READONLY` (object)
@@ -2318,8 +2259,8 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 ### Properties
 - name: `Jan Novák` (string, required) - Jméno zákazníka
 - comid: `00685776` (string, optional) - IČO
-- email: `novak.jan@iucto.cz` (string, optional) - Email
-- `customer_group_id`: 78 (number, optional) - ID [skupiny zákazníků](#customer_group)
+- email: `novak.jan@example.org` (string, optional) - Email
+- `customer_group_id`: 78 (number, optional) - ID [skupiny zákazníků](#customer-group)
 
 ## `CUSTOMER_EXTRA` (object)
 ### Properties
@@ -2327,8 +2268,8 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 - phone: `+420123123123` (string, optional) - Telefon
 - cellphone: `+420123123123` (string, optional) - Mobil
 - www: `http://www.iucto.cz` (string, optional) - WWW
-- `usual_maturity: `30` (number, required) - Obvyklá splatnost ve dnech
-- `preferred_payment_method` (`PREFERRED_PAYMENT_METHOD_ENUM`, required) - [Preferovaná metoda platby](#preferred_payment_method)
+- `usual_maturity`: `30` (number, required) - Obvyklá splatnost ve dnech
+- `preferred_payment_method` (`PREFERRED_PAYMENT_METHOD_ENUM`, required) - [Preferovaná metoda platby](#preferred-payment-method)
 - `invoice_language` (`INVOICE_LANG`, required) - Jazyk faktury
 - address (`ADDRESS`, required) - Adresa
 - note: `Věrný zákazník` (string, optional) - Poznámka
@@ -2380,14 +2321,14 @@ Seznam jazyků tisk faktury
 - sk - slovensky
 - de - německy
 ## `CUSTOMER_GROUP_LIST` (object)
-Seznam dostupných učetních skupin zákazníků.
+Seznam dostupných účetních skupin zákazníků.
 
 ### Properties
 - _link (object)
     - self (object)
         - href: /1.1/customer_group/10 (required)
 - id: 10 (number) - ID skupiny
-- name: `Nazev` (string) - Název skupiny
+- name: `Název` (string) - Název skupiny
 ## `SUPPLIER_READONLY` (object)
 ### Properties
 - id: 123 (number, required) - ID dodavatele
@@ -2396,8 +2337,8 @@ Seznam dostupných učetních skupin zákazníků.
 ### Properties
 - name: `Jan Novák` (string, required) - Jméno dodavatele
 - comid: `00685776` (string, optional) - IČO
-- email: `novak.jan@iucto.cz` (string, optional) - Email
-- `supplier_group_id`: 78 (number, optional) - ID [skupiny dodavatelů](#supplier_group)
+- email: `novak.jan@example.org` (string, optional) - Email
+- `supplier_group_id`: 78 (number, optional) - ID [skupiny dodavatelů](#supplier-group)
 
 ## `SUPPLIER_EXTRA` (object)
 ### Properties
@@ -2450,7 +2391,7 @@ Seznam dostupných učetních skupin zákazníků.
     - self (object)
         - href: /1.1/supplier_group/475 (required)
 - id: 475 (number) - ID skupiny
-- name: `Nazev` (string) - Název skupiny
+- name: `Název` (string) - Název skupiny
 
 ## `COUNTRY` (object)
 Ukázkový seznam zemí
@@ -2498,25 +2439,69 @@ Seznam metod platby
 - postalcode: `385 02` (string, optional) - Poštovní směrovací číslo
 - country: `CZ` (`COUNTRY_ENUM`, required) - [Země](#country)
 
+## `ORDER_RECEIVED_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- Include `DOCUMENT_ISSUED_LIST_READONLY`
+- `invoice_id`: 1234 (number) - ID faktury
+- `external_code`: `EXT2019005` (string, optional) - Externí číslo dokladu
+
+## `ORDER_RECEIVED_LIST_WRITABLE` (object)
+### Properties
+- `sequence_code`: `DOC20190001` (string, optional) - Číslo dokladu
+- date: `2019-01-01` (date, required) - [**Date**](#data-types) - Datum vystavení
+- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+
+
+## `ORDER_RECEIVED_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/order_recieved/123 (required)
+- Include `ORDER_RECEIVED_LIST_READONLY`
+- Include `ORDER_RECEIVED_LIST_WRITABLE`
+- Include `DOCUMENT_ISSUED_LIST`
+
+## `ORDER_RECEIVED_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné v detailu
+### Properties
+- Include `ORDER_RECEIVED_LIST_READONLY`
+- price: `50` (price) - [**Price**](#data-types) - Cena
+- `price_czk`: `50` (price) - [**Price**](#data-types) - Cena v CZK
+- `price_inc_vat_czk`: `50` (price) - [**Price**](#data-types) - Cena celkem v CZK
+- items (array[`DOCUMENT_ITEMS_DETAIL`], required) - Pole položek
+
+## `ORDER_RECEIVED_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `ORDER_RECEIVED_LIST_WRITABLE`
+- `description`: `Popis` (string, optional) - Poznámka
+- `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
+
+
+## `ORDER_RECEIVED_DETAIL` (object)
+Proměnné dostupné v detailu
+### Properties
+- Include `ORDER_RECEIVED_DETAIL_READONLY`
+- Include `ORDER_RECEIVED_DETAIL_WRITABLE`
+- `customer` (`CUSTOMER_DETAIL`, required) - Zákazník
+
+## `ORDER_RECEIVED_CREATE` (object)
+Zapisovatelné proměnné pro vytváření a editaci dokladu
+### Properties
+- Include `ORDER_RECEIVED_DETAIL_WRITABLE`
+- items (array[`DOCUMENT_ITEMS_CREATE`], required) - Pole položek
+- `customer_id`: 785 (number, required) - ID [zákazníka](#zakaznici)
+
+
 
 ## `PROFORMA_INVOICE_ISSUED_LIST_READONLY` (object)
 Proměnné pouze pro čtení dostupné v seznamu
 ### Properties
-- id: `13290` (number) - ID faktury
-- `price_inc_vat`: `50` (price) - [**Price**](#data_types) - Cena celkem
-- `to_be_paid`: `50` (price) - [**Price**](#data_types) - Zaplaceno
-- `deleted`: `false` (boolean) - Smazáno
-- `to_be_invoiced`: `50` (price) - [**Price**](#data_types) - Zbývá odečíst
-
-## `PROFORMA_INVOICE_ISSUED_LIST_WRITABLE` (object)
-Proměnné pouze pro zápis dostupné v seznamu
-### Properties
-- `sequence_code`: `FV20140001` (string, optional) - Číslo dokladu
-- `variable_symbol`: `20140001` (string, optional) - Variabilní symbol
-- date: `2014-07-12` (date, required) - [**Date**](#data_types) - Datum vystavení
-- `date_vat`: `2014-07-12` (date, required) - [**Date**](#data_types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
-- `maturity_date`: `2014-08-12` (date, required) - [**Date**](#data_types) - Datum splatnosti
-- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+- Include `DOCUMENT_ISSUED_LIST_READONLY`
+- `to_be_paid`: `50` (price, required) - [**Price**](#data-types) - Zaplaceno
+- `to_be_invoiced`: `50` (price, required) - [**Price**](#data-types) - Zbývá odečíst
 
 ## `PROFORMA_INVOICE_ISSUED_LIST` (object)
 Proměnné dostupné v seznamu
@@ -2525,229 +2510,232 @@ Proměnné dostupné v seznamu
     - self (object)
         - href: /1.1/proforma_invoice_issued/123 (required)
 - Include `PROFORMA_INVOICE_ISSUED_LIST_READONLY`
-- Include `PROFORMA_INVOICE_ISSUED_LIST_WRITABLE`
-- `customer` (`CUSTOMER_LIST`, required) - Zákazník
+- Include `DOCUMENT_ISSUED_LIST_WRITABLE`
+- Include `DOCUMENT_ISSUED_LIST`
 
 ## `PROFORMA_INVOICE_ISSUED_DETAIL_READONLY` (object)
-Proměnné pouze pro čtení dostupné detailu
+Proměnné pouze pro čtení dostupné v detailu
 ### Properties
 - Include `PROFORMA_INVOICE_ISSUED_LIST_READONLY`
-- price: `50` (price) - [**Price**](#data_types) - Cena
-- `price_czk`: `50` (price) - [**Price**](#data_types) - Cena v CZK
-- `price_inc_vat_czk`: `50` (price) - [**Price**](#data_types) - Cena celkem v CZK
-- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody_plateb)
-- items (array[`PROFORMA_INVOICE_ISSUED_ITEMS_DETAIL`], required) - Pole položek
+- Include `DOCUMENT_ISSUED_DETAIL_READONLY`
 
 ## `PROFORMA_INVOICE_ISSUED_DETAIL_WRITABLE` (object)
 Proměnné pouze pro zápis dostupné v detailu
 ### Properties
-- Include `PROFORMA_INVOICE_ISSUED_LIST_WRITABLE`
-- `customer_bank_account`: `123456789/0800` (string) - Bankovní účet zákazníka
-- `date_vat_prev`: `2019-05-05` (date, optional) - [**Date**](#data_types) - Datum předchozí sazby DPH
-- `description`: `Popis` (string, optional) - Poznámka
-- `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
-
+- Include `DOCUMENT_ISSUED_LIST_WRITABLE`
+- Include `DOCUMENT_ISSUED_DETAIL_WRITABLE`
 
 ## `PROFORMA_INVOICE_ISSUED_DETAIL` (object)
 Proměnné dostupné v detailu
 ### Properties
 - Include `PROFORMA_INVOICE_ISSUED_DETAIL_READONLY`
 - Include `PROFORMA_INVOICE_ISSUED_DETAIL_WRITABLE`
-- `customer` (`CUSTOMER_DETAIL`, required) - Zákazník
-- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bank_account)
+- Include `DOCUMENT_ISSUED_DETAIL`
 
 ## `PROFORMA_INVOICE_ISSUED_CREATE` (object)
 Zapisovatelné proměnné pro vytváření a editaci dokladu
 ### Properties
 - Include `PROFORMA_INVOICE_ISSUED_DETAIL_WRITABLE`
-- items (array[`PROFORMA_INVOICE_ISSUED_ITEMS_CREATE`], required) - Pole položek
-- `customer_id`: 785 (number, required) - ID [zákazníka](#zakaznici)
-- One Of
-    - Properties
-        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody_plateb)
-        - `bank_account`: `null` (string, optional) - ID [**bankovního účetu**](#bank_account)
-    - Properties
-        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody_plateb)
-        - `bank_account`: 456 (number, required) - ID [**bankovního účetu**](#bank_account)
+- Include `DOCUMENT_ISSUED_CREATE`
 
 
-## `PROFORMA_INVOICE_ISSUED_ITEMS_CREATE` (object)
+
+## `INVOICE_ISSUED_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
 ### Properties
-- text: `Položka A` (string, required) - Popis položky
-- amount: `1` (number, required) - Počet kusů
-- price: `50` (price, required) - [**Price**](#data_types) - Cena
-- unit_price_inc_vat: `boolean`
-- `unit`: `ks` (string) - Jednotka
-- `vat`: `0` (number) - [**DPH**](#kurz_dph)
-- One Of
-    - Properties
-        - `accountentrytype_id`: `532` (number, optional) - [**Typ účetní položky**](#položky_typy_uc_polozek)
-        - `vattype_id`: `1` (number, optional) - [**Seznam typů DPH**](#typy_dph)
-        - `chart_account_id`: `null` (string, optional)- [**Účet úč. osnovy**](#ucty_uc_osnovy)
-        - `vat_chart_id`: `null` (string, optional) - [**Účet DPH**](#ucty_dph)
-    - Properties
-        - `accountentrytype_id`: `null` (string, optional) - [**Typ účetní položky**](#položky_typy_uc_polozek)
-        - `vattype_id`: `null` (string, optional) - [**Seznam typů DPH**](#typy_dph)
-        - `chart_account_id`: `46` (number, optional)- [**Účet úč. osnovy**](#ucty_uc_osnovy)
-        - `vat_chart_id`: `52` (number, optional) - [**Účet DPH**](#ucty_dph)
-- `department_id`: `0` (number) - [**Střediska**](#strediska)
-- `contract_id`: `0` (number) - [**Zakázky**](#zakazky)
-- `vat_total`: `0` (price) - [**Price**](#data_types) - DPH celkem
+- Include `DOCUMENT_ISSUED_LIST_READONLY`
+- `to_be_paid`: `50` (price, required) - [**Price**](#data-types) - Zaplaceno
+- accounted: `true` (boolean, required) - Zaúčtováno
+- `proforma_invoice` (array[`INVOICE_ISSUED_PROFORMA_ID`], optional) - Pole ID zálohových faktur
+- eet: `false` (boolean, required) - Odesláno do EET
 
-## `PROFORMA_INVOICE_ISSUED_ITEMS_DETAIL` (object)
-### Properties
-- id: `123456` (number) - ID položky
-- Include `PROFORMA_INVOICE_ISSUED_ITEMS_CREATE`
-
+## `INVOICE_ISSUED_LIST_WRITABLE` (object)
+- Include `DOCUMENT_ISSUED_LIST_WRITABLE`
 
 ## `INVOICE_ISSUED_LIST` (object)
+Proměnné dostupné v seznamu
 ### Properties
 - _link (object)
     - self (object)
         - href: /1.1/invoice_issued/123 (required)
-- id: `13290` (number) - ID faktury
-- Include `INVOICE_ISSUED_BASE`
-- `price_inc_vat`: `50` (price) - [**Price**](#data_types) - Cena
-- `to_be_paid`: `50` (price) - [**Price**](#data_types) - Zaplaceno
-- `customer` (`CUSTOMER_LIST`, required) - Zákazník
-- accounted: `true` (boolean) - Zaúčtováno
-- deleted: `false` (boolean) - Smazáno
-- eet: `false` (boolean) - Odesláno do EET
-- `proforma_invoice` (array[`INVOICE_ISSUED_PROFORMA_ID`], optional) - Pole ID zálohových faktur
+- Include `INVOICE_ISSUED_LIST_READONLY`
+- Include `INVOICE_ISSUED_LIST_WRITABLE`
+- Include `DOCUMENT_ISSUED_LIST`
 
-## `INVOICE_ISSUED_BASE` (object)
+## `INVOICE_ISSUED_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné v detailu
 ### Properties
-- `sequence_code`: `FV20140001` (string, optional) - Číslo dokladu
-- `variable_symbol`: `20140001` (string, optional) - Variabilní symbol
-- date: `2014-07-12` (date, required) - [**Date**](#data_types) - Datum vystavení
-- `date_vat`: `2014-07-12` (date, optional) - [**Date**](#data_types) - Datum zdanitelného plnění (povinné, pokud existuje položa s DPH)
-- `maturity_date`: `2014-08-12` (date, required) - [**Date**](#data_types) - Datum splatnosti
-- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+- Include `INVOICE_ISSUED_LIST_READONLY`
+- Include `DOCUMENT_ISSUED_DETAIL_READONLY`
+- `eet_status` (`EET_STATUS_DETAIL`, required) - EET detail
+
+## `INVOICE_ISSUED_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `INVOICE_ISSUED_LIST_WRITABLE`
+- Include `DOCUMENT_ISSUED_DETAIL_WRITABLE`
+- `business_premises` (`BUSINESS_PREMISES_LIST`, optional)  - [**Provozovna**](#business-premises)
+- `order_id`: `13290` (number, optional) - ID objednávky
+- `reminders`: `2019-08-12`, `2019-08-19` (array[string], optional) - Seznam datumů pro odeslání upomínek
 
 ## `INVOICE_ISSUED_DETAIL` (object)
-- Include `INVOICE_ISSUED_BASE`
-- `price: `50` (price) - [**Price**](#data_types) - Cena
-- `price_czk`: `50` (price) - [**Price**](#data_types) - Cena v CZK
-- `price_inc_vat`: `50` (price) - [**Price**](#data_types) - Cena celkem
-- `price_inc_vat_czk`: `50` (price) - [**Price**](#data_types) - Cena celkem v CZK
-- `to_be_paid`: `50` (price) - [**Price**](#data_types) - Zaplaceno
-- `customer_id`: `1621` (number, required) - [Zákazník](#zakaznici)
+Proměnné dostupné v detailu
+### Properties
+- Include `INVOICE_ISSUED_DETAIL_READONLY`
+- Include `INVOICE_ISSUED_DETAIL_WRITABLE`
+- Include `DOCUMENT_ISSUED_DETAIL`
+
+## `INVOICE_ISSUED_CREATE` (object)
+### Properties
+- Include `INVOICE_ISSUED_DETAIL_WRITABLE`
+- Include `DOCUMENT_ISSUED_CREATE`
 - `customer_bank_account`: `123456789/0800` (string) - Bankovní účet zákazníka
-- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody_plateb)
-- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bank_account)
-- `date_vat_prev`: `2019-05-05` (date, optional) - [**date**](#data_types) - Datum předchozí sazby DPH (nepovinné u neplátce DPH)
-- `description`: `Popis` (string, optional) - Poznámka
-- `rounding_type`: `none` (string, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
-- `items` (array[`INVOICE_ISSUED_ITEMS_DETAIL`], required) - Pole položek
-- `accounted`: `true` (boolean) - Zaúčtováno
-- `deleted`: `false` (boolean) - Smazáno
-- `business_premises` (`BUSINESS_PREMISES`, optional)  - [**Provozovna**](#business_premises)
-- `eet_status` (`EET_STATUS_DETAIL`, required) - EET detail
-- `order_id`: `13290` (number, optional) - ID objednávky
-- `reminders`: `2014-08-12`, `2014-08-19` (array[string], optional) - Seznam datumů pro odeslání upomínek
-
-## `INVOICE_ISSUED_GET_DETAIL` (object)
-### Properties
-- _link (object)
-    - self (object)
-        - href: /1.1/invoice_issued/123 (required)
-- id: `13290` (number) - ID faktury
-- Include `INVOICE_ISSUED_BASE`
-- `customer` (array[`CUSTOMER_DETAIL`], required) - Pole zákazníků
-- Include `INVOICE_ISSUED_DETAIL`
-- `proforma_invoice` (array[`INVOICE_ISSUED_PROFORMA_ID`], optional) - Pole ID zálohových faktur
-
-
-## `INVOICE_ISSUED_ITEMS_CREATE` (object)
-### Properties
-- text: `Položka A` (string, required) - Popis položky
-- amount: `1` (number, required) - Počet kusů
-- price: `50` (price, required) - [**Price**](#data_types) - Cena
-- `unit_price_inc_vat`: `false` (boolean, required) - Cena je včetně DPH
-- `unit`: `ks` (string) - Jednotka
-- `vat`: `0` (number) - [**DPH**](#kurz_dph)
-- `vat_total`: `0` (price) - [**Price**](#data_types) - DPH celkem
 - One Of
-    - Properties
-        - `accountentrytype_id`: `532` (number, optional) - [**Typ účetní položky**](#položky_typy_uc_polozek)
-        - `vattype_id`: `1` (number, optional) - [**Seznam typů DPH**](#typy_dph)
-        - `chart_account_id`: `null` (string, optional)- [**Účet úč. osnovy**](#ucty_uc_osnovy)
-        - `vat_chart_id`: `null` (string, optional) - [**Účet DPH**](#ucty_dph)
-    - Properties
-        - `accountentrytype_id`: `null` (string, optional) - [**Typ účetní položky**](#položky_typy_uc_polozek)
-        - `vattype_id`: `null` (string, optional) - [**Seznam typů DPH**](#typy_dph)
-        - `chart_account_id`: `46` (number, optional)- [**Účet úč. osnovy**](#ucty_uc_osnovy)
-        - `vat_chart_id`: `52` (number, optional) - [**Účet DPH**](#ucty_dph)
-- `department_id`: `0` (number) - [**Střediska**](#strediska)
-- `contract_id`: `0` (number) - [**Zakázky**](#zakazky)
+    - `eet`: false (boolean, optional) - Vygenerovat EET
+    - One Of
+        - `eet_status`: 12 (number, optional) - ID existující [**EET zprávy**](#eet-zpravy)
+        - Properties
+            - `eet`: true (boolean, optional) - Vygenerovat EET, pokud je nastaveno
+            - `business_premises_id` (number, required)  - ID [**provozovny**](#business-premises)
 
-## `INVOICE_ISSUED_ITEMS_DETAIL` (object)
-### Properties
-- id: `123456` (number) - ID položky
-- Include `INVOICE_ISSUED_ITEMS_CREATE`
-
-## `EET_STATUS_DETAIL` (object)
-### Properties
-- _link (object)
-    - self (object)
-        - href: /1.1/eet_status/
-- id: `1` (number) - ID
-- status: `1` (string) - Status
-- fik: `123-222` (string) - FIK
-- bkp: `123-222` (string) - BKP
-- pkp: `123-222` (string) - PKP
 
 ## `INVOICE_ISSUED_PROFORMA_ID` (object)
 ### Properties
 - id: `123456` (number) - ID zálohové faktury
 
-## `INVOICE_ISSUED_CREATE` (object)
+
+## `CREDITNOTE_ISSUED_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
 ### Properties
-- Include `INVOICE_ISSUED_BASE`
-- `customer_id`: `1621` (number, required) - [Zákazník](#zakaznici)
+- Include `DOCUMENT_ISSUED_LIST_READONLY`
+- `to_be_paid`: `50` (price, required) - [**Price**](#data-types) - Zaplaceno
+- accounted: `true` (boolean, required) - Zaúčtováno
+- eet: `false` (boolean, required) - Odesláno do EET
+
+
+## `CREDITNOTE_ISSUED_LIST_WRITABLE` (object)
+Proměnné dostupné v seznamu
+### Properties
+- Include `DOCUMENT_ISSUED_LIST_WRITABLE`
+- `invoice_issued_id`: 12343 (number, optional)  - ID [faktury vydané](#faktury-vydane)
+
+## `CREDITNOTE_ISSUED_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/invoice_issued/123 (required)
+- Include `CREDITNOTE_ISSUED_LIST_READONLY`
+- Include `CREDITNOTE_ISSUED_LIST_WRITABLE`
+- Include `DOCUMENT_ISSUED_LIST`
+
+## `CREDITNOTE_ISSUED_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné v detailu
+### Properties
+- Include `CREDITNOTE_ISSUED_LIST_READONLY`
+- Include `DOCUMENT_ISSUED_DETAIL_READONLY`
+- `eet_status` (`EET_STATUS_DETAIL`, required) - EET detail
+
+## `CREDITNOTE_ISSUED_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `CREDITNOTE_ISSUED_LIST_WRITABLE`
+- Include `DOCUMENT_ISSUED_DETAIL_WRITABLE`
+- `business_premises` (`BUSINESS_PREMISES_LIST`, optional)  - [**Provozovna**](#business-premises)
+- `currency_date`: `2019-09-08` (date)
+
+## `CREDITNOTE_ISSUED_DETAIL` (object)
+Proměnné dostupné v detailu
+### Properties
+- Include `CREDITNOTE_ISSUED_DETAIL_READONLY`
+- Include `CREDITNOTE_ISSUED_DETAIL_WRITABLE`
+- Include `DOCUMENT_ISSUED_DETAIL`
+
+## `CREDITNOTE_ISSUED_CREATE` (object)
+### Properties
+- Include `CREDITNOTE_ISSUED_DETAIL_WRITABLE`
+- Include `DOCUMENT_ISSUED_CREATE`
 - `customer_bank_account`: `123456789/0800` (string) - Bankovní účet zákazníka
-- One Of
-    - Properties
-        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody_plateb)
-        - `bank_account`: `null` (string, optional) - ID [**bankovního účetu**](#bank_account)
-    - Properties
-        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody_plateb)
-        - `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bank_account)
-- `date_vat_prev`: `2019-05-05` (date, optional) - [**date**](#data_types) - Datum předchozí sazby DPH (nepovinné u neplátce DPH)
-- `description`: `Popis` (string, optional) - Poznámka
-- `rounding_type`: `none` (string, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
-- `items` (array[`INVOICE_ISSUED_ITEMS_CREATE`], required) - Pole položek
 - One Of
     - `eet`: false (boolean, optional) - Vygenerovat EET
     - One Of
-        - `eet_status`: 12 (number, optional) - ID existujicí [**EET zprávy**](#eet_message)
+        - `eet_status`: 12 (number, optional) - ID existující [**EET zprávy**](#eet-zpravy)
         - Properties
             - `eet`: true (boolean, optional) - Vygenerovat EET, pokud je nastaveno
-            - `business_premises_id` (number, required)  - ID [**provozovny**](#business_premises)
-- `order_id`: `13290` (number, optional) - ID objednávky
-- `proforma_invoice`: 45, 67 (array[number], optional) - ID připojených zálohových faktur
-- `reminders`: `2014-08-12`, `2014-08-19` (array[string], optional) - Seznam datumů pro odeslání upomínek
+            - `business_premises_id` (number, required)  - ID [**provozovny**](#business-premises)
 
+## `ORDER_ISSUED_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- id: `13290` (number, required) - ID objednávky
+- `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
+- `deleted`: `false` (boolean) - Smazáno
+- `invoice_id`: `13290` (number) - ID faktury
 
+## `ORDER_ISSUED_LIST_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v seznamu
+### Properties
+- `sequence_code`: `OBJ20190001` (string, optional) - Číslo dokladu
+- date: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
 
+## `ORDER_ISSUED_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/order_issued/123 (required)
+- Include `ORDER_ISSUED_LIST_READONLY`
+- Include `ORDER_ISSUED_LIST_WRITABLE`
+- `supplier` (`SUPPLIER_LIST`, required) - Dodavatel
+
+## `ORDER_ISSUED_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné detailu
+### Properties
+- Include `ORDER_ISSUED_LIST_READONLY`
+- price: `50` (price, required) - [**Price**](#data-types) - Cena
+- `price_czk`: `50` (price, required) - [**Price**](#data-types) - Cena v CZK
+- `price_inc_vat_czk`: `50` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+
+## `ORDER_ISSUED_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `ORDER_ISSUED_LIST_WRITABLE`
+- `description`: `Popis` (string, optional) - Poznámka
+- `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
+- items (array[`DOCUMENT_ITEMS_DETAIL`], required) - Pole položek
+
+## `ORDER_ISSUED_DETAIL` (object)
+Proměnné dostupné v detailu
+### Properties
+- Include `ORDER_ISSUED_DETAIL_READONLY`
+- Include `ORDER_ISSUED_DETAIL_WRITABLE`
+- `supplier` (`SUPPLIER_DETAIL`, required) - Dodavatel
+
+## `ORDER_ISSUED_CREATE` (object)
+Zapisovatelné proměnné pro vytváření a editaci dokladu
+### Properties
+- Include `ORDER_ISSUED_DETAIL_WRITABLE`
+- items (array[`DOCUMENT_ITEMS_CREATE`], required) - Pole položek
+- `supplier_id`: 785 (number, required) - ID [dodavatele](#dodavatele)
 ## `PROFORMA_INVOICE_RECEIVED_LIST_READONLY` (object)
 Proměnné pouze pro čtení dostupné v seznamu
 ### Properties
 - id: `13290` (number) - ID faktury
-- `price_inc_vat`: `50` (price) - [**Price**](#data_types) - Cena celkem
-- `to_be_paid`: `50` (price) - [**Price**](#data_types) - Zaplaceno
+- `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
+- `to_be_paid`: `50` (price, required) - [**Price**](#data-types) - Zaplaceno
 - `deleted`: `false` (boolean) - Smazáno
-- `to_be_invoiced`: `50` (price) - [**Price**](#data_types) - Zbývá odečíst
+- `to_be_invoiced`: `50` (price, required) - [**Price**](#data-types) - Zbývá odečíst
 
 ## `PROFORMA_INVOICE_RECEIVED_LIST_WRITABLE` (object)
 Proměnné pouze pro zápis dostupné v seznamu
 ### Properties
-- `sequence_code`: `FV20140001` (string, optional) - Číslo dokladu
-- `external_code`: `20140001` (string, required) - Externí číslo dokladu
-- `variable_symbol`: `20140001` (string, optional) - Variabilní symbol
-- date: `2014-07-12` (date, required) - [**Date**](#data_types) - Datum vystavení
-- `date_vat`: `2014-07-12` (date, required) - [**Date**](#data_types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
-- `maturity_date`: `2014-08-12` (date, required) - [**Date**](#data_types) - Datum splatnosti
+- `sequence_code`: `ZFP20190001` (string, optional) - Číslo dokladu
+- `external_code`: `20190001` (string, required) - Externí číslo dokladu
+- `variable_symbol`: `20190001` (string, optional) - Variabilní symbol
+- date: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- `date_vat`: `2019-07-12` (date, optional) - [**Date**](#data-types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
+- `maturity_date`: `2019-08-12` (date, required) - [**Date**](#data-types) - Datum splatnosti
 - currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
 
 ## `PROFORMA_INVOICE_RECEIVED_LIST` (object)
@@ -2764,17 +2752,17 @@ Proměnné dostupné v seznamu
 Proměnné pouze pro čtení dostupné detailu
 ### Properties
 - Include `PROFORMA_INVOICE_RECEIVED_LIST_READONLY`
-- price: `50` (price) - [**Price**](#data_types) - Cena
-- `price_czk`: `50` (price) - [**Price**](#data_types) - Cena v CZK
-- `price_inc_vat_czk`: `50` (price) - [**Price**](#data_types) - Cena celkem v CZK
-- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody_plateb)
+- price: `50` (price, required) - [**Price**](#data-types) - Cena
+- `price_czk`: `50` (price, required) - [**Price**](#data-types) - Cena v CZK
+- `price_inc_vat_czk`: `50` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody-plateb)
 - items (array[`PROFORMA_INVOICE_RECEIVED_ITEMS_DETAIL`], required) - Pole položek
 
 ## `PROFORMA_INVOICE_RECEIVED_DETAIL_WRITABLE` (object)
 Proměnné pouze pro zápis dostupné v detailu
 ### Properties
 - Include `PROFORMA_INVOICE_RECEIVED_LIST_WRITABLE`
-- `date_vat_prev`: `2019-05-05` (date, optional) - [**Date**](#data_types) - Datum předchozí sazby DPH
+- `date_vat_prev`: `2019-05-05` (date, optional) - [**Date**](#data-types) - Datum předchozí sazby DPH
 - `description`: `Popis` (string, optional) - Poznámka
 - `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
 
@@ -2785,7 +2773,7 @@ Proměnné dostupné v detailu
 - Include `PROFORMA_INVOICE_RECEIVED_DETAIL_READONLY`
 - Include `PROFORMA_INVOICE_RECEIVED_DETAIL_WRITABLE`
 - `supplier` (`SUPPLIER_DETAIL`, required) - Dodavatel
-- `bank_account` (`BANK_ACCOUNT_DETAIL`, required) - [**Bankovní účet**](#bank_account)
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, required) - [**Bankovní účet**](#bankovni-ucty)
 
 ## `PROFORMA_INVOICE_RECEIVED_CREATE` (object)
 Zapisovatelné proměnné pro vytváření a editaci dokladu
@@ -2795,35 +2783,35 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 - `supplier_id`: 785 (number, required) - ID [dodavatele](#dodavatele)
 - One Of
     - Properties
-        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody_plateb)
-        - `bank_account`: `null` (string, optional) - ID [**bankovního účetu**](#bank_account)
+        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: `null` (string, optional) - ID [**bankovního účtu**](#bankovni-ucty)
     - Properties
-        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody_plateb)
-        - `bank_account`: 456 (number, required) - ID [**bankovního účetu**](#bank_account)
+        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: 456 (number, required) - ID [**bankovního účtu**](#bankovni-ucty)
 
 
 ## `PROFORMA_INVOICE_RECEIVED_ITEMS_CREATE` (object)
 ### Properties
 - text: `Položka A` (string, required) - Popis položky
 - amount: `1` (number, required) - Počet kusů
-- price: `50` (price, required) - [**Price**](#data_types) - Cena
+- price: `50` (price, required) - [**Price**](#data-types) - Cena
 - unit_price_inc_vat: `boolean`
 - `unit`: `ks` (string) - Jednotka
-- `vat`: `0` (number) - [**DPH**](#kurz_dph)
+- `vat`: `0` (number) - [**DPH**](#kurz-dph)
 - One Of
     - Properties
-        - `accountentrytype_id`: `532` (number, optional) - [**Typ účetní položky**](#položky_typy_uc_polozek)
-        - `vattype_id`: `1` (number, optional) - [**Seznam typů DPH**](#typy_dph)
-        - `chart_account_id`: `null` (string, optional)- [**Účet úč. osnovy**](#ucty_uc_osnovy)
-        - `vat_chart_id`: `null` (string, optional) - [**Účet DPH**](#ucty_dph)
+        - `accountentrytype_id`: `532` (number, optional) - [**Typ účetní položky**](#polozky-typy-uc-polozek)
+        - `vattype_id`: `1` (number, optional) - [**Seznam typů DPH**](#typy-dph)
+        - `chart_account_id`: `null` (string, optional)- [**Účet úč. osnovy**](#ucty-uc-osnovy)
+        - `vat_chart_id`: `null` (string, optional) - [**Účet DPH**](#ucty-dph)
     - Properties
-        - `accountentrytype_id`: `null` (string, optional) - [**Typ účetní položky**](#položky_typy_uc_polozek)
-        - `vattype_id`: `null` (string, optional) - [**Seznam typů DPH**](#typy_dph)
-        - `chart_account_id`: `46` (number, optional)- [**Účet úč. osnovy**](#ucty_uc_osnovy)
-        - `vat_chart_id`: `52` (number, optional) - [**Účet DPH**](#ucty_dph)
+        - `accountentrytype_id`: `null` (string, optional) - [**Typ účetní položky**](#polozky-typy-uc-polozek)
+        - `vattype_id`: `null` (string, optional) - [**Seznam typů DPH**](#typy-dph)
+        - `chart_account_id`: `46` (number, optional)- [**Účet úč. osnovy**](#ucty-uc-osnovy)
+        - `vat_chart_id`: `52` (number, optional) - [**Účet DPH**](#ucty-dph)
 - `department_id`: `0` (number) - [**Střediska**](#strediska)
 - `contract_id`: `0` (number) - [**Zakázky**](#zakazky)
-- `vat_total`: `0` (price) - [**Price**](#data_types) - DPH celkem
+- `vat_total`: `0` (price) - [**Price**](#data-types) - DPH celkem
 
 ## `PROFORMA_INVOICE_RECEIVED_ITEMS_DETAIL` (object)
 ### Properties
@@ -2831,6 +2819,236 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 - Include `PROFORMA_INVOICE_RECEIVED_ITEMS_CREATE`
 
 
+## `INVOICE_RECEIVED_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- id: `13290` (number) - ID faktury
+- `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
+- `to_be_paid`: `50` (price, required) - [**Price**](#data-types) - Zaplaceno
+- `deleted`: `false` (boolean) - Smazáno
+- `accounted`: `false` (boolean) - Zaúčtováno
+- `proforma_invoice` (array[`INVOICE_RECEIVED_PROFORMA_ID`], optional) - Pole ID zálohových faktur
+
+## `INVOICE_RECEIVED_LIST_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v seznamu
+### Properties
+- `sequence_code`: `FP20190001` (string, optional) - Číslo dokladu
+- `external_code`: `20190001` (string, optional) - Externí číslo dokladu
+- `variable_symbol`: `20190001` (string, optional) - Variabilní symbol
+- date: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- `date_vat`: `2019-07-12` (date, optional) - [**Date**](#data-types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
+- `maturity_date`: `2019-08-12` (date, required) - [**Date**](#data-types) - Datum splatnosti
+- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+- `order_id`: 12343 (number, optional) - ID objednávky
+
+## `INVOICE_RECEIVED_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/invoice_received/123 (required)
+- Include `INVOICE_RECEIVED_LIST_READONLY`
+- Include `INVOICE_RECEIVED_LIST_WRITABLE`
+- `supplier` (`SUPPLIER_LIST`, required) - Dodavatel
+
+## `INVOICE_RECEIVED_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné detailu
+### Properties
+- Include `INVOICE_RECEIVED_LIST_READONLY`
+- price: `50` (price, required) - [**Price**](#data-types) - Cena
+- `price_czk`: `50` (price, required) - [**Price**](#data-types) - Cena v CZK
+- `price_inc_vat_czk`: `50` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody-plateb)
+- items (array[`DOCUMENT_ITEMS_DETAIL_ACC`], required) - Pole položek
+
+## `INVOICE_RECEIVED_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `INVOICE_RECEIVED_LIST_WRITABLE`
+- `date_vat_prev`: `2019-05-05` (date, optional) - [**Date**](#data-types) - Datum předchozí sazby DPH
+- `description`: `Popis` (string, optional) - Poznámka
+- `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
+
+
+## `INVOICE_RECEIVED_DETAIL` (object)
+Proměnné dostupné v detailu
+### Properties
+- Include `INVOICE_RECEIVED_DETAIL_READONLY`
+- Include `INVOICE_RECEIVED_DETAIL_WRITABLE`
+- `supplier` (`SUPPLIER_DETAIL`, required) - Dodavatel
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, required) - [**Bankovní účet**](#bankovni-ucty)
+
+## `INVOICE_RECEIVED_CREATE` (object)
+Zapisovatelné proměnné pro vytváření a editaci dokladu
+### Properties
+- Include `INVOICE_RECEIVED_DETAIL_WRITABLE`
+- items (array[`DOCUMENT_ITEMS_CREATE_ACC`], required) - Pole položek
+- `supplier_id`: 785 (number, required) - ID [dodavatele](#dodavatele)
+- `payment_type`: transfer, creditcard, cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody-plateb)
+- `bank_account`: 456 (number, required) - ID [**bankovního účtu**](#bankovni-ucty)
+
+## `INVOICE_RECEIVED_PROFORMA_ID` (object)
+### Properties
+- id: `123456` (number) - ID zálohové faktury
+
+## `PAYMENT_ISSUED_LIST_READONLY` (object)
+### Properties
+- id: `123` (number) - ID dokladu
+- `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
+- `deleted`: `false` (boolean) - Smazáno
+
+
+## `PAYMENT_ISSUED_LIST_WRITABLE` (object)
+### Properties
+- `sequence_code`: `PV20190001` (string, optional) - Číslo dokladu
+- `variable_symbol`: `20190001` (string, optional) - Variabilní symbol
+- date: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- `date_vat`: `2019-07-12` (date, optional) - [**Date**](#data-types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
+- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+- `proforma_invoice_received_id`: 1234 (number, optional) - ID zálohové faktury
+
+
+## `PAYMENT_ISSUED_LIST` (object)
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/payment_issued/123 (required)
+- Include `PAYMENT_ISSUED_LIST_READONLY`
+- Include `PAYMENT_ISSUED_LIST_WRITABLE`
+- `customer` (`CUSTOMER_LIST`, optional) - Zákazník
+- `supplier` (`SUPPLIER_LIST`, optional) - Dodavatel
+- `invoice` (`INVOICE_RECEIVED_LIST`, optional) - Faktura
+- `cash_register` (`CASH_REGISTER_LIST`, optional) - Pokladna
+- `bank_account` (`BANK_ACCOUNT_LIST`, optional) - [**Bankovní účet**](#bankovni-ucty)
+
+
+## `PAYMENT_ISSUED_DETAIL_READONLY` (object)
+### Properties
+- Include `PAYMENT_ISSUED_LIST_READONLY`
+- price: `50` (price, required) - [**Price**](#data-types) - Cena
+- `price_czk`: `50` (price, required) - [**Price**](#data-types) - Cena v CZK
+- `price_inc_vat_czk`: `50` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+- items (array[`DOCUMENT_ITEMS_DETAIL_ACC`], required) - Pole položek
+
+## `PAYMENT_ISSUED_DETAIL_WRITABLE` (object)
+### Properties
+- Include `PAYMENT_ISSUED_LIST_WRITABLE`
+- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody-plateb)
+- `date_vat_prev`: `2019-05-05` (date, optional) - [**Date**](#data-types) - Datum předchozí sazby DPH
+- `description`: `Popis` (string, optional) - Poznámka
+- `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
+- `reference_mark`: `RF` (string, optional) - Reference mark
+- `full_paid`: `true` (boolean, optional) - Plně zaplaceno
+
+## `PAYMENT_ISSUED_DETAIL` (object)
+### Properties
+- Include `PAYMENT_ISSUED_DETAIL_READONLY`
+- Include `PAYMENT_ISSUED_DETAIL_WRITABLE`
+- `supplier` (`SUPPLIER_DETAIL`, required) - Dodavatel
+- `customer` (`CUSTOMER_DETAIL`, required) - Zákazník
+- `invoice` (`INVOICE_RECEIVED_DETAIL`, optional) - Faktura
+- `cash_register` (`CASH_REGISTER_DETAIL`, optional) - Pokladna
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bankovni-ucty)
+
+## `PAYMENT_ISSUED_CREATE` (object)
+### Properties
+- Include `PAYMENT_ISSUED_DETAIL_WRITABLE`
+- items (array[`DOCUMENT_ITEMS_CREATE_ACC`], required) - Pole položek
+- `invoice_id`: `13290` (number) - ID faktury
+- `customer_id`: 785 (number, required) - ID [zákazníka](#zakaznici)
+- `supplier_id`: 785 (number, required) - ID [dodavatele](#dodavatele)
+- `cash_register_id`: 785 (number, required) - ID pokladny
+- One Of
+    - Properties
+        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: `null` (string, optional) - ID [**bankovního účtu**](#bankovni-ucty)
+    - Properties
+        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: 456 (number, required) - ID [**bankovního účtu**](#bankovni-ucty)
+
+
+
+## `PAYMENT_RECEIVED_LIST_READONLY` (object)
+### Properties
+- id: `123` (number) - ID dokladu
+- `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
+- `deleted`: `false` (boolean) - Smazáno
+- eet: `false` (boolean, required) - Odesláno do EET
+
+
+## `PAYMENT_RECEIVED_LIST_WRITABLE` (object)
+### Properties
+- `sequence_code`: `PP20190001` (string, optional) - Číslo dokladu
+- `external_code`: `FV3425435` (string, optional) - Externí číslo dokladu
+- `variable_symbol`: `20190001` (string, optional) - Variabilní symbol
+- date: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- `date_vat`: `2019-07-12` (date, optional) - [**Date**](#data-types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
+- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+- `proforma_invoice_id`: 1234 (number, optional) - ID zálohové faktury
+
+
+## `PAYMENT_RECEIVED_LIST` (object)
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/payment_received/123 (required)
+- Include `PAYMENT_RECEIVED_LIST_READONLY`
+- Include `PAYMENT_RECEIVED_LIST_WRITABLE`
+- `customer` (`CUSTOMER_LIST`, required) - Zákazník
+- `supplier` (`SUPPLIER_LIST`, required) - Dodavatel
+- `invoice` (`INVOICE_ISSUED_LIST`, optional) - Faktura
+- `cash_register` (`CASH_REGISTER_LIST`, optional) - Pokladna
+
+## `PAYMENT_RECEIVED_DETAIL_READONLY` (object)
+### Properties
+- Include `PAYMENT_ISSUED_LIST_READONLY`
+- price: `50` (price, required) - [**Price**](#data-types) - Cena
+- `price_czk`: `50` (price, required) - [**Price**](#data-types) - Cena v CZK
+- `price_inc_vat_czk`: `50` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+- items (array[`DOCUMENT_ITEMS_DETAIL_ACC`], required) - Pole položek
+
+## `PAYMENT_RECEIVED_DETAIL_WRITABLE` (object)
+### Properties
+- Include `PAYMENT_RECEIVED_LIST_WRITABLE`
+- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody-plateb)
+- `date_vat_prev`: `2019-05-05` (date, optional) - [**Date**](#data-types) - Datum předchozí sazby DPH
+- `description`: `Popis` (string, optional) - Poznámka
+- `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
+- `reference_mark`: `RF` (string, optional) - Reference mark
+- `full_paid`: `true` (boolean, optional) - Plně zaplaceno
+
+## `PAYMENT_RECEIVED_DETAIL` (object)
+### Properties
+- Include `PAYMENT_RECEIVED_DETAIL_READONLY`
+- Include `PAYMENT_RECEIVED_DETAIL_WRITABLE`
+- `supplier` (`SUPPLIER_DETAIL`, required) - Dodavatel
+- `customer` (`CUSTOMER_DETAIL`, required) - Zákazník
+- `invoice` (`INVOICE_ISSUED_DETAIL`, optional) - Faktura
+- `cash_register` (`CASH_REGISTER_DETAIL`, optional) - Pokladna
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bankovni-ucty)
+
+## `PAYMENT_RECEIVED_CREATE` (object)
+### Properties
+- Include `PAYMENT_RECEIVED_DETAIL_WRITABLE`
+- items (array[`DOCUMENT_ITEMS_CREATE_ACC`], required) - Pole položek
+- `invoice_id`: `13290` (number) - ID faktury
+- `customer_id`: 785 (number, required) - ID [zákazníka](#zakaznici)
+- `supplier_id`: 45 (number, required) - ID [dodavatele](#dodavatele)
+- `cash_register_id`: 115 (number, required) - ID pokladny
+- One Of
+    - Properties
+        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: `null` (string, optional) - ID [**bankovního účtu**](#bankovni-ucty)
+    - Properties
+        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: 456 (number, required) - ID [**bankovního účtu**](#bankovni-ucty)
+- One Of
+    - `eet`: false (boolean, optional) - Vygenerovat EET
+    - One Of
+        - `eet_status`: 12 (number, optional) - ID existující [**EET zprávy**](#eet-zpravy)
+        - Properties
+            - `eet`: true (boolean, optional) - Vygenerovat EET, pokud je nastaveno
+            - `business_premises_id` (number, required)  - ID [**provozovny**](#business-premises)
 
 
 
@@ -2838,14 +3056,14 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 ## `BANK_STATEMENT_BASE` (object)
 ### Properties
 - `payment_type` (`BANK_STATEMENT_DIRECTION`, required) - Směr platby
-- `price`: 7845 (price, required) - [**Price**](#data_types) - Částka
+- `price`: 7845 (price, required) - [**Price**](#data-types) - Částka
 - `currency`: CZK (enum, sample, required) - [**Měna**](#currency)
-- `date_payment`: `2017-01-24` (date, optional) - [**Date**](#data_types) - Datum platby
+- `date_payment`: `2017-01-24` (date, optional) - [**Date**](#data-types) - Datum platby
 - `item_type`: Příchozí platba (string, optional) - Typ položky (popisek)
 - `variable_symbol` - Variabilní symbol
 - `constant_symbol` - Konstantní symbol
 - `specific_symbol` - Specifický symbol
-- `bank_account`: 544 (number, optional) - [**ID bankovního účtu**](#bank_account)
+- `bank_account`: 544 (number, optional) - [**ID bankovního účtu**](#bankovni-ucty)
 - `bank_account_contraparty`: `19-123457/0710` (string, optional) - Číslo bankovního účtu protistrany
 
 ## `BANK_STATEMENT_EXTRA` (object)
@@ -2859,16 +3077,16 @@ Tento objekt reprezentuje detail bankovní transakce.
 - `description_toyou` (string, optional) - Poznámka pro mě
 - `reference_number` (string, optional) - Vlastní identifikátor pohybu
 - `counterparty`:42 (number, optional) - ID protistrany, pro příchozí pohyb [Zákazník](#zakaznici), pro odchozí [Dodavatel](#dodavatele)
-- `vat_type`:467 (number, optional) - [**Typ DPH**](#typy_dph)
-- `account_entry_type`:687 (number, optional) - [**Typ účetní položky**](#položky typy_uc_polozek)
-- `chart_account`:46 (number, optional)- [**Účet úč. osnovy**](#ucty_uc_osnovy)
-- `vat_chart`:52 (number, optional) - [**Účet DPH**](#ucty_dph)
+- `vat_type`:467 (number, optional) - [**Typ DPH**](#typy-dph)
+- `account_entry_type`:687 (number, optional) - [**Typ účetní položky**](#polozky-typy-uc-polozek)
+- `chart_account`:46 (number, optional)- [**Účet úč. osnovy**](#ucty-uc-osnovy)
+- `vat_chart`:52 (number, optional) - [**Účet DPH**](#ucty-dph)
 
 ## `BANK_STATEMENT_READONLY` (object)
 ### Properties
 - id: 7745 (number, required) - Unikátní id transakce v systému.
 - status (`BANK_STATEMENT_STATUS`, required) - Stav spárování
-- `price_czk` (number) - Částka v CZK podle kurzu k datu pohybu
+- `price_czk` (number, required) - [**Price**](#data-types) - Částka v CZK podle kurzu k datu pohybu
 
 
 ## `BANK_STATEMENT_PARAMS` (object)
@@ -2876,10 +3094,10 @@ Tento objekt reprezentuje detail bankovní transakce.
 - Include `BANK_STATEMENT_BASE`
 - Include `BANK_STATEMENT_EXTRA`
 - One Of
-    - `account_entry_type`:687 (number, optional) - [**Typ účetní položky**](#položky typy_uc_polozek)
+    - `account_entry_type`:687 (number, optional) - [**Typ účetní položky**](#polozky-typy-uc-polozek)
     - Properties
-        - `chart_account`:46 (number, optional)- [**Účet úč. osnovy**](#ucty_uc_osnovy)
-        - `vat_chart`:52 (number, optional) - [**Účet DPH**](#ucty_dph)
+        - `chart_account`:46 (number, optional)- [**Účet úč. osnovy**](#ucty-uc-osnovy)
+        - `vat_chart`:52 (number, optional) - [**Účet DPH**](#ucty-dph)
 
 ## `BANK_STATEMENT_DETAIL` (object)
 
@@ -2897,7 +3115,7 @@ Tento objekt reprezentuje zjednodušený náhled bankovní transakce.
 ### Properties
 - Include `BANK_STATEMENT_READONLY`
 - Include `BANK_STATEMENT_BASE`
-- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bank_account)
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bankovni-ucty)
 - `counterparty` (object, optional) - protistrany, pro příchozí pohyb [Zákazník](#zakaznici), pro odchozí [Dodavatel](#dodavatele)
 
 ## `BANK_STATEMENT_DIRECTION` (enum)
@@ -2933,3 +3151,15 @@ Směr platby.
 - fik: `f26e5172-077e-4aba-9f5c-d0181362a16b-ff` (string)
 - status: `ok` (string, optional)
 - external: false (boolean, required) - EET záznam byl vytvořen mimo iÚčto
+
+
+## `EET_STATUS_DETAIL` (object)
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.1/eet_status/
+- id: `1` (number) - ID
+- status: `1` (string) - Status
+- fik: `123-222` (string) - FIK
+- bkp: `123-222` (string) - BKP
+- pkp: `123-222` (string) - PKP
