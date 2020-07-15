@@ -557,12 +557,21 @@ Pokusí se smazat vybranou zakázku. Pokud je ovšem vázán na jiný záznam (f
 ## Zákazníci [/customer]
 <a name="zakaznici" />
 
-### Seznam zákazníků [GET /customer{?page,pageSize}]
+### Seznam zákazníků [GET /customer{?page,pageSize,name,comid,email,vatid,vat_payer,phone,account_number,customer_group_id}]
 Zjednodušený výpis všech dostupných zákazníků.
 
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + name: `ACME CORP.` (string, optional) - Jméno
+    + comid: `12345` (string, optional) - iČO
+    + email: `some@email.org` (string, optional) - Email
+    + vatid: `CZ123456` (string, optional) - DIČ
+    + `vat_payer`: `true` (boolean, optional) - Plátce DPH
+    + `phone`: `606234965` (string, optional) - Telefon
+    + `account_number`: `43342234/5000` (string, optional) - Hledání napříč account_number1 - 4
+    + `customer_group_id`: `123` (int, optional) - ID skupiny zákazníci
+
 
 + Request
     + Headers
@@ -658,12 +667,20 @@ Seznam dostupných [účetních skupin pro zákazníky](https://online.iucto.cz/
 ## Dodavatelé [/supplier]
 <a name="dodavatele" />
 
-### Seznam dodavatelů [GET /supplier{?page,pageSize}]
+### Seznam dodavatelů [GET /supplier{?page,pageSize,name,comid,email,vatid,vat_payer,phone,account_number,supplier_group_id}]
 Zjednodušený výpis všech dostupných dodavatelů.
 
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + name: `ACME CORP.` (string, optional) - Jméno
+    + comid: `12345` (string, optional) - iČO
+    + email: `some@email.org` (string, optional) - Email
+    + vatid: `CZ123456` (string, optional) - DIČ
+    + `vat_payer`: `true` (boolean, optional) - Plátce DPH
+    + `phone`: `606234965` (string, optional) - Telefon
+    + `account_number`: `43342234/5000` (string, optional) - Hledání napříč account_number1 - 4
+    + `supplier_group_id`: `123` (int, optional) - ID skupiny dodavatelé
 
 + Request
     + Headers
