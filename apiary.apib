@@ -803,11 +803,22 @@ Zde uvedený výpis není kompletní, jedná se pouze o vzor.
 ## Objednávky [/order_received]
 <a name="objednavky-prijate"/>
 
-### Seznam objednávek [GET /order_received{?page,pageSize}]
+### Seznam objednávek [GET /order_received{?page,pageSize,customer_id,customer_ico,date_from,date_to,sequence_code,variable_symbol,currency,price_from,price_to,deleted,external_code}]
 Výpis všech dostupných dokladů.
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + customer_id: `1234` (number, optional) - ID zákazníka
+    + customer_ico: `11122233` (string, optional) - IČO zákazníka
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + deleted: `false` (boolean, optional) - Smazáno
+    + external_code: `OBJ123` (string, optional) - Externí kód
 
 + Request
     + Headers
@@ -894,10 +905,26 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ## Zálohové faktury vydané [/proforma_invoice_issued]
 <a name="zalohove-faktury-vydane" />
 
-### Seznam zálohových faktur vydané [GET /proforma_invoice_issued{?page,pageSize}]
+### Seznam zálohových faktur vydané [GET /proforma_invoice_issued{?page,pageSize,customer_id,customer_ico,date_from,date_to,maturity_date_from,maturity_date_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,payment_type,bank_account}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + customer_id: `1234` (number, optional) - ID zákazníka
+    + customer_ico: `11122233` (string, optional) - IČO zákazníka
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + maturity_date_from: `2019-01-01` (date, optional) - Datum splatnosti OD
+    + maturity_date_to: `2019-02-01` (date, optional) - Datum splatnosti DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + paid: `true` (boolean, optional) - Zaplaceno
+    + deleted: `false` (boolean, optional) - Smazáno
+    + payment_type: `transfer` (string, optional) - [**Platební metoda**](#metody-plateb)
+    + bank_account: `303` (number, optional) - ID bankovní účet
+
 
 + Request
     + Headers
@@ -1007,12 +1034,12 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ## Faktury vydané [/invoice_issued]
 <a name="faktury-vydane"/>
 
-### Seznam faktur vydaných [GET /invoice_issued{?page,pageSize,customer_id,customer_ico,date_from,date_to,maturity_date_from,maturity_date_to,date_vat_from,date_vat_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,accounted,payment_type,bank_account}]
+### Seznam faktur vydaných  [GET /invoice_issued{?page,pageSize,customer_id,customer_ico,date_from,date_to,maturity_date_from,maturity_date_to,date_vat_from,date_vat_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,accounted,payment_type,bank_account}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
-    + customer_id: `1234` (number, optional) - ID odběratele
-    + customer_ico: `11122233` (string, optional) - IČO odběratele
+    + customer_id: `1234` (number, optional) - ID zákazníka
+    + customer_ico: `11122233` (string, optional) - IČO zákazníka
     + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
     + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
     + maturity_date_from: `2019-01-01` (date, optional) - Datum splatnosti OD
@@ -1027,7 +1054,7 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
     + paid: `true` (boolean, optional) - Zaplaceno
     + deleted: `false` (boolean, optional) - Smazáno
     + accounted: `true` (boolean, optional) - Zaúčtované
-    + payment_type: `256` (number, optional) - ID forma úhrady
+    + payment_type: `transfer` (string, optional) - [**Platební metoda**](#metody-plateb)
     + bank_account: `303` (number, optional) - ID bankovní účet
 
 + Request
@@ -1169,12 +1196,29 @@ Nelze smazat doklady s EET, použijte [Opravný daňový doklad](#opravne-danove
 ## Opravné daňové doklady [/creditnote_issued]
 <a name="opravne-danove-doklady"/>
 
-### Seznam opravných dokladů [GET /creditnote_issued{?page,pageSize}]
+### Seznam opravných dokladů [GET /creditnote_issued{?page,pageSize,customer_id,customer_ico,date_from,date_to,maturity_date_from,maturity_date_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,accounted,payment_type,bank_account}]
 Výpis všech dostupných dokladů.
 
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + customer_id: `1234` (number, optional) - ID zákazníka
+    + customer_ico: `11122233` (string, optional) - IČO zákazníka
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + maturity_date_from: `2019-01-01` (date, optional) - Datum splatnosti OD
+    + maturity_date_to: `2019-02-01` (date, optional) - Datum splatnosti DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + paid: `true` (boolean, optional) - Zaplaceno
+    + deleted: `false` (boolean, optional) - Smazáno
+    + accounted: `true` (boolean, optional) - Zaúčtované
+    + payment_type: `transfer` (string, optional) - [**Platební metoda**](#metody-plateb)
+    + bank_account: `303` (number, optional) - ID bankovní účet
+
 
 + Request
     + Headers
@@ -1284,12 +1328,21 @@ Nelze smazat doklady s EET, použijte nový [**Opravný daňový doklad**](#opra
 ## Objednávky vydané [/order_issued]
 <a name="objednavky-vydane"/>
 
-### Seznam objednávek vydaných [GET /order_issued{?page,pageSize}]
+### Seznam objednávek vydaných [GET /order_issued{?page,pageSize,supplier_id,supplier_ico,date_from,date_to,sequence_code,variable_symbol,currency,price_from,price_to,deleted}]
 Výpis všech dostupných dokladů.
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
-
+    + supplier_id: `1234` (number, optional) - ID dodavatele
+    + supplier_ico: `11122233` (string, optional) - IČO dodavatele
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + deleted: `false` (boolean, optional) - Smazáno
 
 + Request
     + Headers
@@ -1378,10 +1431,26 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ## Zálohové faktury přijaté [/proforma_invoice_received]
 <a name="zalohove-faktury-prijate" />
 
-### Seznam zálohových faktur přijatých [GET /proforma_invoice_received{?page,pageSize}]
+### Seznam zálohových faktur přijatých [GET /proforma_invoice_received{?page,pageSize,supplier_id,supplier_ico,date_from,date_to,maturity_date_from,maturity_date_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,payment_type,external_code}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + supplier_id: `1234` (number, optional) - ID dodavatele
+    + supplier_ico: `11122233` (string, optional) - IČO dodavatele
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + maturity_date_from: `2019-01-01` (date, optional) - Datum splatnosti OD
+    + maturity_date_to: `2019-02-01` (date, optional) - Datum splatnosti DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + paid: `true` (boolean, optional) - Zaplaceno
+    + deleted: `false` (boolean, optional) - Smazáno
+    + payment_type: `transfer` (string, optional) - [**Platební metoda**](#metody-plateb)
+    + external_code: `FV303` (string, optional) - Externí kód
+
 
 + Request
     + Headers
@@ -1477,10 +1546,28 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ## Faktury přijaté [/invoice_received]
 <a name="faktury-prijate"/>
 
-### Seznam faktur přijatých [GET /invoice_received{?page,pageSize}]
+### Seznam faktur přijatých [GET /invoice_received{?page,pageSize,supplier_id,supplier_ico,date_from,date_to,maturity_date_from,maturity_date_to,date_vat_from,date_vat_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,accounted,payment_type,external_code}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + supplier_id: `1234` (number, optional) - ID dodavatele
+    + supplier_ico: `11122233` (string, optional) - IČO dodavatele
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + maturity_date_from: `2019-01-01` (date, optional) - Datum splatnosti OD
+    + maturity_date_to: `2019-02-01` (date, optional) - Datum splatnosti DO
+    + date_vat_from: `2019-01-01` (date, optional) - Datum zdanitelného plnění OD
+    + date_vat_to: `2019-02-01` (date, optional) - Datum zdanitelného plnění DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + paid: `true` (boolean, optional) - Zaplaceno
+    + deleted: `false` (boolean, optional) - Smazáno
+    + accounted: `true` (boolean, optional) - Zaúčtované
+    + payment_type: `transfer` (string, optional) - [**Platební metoda**](#metody-plateb)
+    + external_code: `FV303` (string, optional) - Externí kód
 
 + Request
     + Headers
@@ -1567,12 +1654,30 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ## Platby vydané [/payment_issued]
 <a name="platby-vydane"/>
 
-### Seznam plateb vydaných [GET /payment_issued{?page,pageSize,invoice_id}]
+### Seznam plateb vydaných [GET /payment_issued{?page,pageSize,supplier_id,supplier_ico,customer_id,customer_ico,date_from,date_to,date_vat_from,date_vat_to,sequence_code,variable_symbol,currency,price_from,price_to,deleted,external_code,invoice_id,creditnote_id,proforma_id,cash_register,bank_account}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + supplier_id: `1234` (number, optional) - ID dodavatele
+    + supplier_ico: `11122233` (string, optional) - IČO dodavatele
+    + customer_id: `134` (number, optional) - ID zákazníka
+    + customer_ico: `453452233` (string, optional) - IČO zákazníka
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + date_vat_from: `2019-01-01` (date, optional) - Datum zdanitelného plnění OD
+    + date_vat_to: `2019-02-01` (date, optional) - Datum zdanitelného plnění DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + deleted: `false` (boolean, optional) - Smazáno
+    + external_code: `FV303` (string, optional) - Externí kód
     + invoice_id: `12,55` (string, optional) - Filtr dle ID faktury (čárkou oddělená čísla)
-
+    + creditnote_id: `13,546` (string, optional) - Filtr dle ID dobropisu (čárkou oddělená čísla)
+    + proforma_id: `888,11` (string, optional) - Filtr dle ID zálohové faktury (čárkou oddělená čísla)
+    + cash_register: `11` (number, optional) - ID pokladny
+    + bank_account: `2332` (number, optional) - ID bankovního účtu
 + Request
     + Headers
 
@@ -1659,11 +1764,30 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 ## Platby přijaté [/payment_received]
 <a name="platby-prijate"/>
 
-### Seznam plateb přijatých [GET /payment_received{?page,pageSize,invoice_id}]
+### Seznam plateb přijatých [GET /payment_received{?page,pageSize,supplier_id,supplier_ico,customer_id,customer_ico,date_from,date_to,date_vat_from,date_vat_to,sequence_code,variable_symbol,currency,price_from,price_to,deleted,external_code,invoice_id,creditnote_id,proforma_id,cash_register,bank_account}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + supplier_id: `1234` (number, optional) - ID dodavatele
+    + supplier_ico: `11122233` (string, optional) - IČO dodavatele
+    + customer_id: `134` (number, optional) - ID zákazníka
+    + customer_ico: `453452233` (string, optional) - IČO zákazníka
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + date_vat_from: `2019-01-01` (date, optional) - Datum zdanitelného plnění OD
+    + date_vat_to: `2019-02-01` (date, optional) - Datum zdanitelného plnění DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + deleted: `false` (boolean, optional) - Smazáno
+    + external_code: `FV303` (string, optional) - Externí kód
     + invoice_id: `12,55` (string, optional) - Filtr dle ID faktury (čárkou oddělená čísla)
+    + creditnote_id: `13,546` (string, optional) - Filtr dle ID dobropisu (čárkou oddělená čísla)
+    + proforma_id: `888,11` (string, optional) - Filtr dle ID zálohové faktury (čárkou oddělená čísla)
+    + cash_register: `11` (number, optional) - ID pokladny
+    + bank_account: `2332` (number, optional) - ID bankovního účtu
 
 + Request
     + Headers
@@ -1757,32 +1881,42 @@ Platby s EET nelze editovat, použijte Vrácení přijaté platby.
 
 + Response 204
 ## Bankovní pohyby [/bank_transaction]
-<a name="bankovni-pohyby"/>
+
 Umožňuje automatické spárování účetní dokladů s pohyby na bankovních účtech.
 
 Po vložení nového pohybu se systém pokusí automaticky pohyb spárovat s existující fakturou.
 
-### Seznam bankovních pohybů [GET /bank_transaction{?page,pageSize}]
+
+### Seznam bankovních pohybů [GET /bank_transaction{?page,pageSize,payment_type,status,price_from,price_to,currency,variable_symbol,constant_symbol,specific_symbol,bank_account,bank_account_contraparty}]
 
 Seznam bankovních pohybů, které jsou již importované v systému.
 
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + payment_type: `in`, `out` (enum, optional) - Směr platby
+    + status: `notprocessed`, `unmatched`, `matched`, `halfmatcheded`, `accounted` (enum, optional) - Status
+    + price_from: `213.00` (Price) - Cena od
+    + price_to: `3244332.00` (Price)  - Cena do
+    + currency: `CZK` (String) - Měna
+    + variable_symbol: `432324` (string) - Variabilní symbol
+    + constant_symbol: `C223` (string, optional) - Konstantní symbol
+    + specific_symbol: `M4324` (string, optional) - Specifický symbol
+    + bank_account: `12` (number, optional) - ID bankovního účtu
+    + bank_account_contraparty: `233445453/5500` (string, optional) - Bankovní účet protistrany
 
 + Request
     + Headers
 
             X-Auth-Key: api-key
 
-+ Response 200 (application/hal+json)
++ Response 200 (application/json)
     + Attributes (object)
         - _link (object)
             - self (object)
                 - href: /1.1/bank_transaction (required)
         - _embedded (object)
             - `bank_transaction` (array[`BANK_STATEMENT_LIST`], required) - Pole transakcí
-        - Include (`PAGING`, optional) - Stránkování, pouze pokud je nastaveno v parametru dotazu
 
 ### Detail bankovního pohybu [GET /bank_transaction/{id}]
 
@@ -1797,7 +1931,7 @@ Podrobné informace k pohybu, včetně spárovaných dokladů.
             X-Auth-Key: api-key
 
 
-+ Response 200 (application/hal+json)
++ Response 200 (application/json)
     + Attributes (object)
         - _link (object)
             - self (object)
@@ -1836,7 +1970,7 @@ Pokud je transakce příchozí je protistranou [Zákazník](#zakaznici) a s úč
     + Attributes (`BANK_STATEMENT_PARAMS`)
 
 
-+ Response 201 (application/hal+json)
++ Response 200 (application/json)
     + Attributes (object)
         - _link (object)
             - self (object)
@@ -1858,7 +1992,7 @@ Při editaci typu platby (`payment_type`) se musí také změnit hodnoty `counte
 
     + Attributes (`BANK_STATEMENT_PARAMS`)
 
-+ Response 200 (application/hal+json)
++ Response 200 (application/json)
     + Attributes (object)
         - _link (object)
             - self (object)
