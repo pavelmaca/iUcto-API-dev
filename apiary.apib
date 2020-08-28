@@ -3496,7 +3496,7 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 - id: `123` (number) - ID dokladu
 - `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
 - `deleted`: `false` (boolean) - Smazáno
-
+- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
 
 ## `PAYMENT_ISSUED_LIST_WRITABLE` (object)
 ### Properties
@@ -3504,7 +3504,6 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 - `variable_symbol`: `20190001` (string, optional) - Variabilní symbol
 - date: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
 - `date_vat`: `2019-07-12` (date, optional) - [**Date**](#data-types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
-- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
 - `proforma_invoice_received_id`: 1234 (number, optional) - ID zálohové faktury
 
 
@@ -3574,7 +3573,7 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 - `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
 - `deleted`: `false` (boolean) - Smazáno
 - eet: `false` (boolean, required) - Odesláno do EET
-
+- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
 
 ## `PAYMENT_RECEIVED_LIST_WRITABLE` (object)
 ### Properties
@@ -3583,7 +3582,6 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 - `variable_symbol`: `20190001` (string, optional) - Variabilní symbol
 - date: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
 - `date_vat`: `2019-07-12` (date, optional) - [**Date**](#data-types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
-- currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
 - `proforma_invoice_id`: 1234 (number, optional) - ID zálohové faktury
 
 
