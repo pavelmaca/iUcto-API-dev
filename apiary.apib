@@ -119,8 +119,14 @@ Seznam dostupných dokladů přes API a jejich interní identifikátory pro zís
 | PP   | [Platby přijaté](#platby-prijate)                     |
 | OP   | [Objednávky přijaté](#objednavky-prijate)             |
 | OV   | [Objednávky vydané](#objednavky-vydane)               |
+| PZ   | Přímé zaúčtování                                      |
+| UD   | Uzávěrkový doklad                                     |
 
 # Přehled změn
+
+##
+ - journal
+    * nový endpoint pro účetní deník
 
 ## 13.8.2020
 - doplnění filtrů ke všem dokladům, platbám a bankovním transakcím
@@ -2031,6 +2037,58 @@ Automatické vytvoření platby, pokud je bankovní pohyb úspěšně spárovan�
 
 # Group Účetnictví
 
+## Účetní deník [/journal]
+<a name="journal"/>
+
+### Seznam položek účetního deníku [GET /journal{?page,pageSize,date_from,date_to,date_vat_from,date_vat_to,price_from,price_to,chartaccount_md,chartaccount_dal,document_type,document_sequence_code,parent_sequence_code}]
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + date_vat_from: `2019-01-01` (date, optional) - Datum zdanitelného plnění OD
+    + date_vat_to: `2019-02-01` (date, optional) - Datum zdanitelného plnění DO
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + chartaccount_md: `12` (number, optional) - [**Účetu úč. osnovy MD**](#ucty-uc-osnovy)
+    + chartaccount_dal: `33` (number, optional) -  [**Účetu úč. osnovy DAL**](#ucty-uc-osnovy)
+    + document_type: `PP` (enum, optional) - [**Typ dokladu**](#typy-dokladu)
+    + document_sequence_code: `BP20190005` (string, optional) - Číslo dokladu
+    + parent_sequence_code: `FV20190005` (string, optional) - Číslo rodičovského dokladu
+
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/journal (required)
+        - _embedded (object, required)
+            - `journal` (array[`JOURNAL_LIST`], required) - Pole dostupných položek
+        - Include (`PAGING`, required) - Stránkování
+
+### Detail položky účetního deníku [GET /journal/{id}]
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/journal/123 (required)
+        - _embedded (object, required)
+            - `journal` (`JOURNAL_DETAIL`, required) - Detail položky
+
 ## Kurzy DPH [/vat_rates]
 <a name="kurz-dph"/>
 
@@ -3735,7 +3793,42 @@ Směr platby.
 - halfmatcheded - Částečně spárováno
 - accounted - Zaúčtováno
 
+## `JOURNAL_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.2/journal/123 (required)
+- `id`: `123` (number, required) - ID položky úč. deníku
+- `document_type`: `PP` (enum, required) - [**Typ dokladu**](#typy-dokladu)
+- `document_id`: `3423` (number, required) - ID dokladu
+- `document_sequence_code`: `DOC20190001` (string, required) - Číslo dokladu
+- `parent_document_sequence_code`: `FV200010001` (string, optional) - Číslo faktury
+- `date`: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- `date_vat`: `2019-01-10` (date, required) - [**Date**](#data-types) - Datum zdanitelného plnění
+- `chartaccount_md`: `11` (number, required) - MD [**Účet úč. osnovy**](#ucty-uc-osnovy)
+- `chartaccount_dal`: `81` (number, required) - DAL [**Účet úč. osnovy**](#ucty-uc-osnovy)
+- `text`: `some text` (string, required) - Text
+- `price`: `50` (price, required) - [**Price**](#data-types) - Cena
 
+
+## `JOURNAL_DETAIL` (object)
+Proměnné dostupné v detailu
+### Properties
+- Include `JOURNAL_LIST`
+- `parent_document_type`: `FV` (enum, optional) - [**Typ rodičovského dokladu**](#typy-dokladu)
+- `parent_document_id`: `3423` (number, optional) - ID rodičovkého dokladu
+- `date_expense`: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum nákladu
+- `vat_type_id`: `467` (number, required) - [**Typ DPH**](#typy-dph)
+- `vat`: `0` (number, required) - [**DPH**](#kurz-dph)
+- `figure`: `vat`, `vat_base`, `full` (enum, required) - Typ částky
+- `supplier` (`SUPPLIER_DETAIL`, optional) - Dodavatel
+- `customer` (`CUSTOMER_DETAIL`, optional) - Zákazník
+- `department_id`: `32` (number, optional) - ID střediska
+- `contract_id`: `343` (number, optional) - ID zakázky
+- `document_variable_symbol`: `20203399` (string, optional) - Variabilní symbol dokladu
+- `document_maturity_date`: `2019-08-12` (date, required) - [**Date**](#data-types) - Datum splatnosti
+- `item_variable_symbol`: `VS323234` (string, optional) - Variabilní symbol položky
 
 ## `EET_LIST` (object)
 ### Properties
