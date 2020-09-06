@@ -119,14 +119,15 @@ Seznam dostupných dokladů přes API a jejich interní identifikátory pro zís
 | PP   | [Platby přijaté](#platby-prijate)                     |
 | OP   | [Objednávky přijaté](#objednavky-prijate)             |
 | OV   | [Objednávky vydané](#objednavky-vydane)               |
-| PZ   | Přímé zaúčtování                                      |
+| PZ   | [Přímé zaúčtování](#direct-accounting)                                     |
 | UD   | Uzávěrkový doklad                                     |
 
 # Přehled změn
 
 ##
- - journal
-    * nový endpoint pro účetní deník
+- nové endpointy pro účetnictví dostupné od verze 1.2
+  * `direct_accounting`
+  * `journal`
 
 ## 13.8.2020
 - doplnění filtrů ke všem dokladům, platbám a bankovním transakcím
@@ -2089,6 +2090,100 @@ Automatické vytvoření platby, pokud je bankovní pohyb úspěšně spárovan�
         - _embedded (object, required)
             - `journal` (`JOURNAL_DETAIL`, required) - Detail položky
 
+## Přímé zaúčtování [/direct_accounting]
+<a name="direct-accounting"/>
+
+### Seznam dokladů [GET /direct_accounting{?page,pageSize,from,to,sequence_code,price_from,price_to,deleted}]
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + amount_from: `50` (price, optional) - Částka celkem OD
+    + amount_to: `100` (price, optional) - Částka celkem DO
+    + deleted: `false` (boolean, optional) - Smazáno
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/direct_accounting (required)
+        - _embedded (object, required)
+            - `direct_accounting` (array[`DIRECT_ACCOUNTING_LIST`], required) - Pole dostupných dokladů
+        - Include (`PAGING`, required) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+
+### Detail dokladu [GET /direct_accounting/{id}]
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/direct_accounting/123 (required)
+        - _embedded (object, required)
+            - `direct_accounting` (DIRECT_ACCOUNTING_DETAIL, required) - Detail dokladu
+
+### Vytvoření dokladu [POST /direct_accounting]
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`DIRECT_ACCOUNTING_CREATE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/direct_accounting/123 (required)
+        - _embedded (object, required)
+            - `direct_accounting` (DIRECT_ACCOUNTING_DETAIL, required) - Detail faktury
+
+### Editace dokladu [PUT /direct_accounting/{id}]
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request (application/json)
+    + Headers
+
+            X-Auth-Key: api-key
+
+    + Attributes (`DIRECT_ACCOUNTING_CREATE`)
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/direct_accounting/123 (required)
+        - _embedded (object, required)
+            - `direct_accounting` (DIRECT_ACCOUNTING_DETAIL, required) - Detail dokladu
+
+### Smazání dokladu [DELETE /direct_accounting/{id}]
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 204
 ## Kurzy DPH [/vat_rates]
 <a name="kurz-dph"/>
 
@@ -3829,6 +3924,83 @@ Proměnné dostupné v detailu
 - `document_variable_symbol`: `20203399` (string, optional) - Variabilní symbol dokladu
 - `document_maturity_date`: `2019-08-12` (date, required) - [**Date**](#data-types) - Datum splatnosti
 - `item_variable_symbol`: `VS323234` (string, optional) - Variabilní symbol položky
+## `DIRECT_ACCOUNTING_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- `id`: `123` (number) - ID dokladu
+- `amount`: `50` (price, required) - [**Price**](#data-types) - Částka celkem
+- `amount_czk`: `150` (price, required) - [**Price**](#data-types) - Částka celkem CZK
+- `deleted`: `false` (boolean) - Smazáno
+
+## `DIRECT_ACCOUNTING_LIST_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v seznamu
+### Properties
+- `sequence_code`: `FP20190001` (string, optional) - Číslo dokladu
+- `date`: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- `currency`: `CZK` (enum, sample, required) - [**Měna**](#currency)
+
+## `DIRECT_ACCOUNTING_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.2/direct_accounting/123 (required)
+- Include `DIRECT_ACCOUNTING_LIST_READONLY`
+- Include `DIRECT_ACCOUNTING_LIST_WRITABLE`
+
+## `DIRECT_ACCOUNTING_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné detailu
+### Properties
+- Include `DIRECT_ACCOUNTING_LIST_READONLY`
+- items (array[`DIRECT_ACCOUNTING_ITEMS_DETAIL`], required) - Pole položek
+
+## `DIRECT_ACCOUNTING_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `DIRECT_ACCOUNTING_LIST_WRITABLE`
+- `description`: `Popis` (string, optional) - Poznámka
+- `description_internal`: `Interní popis` (string, optional) - Interní poznámka
+
+## `DIRECT_ACCOUNTING_DETAIL` (object)
+Proměnné dostupné v detailu
+### Properties
+- Include `DIRECT_ACCOUNTING_DETAIL_READONLY`
+- Include `DIRECT_ACCOUNTING_DETAIL_WRITABLE`
+
+## `DIRECT_ACCOUNTING_CREATE` (object)
+Zapisovatelné proměnné pro vytváření a editaci dokladu
+### Properties
+- Include `DIRECT_ACCOUNTING_DETAIL_WRITABLE`
+- items (array[`DIRECT_ACCOUNTING_ITEMS_CREATE`], required) - Pole položek
+
+## `DIRECT_ACCOUNTING_ITEMS_CREATE` (object)
+### Properties
+- `text`: `Položka A` (string, required) - Popis položky
+- `amount`: `1` (number, required) - Počet kusů
+- `price`: `50` (price, required) - [**Price**](#data-types) - Cena
+- `department_id`: `1` (number, optional) - [**Střediska**](#strediska)
+- `contract_id`: `1` (number, optional) - [**Zakázky**](#zakazky)
+- `chartaccount_md`: `3` (number, required) - [**Účet úč. osnovy**](#ucty-uc-osnovy) MD
+- `chartaccount_dal`: `3` (number, required) - [**Účet úč. osnovy**](#ucty-uc-osnovy) DAL
+- One Of
+    - `customer_id`: `785` (number, optional) - ID [zákazníka](#zakaznici)
+    - `supplier_id`: `45` (number, optional) - ID [dodavatele](#dodavatele)
+- `da_code`: `FV4332434` (string, optional) - Párovací znak
+
+## `DIRECT_ACCOUNTING_ITEMS_DETAIL` (object)
+### Properties
+- `id`: `123456` (number) - ID položky
+- `text`: `Položka A` (string, required) - Popis položky
+- `amount`: `1` (number, required) - Počet kusů
+- `price`: `50` (price, required) - [**Price**](#data-types) - Cena
+- `price_czk`: `150` (price, required) - [**Price**](#data-types) - Cena CZK
+- `department_id`: `1` (number, optional) - [**Střediska**](#strediska)
+- `contract_id`: `1` (number, optional) - [**Zakázky**](#zakazky)
+- `chartaccount_md`: `3` (number, required) - [**Účet úč. osnovy**](#ucty-uc-osnovy) MD
+- `chartaccount_dal`: `3` (number, required) - [**Účet úč. osnovy**](#ucty-uc-osnovy) DAL
+- `customer` (`CUSTOMER_DETAIL`, optional) - Detail [zákazníka](#zakaznici)
+- `supplier` (`SUPPLIER_DETAIL`, optional) - Detail [dodavatele](#dodavatele)
+- `da_code`: `FV4332434` (string, optional) - Párovací znak
 
 ## `EET_LIST` (object)
 ### Properties
