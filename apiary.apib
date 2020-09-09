@@ -125,9 +125,10 @@ Seznam dostupných dokladů přes API a jejich interní identifikátory pro zís
 # Přehled změn
 
 ##
-- nové endpointy pro účetnictví dostupné od verze 1.2
+- nové endpointy dostupné od verze 1.2
   * `direct_accounting`
   * `journal`
+  * `creditnote_received`
 
 ## 13.8.2020
 - doplnění filtrů ke všem dokladům, platbám a bankovním transakcím
@@ -1659,6 +1660,116 @@ Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vr
 
 + Response 204
 
+## Opravné daňové doklady přijaté [/creditnote_received]
+<a name="creditnote-received"/>
+
+### Vypis všech dostupných dokladů [GET /creditnote_received{?page,pageSize,supplier_id,supplier_ico,date_from,date_to,maturity_date_from,maturity_date_to,sequence_code,variable_symbol,currency,price_from,price_to,paid,deleted,accounted,payment_type,bank_account}]
+
++ Parameters
+    + page: `1` (number, optional) - Číslo stránky
+    + pageSize: `50` (number, optional) - Počet záznamů na stránku
+    + supplier_id: `1234` (number, optional) - ID dodavatele
+    + supplier_ico: `11122233` (string, optional) - IČO dodavatele
+    + date_from: `2019-01-01` (date, optional) - Datum vystavení OD
+    + date_to: `2019-02-01` (date, optional) - Datum vystavení DO
+    + maturity_date_from: `2019-01-01` (date, optional) - Datum splatnosti OD
+    + maturity_date_to: `2019-02-01` (date, optional) - Datum splatnosti DO
+    + sequence_code: `FV20190005` (string, optional) - Číslo dokladu
+    + variable_symbol: `11112222` (string, optional) - Variabilní symbol
+    + currency: `CZK` (string, optional) - Měna dokladu
+    + price_from: `50` (price, optional) - Cena celkem OD
+    + price_to: `100` (price, optional) - Cena celkem DO
+    + paid: `true` (boolean, optional) - Zaplaceno
+    + deleted: `false` (boolean, optional) - Smazáno
+    + accounted: `true` (boolean, optional) - Zaúčtované
+    + payment_type: `transfer` (string, optional) - [**Platební metoda**](#metody-plateb)
+    + bank_account: `303` (number, optional) - ID bankovní účet
+
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/creditnote_received (required)
+        - _embedded (object, required)
+            - `creditnote_received` (array[`CREDITNOTE_RECEIVED_LIST`], required) - Pole dostupných vydaných dokladů
+        - Include (`PAGING`, required) - Stránkování, pouze pokud je nastaveno v parametru dotazu
+
+### Detail dokladu [GET /creditnote_received/{id}]
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/creditnote_received/123 (required)
+        - _embedded (object, required)
+            - `creditnote_received` (`CREDITNOTE_RECEIVED_DETAIL`, required) - Detail dokladu
+
+
+
+### Vytvoření nového dokladu [POST /creditnote_received]
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            Content-Type: application/json
+
+    + Attributes (`CREDITNOTE_RECEIVED_CREATE`)
+
++ Response 201 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/creditnote_received/123 (required)
+        - _embedded (object, required)
+            - `creditnote_received` (`CREDITNOTE_RECEIVED_DETAIL`, required) - Detail dokladu
+
+### Editace dokladu [PUT /creditnote_received/{id}]
+
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+            Content-Type: application/json
+
+    + Attributes (`CREDITNOTE_RECEIVED_CREATE`)
+
++ Response 200 (application/hal+json)
+    + Attributes (object)
+        - _link (object, required)
+            - self (object, required)
+                - href: /1.2/creditnote_received/123 (required)
+        - _embedded (object, required)
+            - `creditnote_received` (`CREDITNOTE_RECEIVED_DETAIL`, required) - Detail dokladu
+
+
+### Smazání dokladu [DELETE /creditnote_received/{id}]
+Pokusí se smazat vybraný dokladu. Pokud je doklad vázán na jiný záznam, vrátí chybu a doklad se nasmaže.
++ Parameters
+    + id: 123 (number, required)
+
++ Request
+    + Headers
+
+            X-Auth-Key: api-key
+
++ Response 204
 
 # Group Platby
 ## Platby vydané [/payment_issued]
@@ -2041,7 +2152,7 @@ Automatické vytvoření platby, pokud je bankovní pohyb úspěšně spárovan�
 ## Účetní deník [/journal]
 <a name="journal"/>
 
-### Seznam položek účetního deníku [GET /journal{?page,pageSize,date_from,date_to,date_vat_from,date_vat_to,price_from,price_to,chartaccount_md,chartaccount_dal,document_type,document_sequence_code,parent_sequence_code}]
+### Seznam položek účetního deníku [GET /journal{?page,pageSize,date_from,date_to,date_vat_from,date_vat_to,price_from,price_to,chartaccount_md,chartaccount_dal,document_type,document_sequence_code,parent_document_sequence_code}]
 
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
@@ -2093,7 +2204,7 @@ Automatické vytvoření platby, pokud je bankovní pohyb úspěšně spárovan�
 ## Přímé zaúčtování [/direct_accounting]
 <a name="direct-accounting"/>
 
-### Seznam dokladů [GET /direct_accounting{?page,pageSize,from,to,sequence_code,price_from,price_to,deleted}]
+### Seznam dokladů [GET /direct_accounting{?page,pageSize,date_from,date_to,sequence_code,amount_from,amount_to,deleted}]
 + Parameters
     + page: `1` (number, optional) - Číslo stránky
     + pageSize: `50` (number, optional) - Počet záznamů na stránku
@@ -3643,6 +3754,78 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 ## `INVOICE_RECEIVED_PROFORMA_ID` (object)
 ### Properties
 - id: `123456` (number) - ID zálohové faktury
+## `CREDITNOTE_RECEIVED_LIST_READONLY` (object)
+Proměnné pouze pro čtení dostupné v seznamu
+### Properties
+- `id`: `123` (number) - ID dokladu
+- `price_inc_vat`: `50` (price, required) - [**Price**](#data-types) - Cena celkem
+- `deleted`: `false` (boolean) - Smazáno
+- `to_be_paid`: `50` (price, required) - [**Price**](#data-types) - Zaplaceno
+- `accounted`: `true` (boolean, required) - Zaúčtováno
+
+## `CREDITNOTE_RECEIVED_LIST_WRITABLE` (object)
+Proměnné dostupné v seznamu
+### Properties
+- `sequence_code`: `DOC20190001` (string, optional) - Číslo dokladu
+- `variable_symbol`: `20190001` (string, optional) - Variabilní symbol
+- `date`: `2019-07-12` (date, required) - [**Date**](#data-types) - Datum vystavení
+- `date_vat`: `2019-01-10` (date, optional) - [**Date**](#data-types) - Datum zdanitelného plnění (nepovinné u neplátce DPH)
+- `maturity_date`: `2019-01-25` (date, required) - [**Date**](#data-types) - Datum splatnosti
+- `currency`: `CZK` (enum, sample, required) - [**Měna**](#currency)
+- `invoice_received_id`: 12343 (number, optional)  - ID [faktury přijaté](#faktury-prijate)
+
+## `CREDITNOTE_RECEIVED_LIST` (object)
+Proměnné dostupné v seznamu
+### Properties
+- _link (object)
+    - self (object)
+        - href: /1.2/invoice_received/123 (required)
+- Include `CREDITNOTE_RECEIVED_LIST_READONLY`
+- Include `CREDITNOTE_RECEIVED_LIST_WRITABLE`
+- `supplier` (`SUPPLIER_LIST`, required) - Dodavatel
+
+## `CREDITNOTE_RECEIVED_DETAIL_READONLY` (object)
+Proměnné pouze pro čtení dostupné v detailu
+### Properties
+- Include `CREDITNOTE_RECEIVED_LIST_READONLY`
+- `price`: `50` (price, required) - [**Price**](#data-types) - Cena
+- `price_czk`: `50` (price, required) - [**Price**](#data-types) - Cena v CZK
+- `price_inc_vat_czk`: `50` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+- `items` (array[`DOCUMENT_ITEMS_DETAIL_ACC`], required) - Pole položek
+
+## `CREDITNOTE_RECEIVED_DETAIL_WRITABLE` (object)
+Proměnné pouze pro zápis dostupné v detailu
+### Properties
+- Include `CREDITNOTE_RECEIVED_LIST_WRITABLE`
+- `payment_type` (`PAYMENT_TYPE_ENUM`, required) - [**Platební metody**](#metody-plateb)
+- `supplier_bank_account`: `123456789/0800` (string) - Bankovní účet dodavatele
+- `date_vat_prev`: `2019-01-01` (date, optional) - [**Date**](#data-types) - Datum předchozí sazby DPH
+- `description`: `Popis` (string, optional) - Poznámka
+- `rounding_type` (`ROUNDING_TYPE_ENUM`, optional) - [**Způsob zaokrouhlení**](#zaokrouhleni)
+- `currency_date`: `2019-09-08` (date)
+
+## `CREDITNOTE_RECEIVED_DETAIL` (object)
+Proměnné dostupné v detailu
+### Properties
+- Include `CREDITNOTE_RECEIVED_DETAIL_READONLY`
+- Include `CREDITNOTE_RECEIVED_DETAIL_WRITABLE`
+- `supplier` (`SUPPLIER_DETAIL`, required) - Dodavatel
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bankovni-ucty)
+
+
+## `CREDITNOTE_RECEIVED_CREATE` (object)
+### Properties
+- Include `CREDITNOTE_RECEIVED_DETAIL_WRITABLE`
+- items (array[`DOCUMENT_ITEMS_CREATE_ACC`], required) - Pole položek
+- `supplier_id`: 785 (number, required) - ID [dodavatele](#dodavatele)
+- One Of
+    - Properties
+        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: `null` (string, optional) - ID [**bankovního účtu**](#bankovni-ucty)
+    - Properties
+        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: 456 (number, required) - ID [**bankovního účtu**](#bankovni-ucty)
+- `supplier_bank_account`: `123456789/0800` (string) - Bankovní účet dodavatele
 
 ## `PAYMENT_ISSUED_LIST_READONLY` (object)
 ### Properties
