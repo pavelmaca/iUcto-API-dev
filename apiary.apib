@@ -3640,7 +3640,7 @@ Proměnné dostupné v detailu
 - Include `PROFORMA_INVOICE_RECEIVED_DETAIL_READONLY`
 - Include `PROFORMA_INVOICE_RECEIVED_DETAIL_WRITABLE`
 - `supplier` (`SUPPLIER_DETAIL`, required) - Dodavatel
-- `bank_account` (`BANK_ACCOUNT_DETAIL`, required) - [**Bankovní účet**](#bankovni-ucty)
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bankovni-ucty)
 
 ## `PROFORMA_INVOICE_RECEIVED_CREATE` (object)
 Zapisovatelné proměnné pro vytváření a editaci dokladu
@@ -3743,7 +3743,7 @@ Proměnné dostupné v detailu
 - Include `INVOICE_RECEIVED_DETAIL_READONLY`
 - Include `INVOICE_RECEIVED_DETAIL_WRITABLE`
 - `supplier` (`SUPPLIER_DETAIL`, required) - Dodavatel
-- `bank_account` (`BANK_ACCOUNT_DETAIL`, required) - [**Bankovní účet**](#bankovni-ucty)
+- `bank_account` (`BANK_ACCOUNT_DETAIL`, optional) - [**Bankovní účet**](#bankovni-ucty)
 
 ## `INVOICE_RECEIVED_CREATE` (object)
 Zapisovatelné proměnné pro vytváření a editaci dokladu
@@ -3751,8 +3751,13 @@ Zapisovatelné proměnné pro vytváření a editaci dokladu
 - Include `INVOICE_RECEIVED_DETAIL_WRITABLE`
 - items (array[`DOCUMENT_ITEMS_CREATE_ACC`], required) - Pole položek
 - `supplier_id`: 785 (number, required) - ID [dodavatele](#dodavatele)
-- `payment_type`: transfer, creditcard, cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody-plateb)
-- `bank_account`: 456 (number, required) - ID [**bankovního účtu**](#bankovni-ucty)
+- One Of
+    - Properties
+        - `payment_type`: cash, cashondelivery, reciprocity (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: `null` (string, optional) - ID [**bankovního účtu**](#bankovni-ucty)
+    - Properties
+        - `payment_type`: transfer, creditcard (enum, required) - [**Platební metody**](#metody-plateb)
+        - `bank_account`: 456 (number, required) - ID [**bankovního účtu**](#bankovni-ucty)
 
 ## `INVOICE_RECEIVED_PROFORMA_ID` (object)
 ### Properties
