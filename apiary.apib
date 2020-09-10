@@ -568,7 +568,7 @@ Pokusí se smazat vybranou zakázku. Pokud je ovšem vázán na jiný záznam (f
 ## Zákazníci [/customer]
 <a name="zakaznici" />
 
-### Seznam zákazníků [GET /customer{?page,pageSize,name,comid,email,vatid,vat_payer,phone,account_number,customer_group_id}]
+### Seznam zákazníků [GET /customer{?page,pageSize,name,comid,email,vatid,vat_payer,phone,account_number,customer_group_id,external_code}]
 Zjednodušený výpis všech dostupných zákazníků.
 
 + Parameters
@@ -582,7 +582,7 @@ Zjednodušený výpis všech dostupných zákazníků.
     + `phone`: `606234965` (string, optional) - Telefon
     + `account_number`: `43342234/5000` (string, optional) - Hledání napříč account_number1 - 4
     + `customer_group_id`: `123` (int, optional) - ID skupiny zákazníci
-
+    + `external_code`: `CC123` (string, optional) - Externí ID 
 
 + Request
     + Headers
@@ -678,7 +678,7 @@ Seznam dostupných [účetních skupin pro zákazníky](https://online.iucto.cz/
 ## Dodavatelé [/supplier]
 <a name="dodavatele" />
 
-### Seznam dodavatelů [GET /supplier{?page,pageSize,name,comid,email,vatid,vat_payer,phone,account_number,supplier_group_id}]
+### Seznam dodavatelů [GET /supplier{?page,pageSize,name,comid,email,vatid,vat_payer,phone,account_number,supplier_group_id,external_code}]
 Zjednodušený výpis všech dostupných dodavatelů.
 
 + Parameters
@@ -692,7 +692,8 @@ Zjednodušený výpis všech dostupných dodavatelů.
     + `phone`: `606234965` (string, optional) - Telefon
     + `account_number`: `43342234/5000` (string, optional) - Hledání napříč account_number1 - 4
     + `supplier_group_id`: `123` (int, optional) - ID skupiny dodavatelé
-
+    + `external_code`: `CC123` (string, optional) - Externí ID 
+    
 + Request
     + Headers
 
@@ -3129,6 +3130,7 @@ Seznam metod pro zaokrouhlování částek v dokladech.
 ## `CUSTOMER_EXTRA` (object)
 ### Properties
 - name_display: `Jan Novák ml.` (string, optional) - Zobrazované jméno
+- `external_code`: `CC123` (string, optional) - Externí ID
 - phone: `+420123123123` (string, optional) - Telefon
 - cellphone: `+420123123123` (string, optional) - Mobil
 - www: `http://www.iucto.cz` (string, optional) - WWW
@@ -3207,6 +3209,7 @@ Seznam dostupných účetních skupin zákazníků.
 ## `SUPPLIER_EXTRA` (object)
 ### Properties
 - name_display: `Jan Novák ml.` (string, optional) - Zobrazované jméno
+- `external_code`: `CC123` (string, optional) - Externí ID
 - phone: `+420123123123` (string, optional) - Telefon
 - cellphone: `+420123123123` (string, optional) - Mobil
 - www: `http://www.iucto.cz` (string, optional) - WWW
