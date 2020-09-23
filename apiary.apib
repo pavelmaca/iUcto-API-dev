@@ -2846,6 +2846,30 @@ Pohyb lze vytvořit dvěma způsby (viz. příklady požadavků).
         - _embedded (object, required)
             - `stock_movement` (`STOCK_MOVEMENT_DETAIL_REAL`, required) - Detail
 
+# Group Webhooky
+
+Nastavení webhooků provede v aplikaci `Nastavení -> Nastavení API -> Webhooky`.
+
+
+## Změna dokladu [GET /your.domain/update/url]
+URL je pouze ukázková, systém volá URL nastavenou pro váš konkrétní webhook.
+
++ Request
+    + Attributes (`WEBHOOK_BASIC_ACTION`)
+
++ Response 200
+
+
+## Úhrada faktury [GET /your.domain/pay/url]
+URL je pouze ukázková, systém volá URL nastavenou pro váš konkrétní webhook.
+
+Aktuálně jsou podporovány pouze FV a FP.
+
++ Request
+    + Attributes (`WEBHOOK_PAYMENT`)
+
++ Response 200
+
 
 
 # Data Structures
@@ -4442,3 +4466,59 @@ Proměnné pouze pro zápis dostupné v detailu
 - Include `STOCK_MOVEMENT_DETAIL_READONLY`
 - Include `STOCK_MOVEMENT_DETAIL_WRITABLE`
 - `amount`: `95` (number) - Předchozí hodnota byla 5 kusů, bylo přidáno 95 do požadovaného 100 kusů na skladě
+
+## `WEBHOOK_BASIC_ACTION` (object)
+### Properties
+- action: `created`,`edited`,`deleted`  (enum, required)
+- One Of - Typ dokladu
+    - `invoice_received` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `invoice_issued` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `proforma_received` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `proforma_issued` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `creditnote_received` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `creditnote_issued` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `order_issued` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `order_received` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `payment_received` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+    - `payment_issued` (object, required)
+        - id: 4567 (number,required) - ID záznamu
+- timestamp: `2020-09-23T11:23Z` (string, required) - Čas vytvoření ve formátu ISO8601
+
+
+## `WEBHOOK_PAYMENT` (object)
+### Properties
+- action: `paid` (string, required)
+- One Of 1 - Typ uhrazeného dokladu
+    - `invoice_received`
+        - id: `123` (number, required ) - ID dokladu
+        - currency: `EUR` (enum, sample, required) - [**Měna**](#currency)
+        - `price_inc_vat`: `100` (price, required) - [**Price**](#data-types) - Cena celkem v měně dokladu
+        - `price_inc_vat_czk`: `2650` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+        - `to_be_paid`: `24.5` (price, required) - [**Price**](#data-types) - Zbývá uhradit
+    - `invoice_issued`
+        - id: `123` (number, required ) - ID dokladu
+        - currency: `EUR` (enum, sample, required) - [**Měna**](#currency)
+        - `price_inc_vat`: `100` (price, required) - [**Price**](#data-types) - Cena celkem v měně dokladu
+        - `price_inc_vat_czk`: `2650` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+        - `to_be_paid`: `24.5` (price, required) - [**Price**](#data-types) - Zbývá uhradit
+- One Of 2 - Platba hradicí doklad
+    - `payment_issued`
+        - id: `123` (number, required ) - ID dokladu
+        - currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+        - `price_inc_vat`: `2000` (price, required) - [**Price**](#data-types) - Cena celkem v měně dokladu
+        - `price_inc_vat_czk`: `2000` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+    - `payment_received`
+        - id: `123` (number, required ) - ID dokladu
+        - currency: `CZK` (enum, sample, required) - [**Měna**](#currency)
+        - `price_inc_vat`: `2000` (price, required) - [**Price**](#data-types) - Cena celkem v měně dokladu
+        - `price_inc_vat_czk`: `2000` (price, required) - [**Price**](#data-types) - Cena celkem v CZK
+- timestamp: `2020-09-23T11:23Z` (string, required) - Čas vytvoření ve formátu ISO8601
